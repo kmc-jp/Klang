@@ -33,7 +33,7 @@ class Token {
 
 class TokenVector {
  public:
-  bool unget_token(int times);
+  bool unget_token(int times = 1);
   bool next_token();
   bool push_token(Token token);
   Token get_token() const;
