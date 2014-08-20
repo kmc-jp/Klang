@@ -28,22 +28,7 @@ class Token {
   int line_;
 };
 
-class TokenVector {
- public:
-  bool unget_token(int times = 1);
-  bool next_token();
-  bool push_token(Token token);
-  Token get_token() const;
-  TokenType current_type() const;
-  std::string current_string() const;
-  int current_value() const;
-  int current_index() const;
-  bool set_index(int index);
-  bool print_tokens() const;
- private:
-  std::vector<Token> tokens_;
-  int current_index_;
-};
+typedef std::vector<Token> TokenVector;
 
 TokenVector LexicalAnalysis(std::ifstream& is);
 
