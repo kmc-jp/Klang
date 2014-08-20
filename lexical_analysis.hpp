@@ -21,12 +21,10 @@ class Token {
   Token(TokenType type, const std::string& str, int line);
   TokenType type() const;
   std::string str() const;
-  int number() const;
   int line() const;
  private:
   TokenType type_;
   std::string str_;
-  int number_;
   int line_;
 };
 
