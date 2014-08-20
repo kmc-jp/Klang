@@ -10,10 +10,9 @@ namespace klang {
 enum class TokenType {
   IDENTIFIER,
   DIGIT,
-  SYMBOL,
-  INT,
-  RETURN,
-  EOF
+  RESERVED,
+  CHARACTER,
+  STRING
 };
 
 class Token {
