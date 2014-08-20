@@ -1,5 +1,5 @@
-#ifndef KMC_KLANG_LEXICAL_ANALYSIS_HPP
-#define KMC_KLANG_LEXICAL_ANALYSIS_HPP
+#ifndef KMC_KLANG_LEXER_HPP
+#define KMC_KLANG_LEXER_HPP
 
 #include <fstream>
 #include <string>
@@ -9,10 +9,12 @@ namespace klang {
 
 enum class TokenType {
   IDENTIFIER,
-  DIGIT,
-  RESERVED,
+  NUMBER,
+  SYMBOL,
   CHARACTER,
-  STRING
+  STRING,
+  IGNORE,
+  UNKNOWN
 };
 
 class Token {
@@ -30,8 +32,8 @@ class Token {
 
 typedef std::vector<Token> TokenVector;
 
-TokenVector LexicalAnalysis(std::ifstream& is);
+TokenVector tokenize(std::ifstream& is);
 
-}  // klang
+}  // namespace klang
 
-#endif  // KMC_KLANG_LEXICAL_ANALYSIS_HPP
+#endif  // KMC_KLANG_LEXER_HPP
