@@ -19,7 +19,7 @@ enum class TokenType {
 class Token {
  public:
   Token();
-  // 以下適切にコンストラクタを追加。
+  Token(TokenType type, const std::string& str, int line);
   TokenType type() const;
   std::string str() const;
   int number() const;
