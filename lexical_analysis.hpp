@@ -10,10 +10,11 @@ namespace klang {
 enum class TokenType {
   IDENTIFIER,
   DIGIT,
+  // lexical_analysis.cppでも述べたように、RESERVEDを消してKEYWORDとSYMBOLを追加してはどうか。
   RESERVED,
   CHARACTER,
   STRING,
-  IGNORE, 
+  IGNORE,
   UNKNOWN
 };
 

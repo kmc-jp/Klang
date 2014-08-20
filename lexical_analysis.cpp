@@ -17,10 +17,13 @@ std::string Token::str() const { return str_; }
 int Token::line() const { return line_; }
 
 
+// <cctype>のstd::isalphaを使うのはどうか。
 bool alphabet(char c) {
   return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
+// 個人的にalphabet_or_barあたりに留めたい。
+// _で終わるpublicな識別子には違和感がある。
 bool alphabet_(char c) {
   return (c == '_' || alphabet(c));
 }
@@ -29,6 +32,7 @@ bool nonzero_digit(char c) {
   return (c >= '1' && c <= '9');
 }
 
+// <cctype>のstd::isdigitを使うのはどうか。
 bool decimal_digit(char c) {
   return (c >= '0' && c <= '9');
 }
@@ -58,16 +62,27 @@ bool decimal_integer(const std::string& str) {
   return true;
 }
 
+// reservedだと"予約済み"の印象があるので、代わりにkeywordを使うのはどうか。
 bool reserved(const std::string& str) {
+  // static constな定数にしておくと良いのでは。
   std::set<std::string> reserved_list = {
+    // ここの初期化は長すぎるように感じた。
+    // keywordとsymbolに分けてはどうか。
+    // もちろん、","から"}"までがsymbol、"and"から"continue"までがkeywordだ。
     ";", ":=", ":+=", ":-=", ":*=", ":/=", ":%=", "*", "/", "%", "+", "-",
     "=", "<", ">", "<=", ">=", "/=", "(", ")", "{", "}", "and", "or",
     "not", "xor", "int", "def", "var", "return",
     "if", "else", "while", "for", "break", "continue"
   };
+  // setのfindメンバを使うよりもvectorと<algorithm>のfindを使うほうが自然では。
+  // 特筆すべき事由がない限り、vectorを選択すべき。
+  // メンバ関数形式の.end()ではなく、グローバルなend()を使うほうがC++11ライク。
+  // 事前にスコープ内でusing std::end;するのを忘れずに。
   return (reserved_list.find(str) != reserved_list.end());
 }
 
+// <cctype>のstd::isspaceを使うのはどうか。
+// 少なくとも'\t', '\v', '\r', '\f'のチェックが足りない。
 bool ignore(const std::string& str) {
   return (str == " " || str == "\n");
 }
@@ -79,6 +94,7 @@ TokenType match_type(std::string str) {
   if (ignore(str)) return TokenType::IGNORE;
   return TokenType::UNKNOWN;
 }
+// ここまでのユーティリティ関数は他のファイルで利用することはないだろうから、無名名前空間で囲っておくべき。
 
 TokenVector LexicalAnalysis(std::ifstream& is) {
   std::string str, code;
@@ -86,6 +102,7 @@ TokenVector LexicalAnalysis(std::ifstream& is) {
     code += str + '\n';
   }
   TokenVector tokens;
+  // str.clear();
   str = "";
   TokenType prev = TokenType::UNKNOWN;
   int line = 0;
