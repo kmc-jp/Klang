@@ -1,6 +1,7 @@
 #include "lexical_analysis.hpp"
 
 #include <set>
+#include <cctype>
 
 namespace klang {
 
@@ -18,7 +19,7 @@ int Token::line() const { return line_; }
 
 
 bool alphabet(char c) {
-  return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+  return std::isalphal(c);
 }
 
 bool alphabet_(char c) {
@@ -30,7 +31,7 @@ bool nonzero_digit(char c) {
 }
 
 bool decimal_digit(char c) {
-  return (c >= '0' && c <= '9');
+  return std::isdigit(c);
 }
 
 bool identifier(const std::string& str) {
