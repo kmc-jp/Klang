@@ -60,7 +60,7 @@ bool decimal_integer(const std::string& str) {
 }
 
 bool reserved(const std::string& str) {
-  std::set<std::string> reserved_list = {
+  static std::set<std::string> const reserved_list = {
     ";", ":=", ":+=", ":-=", ":*=", ":/=", ":%=", "*", "/", "%", "+", "-",
     "=", "<", ">", "<=", ">=", "/=", "(", ")", "{", "}", "and", "or",
     "not", "xor", "int", "def", "var", "return",
