@@ -1,8 +1,8 @@
 #include "lexical_analysis.hpp"
 
-#include <vector>
-#include <algorithm>
 #include <cctype>
+#include <algorithm>
+#include <vector>
 
 namespace klang {
 
