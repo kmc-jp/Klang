@@ -1,6 +1,7 @@
 #include "lexical_analysis.hpp"
 
-#include <set>
+#include <vector>
+#include <algorithm>
 #include <cctype>
 
 namespace klang {
@@ -60,13 +61,14 @@ bool decimal_integer(const std::string& str) {
 }
 
 bool reserved(const std::string& str) {
-  static std::set<std::string> const reserved_list = {
+  using std::begin, std::end;
+  static std::vector<std::string> const reserved_list = {
     ";", ":=", ":+=", ":-=", ":*=", ":/=", ":%=", "*", "/", "%", "+", "-",
     "=", "<", ">", "<=", ">=", "/=", "(", ")", "{", "}", "and", "or",
     "not", "xor", "int", "def", "var", "return",
     "if", "else", "while", "for", "break", "continue"
   };
-  return (reserved_list.find(str) != reserved_list.end());
+  return (std::find(begin(reserved_list), end(reserved_list), str) != end(reserved_list));
 }
 
 bool ignore(const std::string& str) {
