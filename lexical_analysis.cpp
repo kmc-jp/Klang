@@ -20,7 +20,7 @@ int Token::line() const { return line_; }
 
 
 bool alphabet(char c) {
-  return std::isalphal(c);
+  return std::isalpha(c);
 }
 
 bool alphabet_(char c) {
