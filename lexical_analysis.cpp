@@ -61,7 +61,8 @@ bool decimal_integer(const std::string& str) {
 }
 
 bool reserved(const std::string& str) {
-  using std::begin, std::end;
+  using std::begin;
+  using std::end;
   static std::vector<std::string> const reserved_list = {
     ";", ":=", ":+=", ":-=", ":*=", ":/=", ":%=", "*", "/", "%", "+", "-",
     "=", "<", ">", "<=", ">=", "/=", "(", ")", "{", "}", "and", "or",
