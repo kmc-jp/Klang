@@ -89,7 +89,7 @@ TokenVector LexicalAnalysis(std::ifstream& is) {
     code += str + '\n';
   }
   TokenVector tokens;
-  str = "";
+  str.clear();
   TokenType prev = TokenType::UNKNOWN;
   int line = 0;
   for (char c : code) {
