@@ -12,7 +12,9 @@ enum class TokenType {
   DIGIT,
   RESERVED,
   CHARACTER,
-  STRING
+  STRING,
+  IGNORE, 
+  UNKNOWN
 };
 
 class Token {
@@ -32,6 +34,6 @@ typedef std::vector<Token> TokenVector;
 
 TokenVector LexicalAnalysis(std::ifstream& is);
 
-}  // klang
+}  // namespace klang
 
 #endif  // KMC_KLANG_LEXICAL_ANALYSIS_HPP
