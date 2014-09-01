@@ -14,6 +14,6 @@ script:
 
 notifications:
   emails:
-    - nona7@kmc.gr.jp
+    - klang-project@kmc.gr.jp
   on_success: change
   on_failure: always

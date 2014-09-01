@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT(Klang, 0.0.1, nona7@kmc.gr.jp, KMC, https://github.com/kmc-jp/Klang)
+AC_INIT(Klang, 0.0.1, klang-project@kmc.gr.jp, KMC, https://github.com/kmc-jp/Klang)
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([src/lexer.cpp])
 AC_CONFIG_HEADERS([config.h])
