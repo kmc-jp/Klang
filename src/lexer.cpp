@@ -76,7 +76,7 @@ bool ignore(const std::string& str) {
   return (str == " " || str == "\n");
 }
 
-TokenType match_type(std::string str) {
+TokenType match_type(std::string const& str) {
   if (symbol(str)) return TokenType::SYMBOL;
   if (identifier(str)) return TokenType::IDENTIFIER;
   if (decimal_integer(str)) return TokenType::NUMBER;
