@@ -55,3 +55,7 @@ autoscan.log
 src/.deps/
 src/Makefile
 src/klang
+
+*.log
+*.trs
+/test-driver
