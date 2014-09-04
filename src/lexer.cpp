@@ -64,10 +64,12 @@ bool symbol(const std::string& str) {
   using std::begin;
   using std::end;
   static std::vector<std::string> const symbol_list = {
-    ";", ":=", ":+=", ":-=", ":*=", ":/=", ":%=", "*", "/", "%", "+", "-",
-    "=", "<", ">", "<=", ">=", "/=", "(", ")", "{", "}", "and", "or",
-    "not", "xor", "int", "def", "var", "return",
-    "if", "else", "while", "for", "break", "continue"
+    "~", "+", "-", "*", "/", "%",
+    ":=", ":+=", ":-=", ":*=", ":/=", ":%=",
+    "=", "/=", "<", ">", "<=", ">=",
+    ";", "(", ")", "{", "}",
+    "and", "or", "not", "int", "def", "var",
+    "if", "else", "while", "for", "break", "continue", "return"
   };
   return (std::find(begin(symbol_list), end(symbol_list), str) != end(symbol_list));
 }
