@@ -1,4 +1,4 @@
-AM_CXXFLAGS = -O2 -std=c++11
+AM_CXXFLAGS = -O2 -std=c++11 -Wall -Wextra
 
 bin_PROGRAMS = klang
 klang_SOURCES = main.cpp
