@@ -66,7 +66,7 @@ bool symbol(const std::string& str) {
   static std::vector<std::string> const symbol_list = {
     "~", "+", "-", "*", "/", "%",
     ":=", ":+=", ":-=", ":*=", ":/=", ":%=",
-    "=", "/=", "<", ">", "<=", ">=",
+    "=", "=/", "<", ">", "<=", ">=",
     ";", "(", ")", "{", "}",
     "and", "or", "not", "int", "def", "var",
     "if", "else", "while", "for", "break", "continue", "return"
