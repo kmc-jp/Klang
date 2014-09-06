@@ -1,7 +1,7 @@
 #ifndef KMC_KLANG_LEXER_HPP
 #define KMC_KLANG_LEXER_HPP
 
-#include <fstream>
+#include <istream>
 #include <string>
 #include <vector>
 
@@ -32,7 +32,7 @@ class Token {
 
 typedef std::vector<Token> TokenVector;
 
-TokenVector tokenize(std::ifstream& is);
+TokenVector tokenize(std::istream& is);
 
 }  // namespace klang
 
