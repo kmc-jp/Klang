@@ -3,13 +3,15 @@ compiler:
   - gcc-4.8
   - clang
 before_install:
-  - sudo apt-get -y update
+  - sudo apt-get -qq update
 install:
   - sudo apt-get install -qq gnulib #stdbool.m4 is required for AC_CHECK_HEADER_STDBOOL in configure.ac
-  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-  - sudo apt-get -qq update
-  - sudo apt-get -qq install g++-4.8
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
+  - if [ "$CXX" = "g++" ]; then
+       sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
+       sudo apt-get -qq update;
+       sudo apt-get -qq install g++-4.8;
+       export CXX="g++-4.8";
+    fi
   - $CXX --version
   - ACLOCAL_ARGS="-I/usr/share/gnulib/m4" ./autogen.sh
   - ./configure
