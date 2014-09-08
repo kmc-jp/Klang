@@ -86,7 +86,7 @@ TokenType match_type(std::string const& str) {
   return TokenType::UNKNOWN;
 }
 
-TokenVector tokenize(std::ifstream& is) {
+TokenVector tokenize(std::istream& is) {
   std::string str, code;
   while (std::getline(is, str)) {
     code += str + '\n';
