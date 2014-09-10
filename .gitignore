@@ -59,3 +59,7 @@ src/klang
 *.log
 *.trs
 /test-driver
+
+/test/test_nothing
+/test/test_sample1
+/test/test_lexer
