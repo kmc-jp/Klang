@@ -8,6 +8,7 @@ namespace klang {
 class Parser {
  public:
   Parser(TokenVector tokens);
+  bool parse_symbol(const char* str);
  private:
   TokenType current_type() const;
   std::string current_string() const;
