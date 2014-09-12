@@ -75,6 +75,33 @@ ast::TranslationUnitPtr Parser::parse_translation_unit() {
   return make_unique<ast::TranslationUnitData>(std::move(functions));
 }
 
+ast::FunctionDefinitionPtr Parser::parse_function_definition() {
+  const auto snapshot = make_snapshot();
+  if (parse_symbol("def")) {
+    if (auto function_name = parse_identifier()) {
+      if (parse_symbol("(")) {
+        if (auto arguments = parse_argument_list()) {
+          if (parse_symbol(")") && parse_symbol("->") && parse_symbol("(")) {
+            if (auto return_type = parse_type()) {
+              if (parse_symbol(")")) {
+                if (auto function_body = parse_compound_statement()) {
+                  return make_unique<ast::FunctionDefinitionData>(
+                      std::move(function_name),
+                      std::move(arguments),
+                      std::move(return_type),
+                      std::move(function_body));
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  rewind(snapshot);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
