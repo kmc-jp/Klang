@@ -6,36 +6,37 @@
 #include <vector>
 
 namespace klang {
+namespace ast {
 
-class IdentifierData : public IdentifierAst {
+class IdentifierData : public Identifier {
  public:
   IdentifierData(const std::string& identifier_name);
  private:
   std::string identifier_name_;
 };
 
-class TypeData : public TypeAst {
+class TypeData : public Type {
  public:
   TypeData(const std::string& type_name);
  private:
   std::string type_name_;
 };
 
-class IntegerLiteralData : public IntegerLiteralAst {
+class IntegerLiteralData : public IntegerLiteral {
  public:
   IntegerLiteralData(const std::string& integer_literal);
  private:
   std::string integer_literal_;
 };
 
-class ProgramData : public ProgramAst {
+class ProgramData : public Program {
  public:
   ProgramData(std::vector<FunctionDefinitionPtr> functions);
  private:
   std::vector<FunctionDefinitionPtr> functions_;
 };
 
-class FunctionDefinitionData : public FunctionDefinitionAst {
+class FunctionDefinitionData : public FunctionDefinition {
  public:
   FunctionDefinitionData(IdentifierPtr function_name,
                          ArgumentListPtr arguments,
@@ -48,14 +49,14 @@ class FunctionDefinitionData : public FunctionDefinitionAst {
   CompoundStatementPtr function_body_;
 };
 
-class ArgumentListData : public ArgumentListAst {
+class ArgumentListData : public ArgumentList {
  public:
   ArgumentListData(std::vector<ArgumentPtr> arguments);
  private:
   std::vector<ArgumentPtr> arguments_;
 };
 
-class ArgumentData : public ArgumentAst {
+class ArgumentData : public Argument {
  public:
   ArgumentData(TypePtr argument_type, IdentifierPtr argument_name);
  private:
@@ -63,28 +64,28 @@ class ArgumentData : public ArgumentAst {
   IdentifierPtr argument_name_;
 };
 
-class CompoundStatementData : public CompoundStatementAst {
+class CompoundStatementData : public CompoundStatement {
  public:
   CompoundStatementData(std::vector<StatementPtr> statements);
  private:
   std::vector<StatementPtr> statements_;
 };
 
-class ExpressionStatementData : public ExpressionStatementAst {
+class ExpressionStatementData : public ExpressionStatement {
  public:
   ExpressionStatementData(ExpressionPtr expression);
  private:
   ExpressionPtr expression_;
 };
 
-class VariableDefinitionStatementData : public VariableDefinitionStatementAst {
+class VariableDefinitionStatementData : public VariableDefinitionStatement {
  public:
   VariableDefinitionStatementData(VariableDefinitionPtr variable_definition);
  private:
   VariableDefinitionPtr variable_definition_;
 };
 
-class MutableVariableDefinitionData : public VariableDefinitionAst {
+class MutableVariableDefinitionData : public VariableDefinition {
  public:
   MutableVariableDefinitionData(IdentifierPtr variable_name,
                                 ExpressionPtr rhs_expression);
@@ -93,7 +94,7 @@ class MutableVariableDefinitionData : public VariableDefinitionAst {
   ExpressionPtr rhs_expression_;
 };
 
-class ImmutableVariableDefinitionData : public VariableDefinitionAst {
+class ImmutableVariableDefinitionData : public VariableDefinition {
  public:
   ImmutableVariableDefinitionData(IdentifierPtr variable_name,
                                   ExpressionPtr rhs_expression);
@@ -102,7 +103,7 @@ class ImmutableVariableDefinitionData : public VariableDefinitionAst {
   ExpressionPtr rhs_expression_;
 };
 
-class IfStatementData : public IfStatementAst {
+class IfStatementData : public IfStatement {
  public:
   IfStatementData(ExpressionPtr condition,
                   CompoundStatementPtr compound_statement,
@@ -113,14 +114,14 @@ class IfStatementData : public IfStatementAst {
   IfStatementPtr else_block_;
 };
 
-class ElseStatementData : public IfStatementAst {
+class ElseStatementData : public IfStatement {
  public:
   ElseStatementData(CompoundStatementPtr compound_statement);
  private:
   CompoundStatementPtr else_block_;
 };
 
-class WhileStatementData : public WhileStatementAst {
+class WhileStatementData : public WhileStatement {
  public:
   WhileStatementData(ExpressionPtr condition,
                      CompoundStatementPtr compound_statement);
@@ -129,7 +130,7 @@ class WhileStatementData : public WhileStatementAst {
   CompoundStatementPtr compound_statement_;
 };
 
-class ForStatementData : public ForStatementAst {
+class ForStatementData : public ForStatement {
  public:
   ForStatementData(ExpressionPtr expression1,
                    ExpressionPtr expression2,
@@ -140,24 +141,24 @@ class ForStatementData : public ForStatementAst {
   CompoundStatementPtr compound_statement_;
 };
 
-class ReturnStatementData : public ReturnStatementAst {
+class ReturnStatementData : public ReturnStatement {
  public:
   ReturnStatementData(ExpressionPtr return_value);
  private:
   ExpressionPtr return_value_;
 };
 
-class BreakStatementData : public BreakStatementAst {
+class BreakStatementData : public BreakStatement {
  public:
   BreakStatementData();
 };
 
-class ContinueStatementData : public ContinueStatementAst {
+class ContinueStatementData : public ContinueStatement {
  public:
   ContinueStatementData();
 };
 
-class AssignExpressionData : public AssignExpressionAst {
+class AssignExpressionData : public AssignExpression {
  public:
   AssignExpressionData(OrExpressionPtr lhs_expression,
                        OrExpressionPtr rhs_expression);
@@ -166,7 +167,7 @@ class AssignExpressionData : public AssignExpressionAst {
   OrExpressionPtr rhs_expression_;
 };
 
-class AddAssignExpressionData : public AssignExpressionAst {
+class AddAssignExpressionData : public AssignExpression {
  public:
   AddAssignExpressionData(OrExpressionPtr lhs_expression,
                           OrExpressionPtr rhs_expression);
@@ -175,7 +176,7 @@ class AddAssignExpressionData : public AssignExpressionAst {
   OrExpressionPtr rhs_expression_;
 };
 
-class SubtractAssignExpressionData : public AssignExpressionAst {
+class SubtractAssignExpressionData : public AssignExpression {
  public:
   SubtractAssignExpressionData(OrExpressionPtr lhs_expression,
                                OrExpressionPtr rhs_expression);
@@ -184,7 +185,7 @@ class SubtractAssignExpressionData : public AssignExpressionAst {
   OrExpressionPtr rhs_expression_;
 };
 
-class MultiplyAssignExpressionData : public AssignExpressionAst {
+class MultiplyAssignExpressionData : public AssignExpression {
  public:
   MultiplyAssignExpressionData(OrExpressionPtr lhs_expression,
                                OrExpressionPtr rhs_expression);
@@ -193,7 +194,7 @@ class MultiplyAssignExpressionData : public AssignExpressionAst {
   OrExpressionPtr rhs_expression_;
 };
 
-class DivideAssignExpressionData : public AssignExpressionAst {
+class DivideAssignExpressionData : public AssignExpression {
  public:
   DivideAssignExpressionData(OrExpressionPtr lhs_expression,
                              OrExpressionPtr rhs_expression);
@@ -202,7 +203,7 @@ class DivideAssignExpressionData : public AssignExpressionAst {
   OrExpressionPtr rhs_expression_;
 };
 
-class ModuloAssignExpressionData : public AssignExpressionAst {
+class ModuloAssignExpressionData : public AssignExpression {
  public:
   ModuloAssignExpressionData(OrExpressionPtr lhs_expression,
                              OrExpressionPtr rhs_expression);
@@ -211,7 +212,7 @@ class ModuloAssignExpressionData : public AssignExpressionAst {
   OrExpressionPtr rhs_expression_;
 };
 
-class OrExpressionData : public OrExpressionAst {
+class OrExpressionData : public OrExpression {
  public:
   OrExpressionData(AndExpressionPtr lhs_expression,
                    OrExpressionPtr rhs_expression);
@@ -220,7 +221,7 @@ class OrExpressionData : public OrExpressionAst {
   OrExpressionPtr rhs_expression_;
 };
 
-class AndExpressionData : public AndExpressionAst {
+class AndExpressionData : public AndExpression {
  public:
   AndExpressionData(ComparativeExpressionPtr lhs_expression,
                     AndExpressionPtr rhs_expression);
@@ -229,7 +230,7 @@ class AndExpressionData : public AndExpressionAst {
   AndExpressionPtr rhs_expression_;
 };
 
-class EqualExpressionData : public ComparativeExpressionAst {
+class EqualExpressionData : public ComparativeExpression {
  public:
   EqualExpressionData(AdditiveExpressionPtr lhs_expression,
                       AdditiveExpressionPtr rhs_expression);
@@ -238,7 +239,7 @@ class EqualExpressionData : public ComparativeExpressionAst {
   AdditiveExpressionPtr rhs_expression_;
 };
 
-class NotEqualExpressionData : public ComparativeExpressionAst {
+class NotEqualExpressionData : public ComparativeExpression {
  public:
   NotEqualExpressionData(AdditiveExpressionPtr lhs_expression,
                          AdditiveExpressionPtr rhs_expression);
@@ -247,7 +248,7 @@ class NotEqualExpressionData : public ComparativeExpressionAst {
   AdditiveExpressionPtr rhs_expression_;
 };
 
-class LessExpressionData : public ComparativeExpressionAst {
+class LessExpressionData : public ComparativeExpression {
  public:
   LessExpressionData(AdditiveExpressionPtr lhs_expression,
                      AdditiveExpressionPtr rhs_expression);
@@ -256,7 +257,7 @@ class LessExpressionData : public ComparativeExpressionAst {
   AdditiveExpressionPtr rhs_expression_;
 };
 
-class GreaterExpressionData : public ComparativeExpressionAst {
+class GreaterExpressionData : public ComparativeExpression {
  public:
   GreaterExpressionData(AdditiveExpressionPtr lhs_expression,
                         AdditiveExpressionPtr rhs_expression);
@@ -265,7 +266,7 @@ class GreaterExpressionData : public ComparativeExpressionAst {
   AdditiveExpressionPtr rhs_expression_;
 };
 
-class LessOrEqualExpressionData : public ComparativeExpressionAst {
+class LessOrEqualExpressionData : public ComparativeExpression {
  public:
   LessOrEqualExpressionData(AdditiveExpressionPtr lhs_expression,
                             AdditiveExpressionPtr rhs_expression);
@@ -274,7 +275,7 @@ class LessOrEqualExpressionData : public ComparativeExpressionAst {
   AdditiveExpressionPtr rhs_expression_;
 };
 
-class GreaterOrEqualExpressionData : public ComparativeExpressionAst {
+class GreaterOrEqualExpressionData : public ComparativeExpression {
  public:
   GreaterOrEqualExpressionData(AdditiveExpressionPtr lhs_expression,
                                AdditiveExpressionPtr rhs_expression);
@@ -283,7 +284,7 @@ class GreaterOrEqualExpressionData : public ComparativeExpressionAst {
   AdditiveExpressionPtr rhs_expression_;
 };
 
-class AddExpressionData : public AdditiveExpressionAst {
+class AddExpressionData : public AdditiveExpression {
  public:
   AddExpressionData(MultiplicativeExpressionPtr lhs_expression,
                     AdditiveExpressionPtr rhs_expression);
@@ -292,7 +293,7 @@ class AddExpressionData : public AdditiveExpressionAst {
   AdditiveExpressionPtr rhs_expression_;
 };
 
-class SubtractExpressionData : public AdditiveExpressionAst {
+class SubtractExpressionData : public AdditiveExpression {
  public:
   SubtractExpressionData(MultiplicativeExpressionPtr lhs_expression,
                          AdditiveExpressionPtr rhs_expression);
@@ -301,7 +302,7 @@ class SubtractExpressionData : public AdditiveExpressionAst {
   AdditiveExpressionPtr rhs_expression_;
 };
 
-class MultiplyExpressionData : public MultiplicativeExpressionAst {
+class MultiplyExpressionData : public MultiplicativeExpression {
  public:
   MultiplyExpressionData(UnaryExpressionPtr lhs_expression,
                          MultiplicativeExpressionPtr rhs_expression);
@@ -310,7 +311,7 @@ class MultiplyExpressionData : public MultiplicativeExpressionAst {
   MultiplicativeExpressionPtr rhs_expression_;
 };
 
-class DivideExpressionData : public MultiplicativeExpressionAst {
+class DivideExpressionData : public MultiplicativeExpression {
  public:
   DivideExpressionData(UnaryExpressionPtr lhs_expression,
                        MultiplicativeExpressionPtr rhs_expression);
@@ -319,7 +320,7 @@ class DivideExpressionData : public MultiplicativeExpressionAst {
   MultiplicativeExpressionPtr rhs_expression_;
 };
 
-class ModuloExpressionData : public MultiplicativeExpressionAst {
+class ModuloExpressionData : public MultiplicativeExpression {
  public:
   ModuloExpressionData(UnaryExpressionPtr lhs_expression,
                        MultiplicativeExpressionPtr rhs_expression);
@@ -328,21 +329,21 @@ class ModuloExpressionData : public MultiplicativeExpressionAst {
   MultiplicativeExpressionPtr rhs_expression_;
 };
 
-class NotExpressionData : public UnaryExpressionAst {
+class NotExpressionData : public UnaryExpression {
  public:
   NotExpressionData(UnaryExpressionPtr unary_expression);
  private:
   UnaryExpressionPtr unary_expression_;
 };
 
-class MinusExpressionData : public UnaryExpressionAst {
+class MinusExpressionData : public UnaryExpression {
  public:
   MinusExpressionData(UnaryExpressionPtr unary_expression);
  private:
   UnaryExpressionPtr unary_expression_;
 };
 
-class FunctionCallData : public PostfixExpressionAst {
+class FunctionCallData : public PostfixExpression {
  public:
   FunctionCallData(IdentifierPtr function_name,
                    ParameterListPtr parameter_list);
@@ -351,41 +352,42 @@ class FunctionCallData : public PostfixExpressionAst {
   ParameterListPtr parameter_list_;
 };
 
-class ParameterListData : public ParameterListAst {
+class ParameterListData : public ParameterList {
  public:
   ParameterListData(std::vector<ParameterPtr> parameters);
  private:
   std::vector<ParameterPtr> parameters_;
 };
 
-class ParameterData : public ParameterAst {
+class ParameterData : public Parameter {
  public:
   ParameterData(ExpressionPtr expression);
  private:
   ExpressionPtr expression_;
 };
 
-class ParenthesizedExpressionData : public PrimaryExpressionAst {
+class ParenthesizedExpressionData : public PrimaryExpression {
  public:
   ParenthesizedExpressionData(ExpressionPtr expression);
  private:
   ExpressionPtr expression_;
 };
 
-class IdentifierExpressionData : public PrimaryExpressionAst {
+class IdentifierExpressionData : public PrimaryExpression {
  public:
   IdentifierExpressionData(IdentifierPtr identifier);
  private:
   IdentifierPtr identifier_;
 };
 
-class IntegerLiteralExpressionData : public PrimaryExpressionAst {
+class IntegerLiteralExpressionData : public PrimaryExpression {
  public:
   IntegerLiteralExpressionData(IntegerLiteralPtr integer_literal);
  private:
   IntegerLiteralPtr integer_literal_;
 };
 
+}  // namespace ast
 }  // namespace klang
 
 #endif  // KMC_KLANG_AST_DATA_HPP

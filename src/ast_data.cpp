@@ -3,6 +3,7 @@
 #include <cassert>
 
 namespace klang {
+namespace ast {
 
 IdentifierData::IdentifierData(const std::string& identifier_name)
     : identifier_name_(identifier_name)
@@ -36,8 +37,7 @@ ArgumentListData::ArgumentListData(std::vector<ArgumentPtr> arguments)
     : arguments_(std::move(arguments))
 {}
 
-ArgumentData::ArgumentData(
-    TypePtr argument_type, IdentifierPtr argument_name)
+ArgumentData::ArgumentData(TypePtr argument_type, IdentifierPtr argument_name)
     : argument_type_(std::move(argument_type)),
       argument_name_(std::move(argument_name))
 {}
@@ -142,14 +142,14 @@ ModuloAssignExpressionData::ModuloAssignExpressionData(
       rhs_expression_(std::move(rhs_expression))
 {}
 
-OrExpressionData::OrExpressionData(AndExpressionPtr lhs_expression,
-                                   OrExpressionPtr rhs_expression)
+OrExpressionData::OrExpressionData(
+    AndExpressionPtr lhs_expression, OrExpressionPtr rhs_expression)
     : lhs_expression_(std::move(lhs_expression)),
       rhs_expression_(std::move(rhs_expression))
 {}
 
-AndExpressionData::AndExpressionData(ComparativeExpressionPtr lhs_expression,
-                                     AndExpressionPtr rhs_expression)
+AndExpressionData::AndExpressionData(
+    ComparativeExpressionPtr lhs_expression, AndExpressionPtr rhs_expression)
     : lhs_expression_(std::move(lhs_expression)),
       rhs_expression_(std::move(rhs_expression))
 {}
@@ -261,4 +261,5 @@ IntegerLiteralExpressionData::IntegerLiteralExpressionData(
     : integer_literal_(std::move(integer_literal))
 {}
 
+}  // namespace ast
 }  // namespace klang

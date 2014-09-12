@@ -4,228 +4,229 @@
 #include <memory>
 
 namespace klang {
+namespace ast {
 
-class BaseAst;
-class IdentifierAst;
-class TypeAst;
-class IntegerLiteralAst;
-class ProgramAst;
-class FunctionDefinitionAst;
-class ArgumentListAst;
-class ArgumentAst;
-class StatementAst;
-class CompoundStatementAst;
-class ExpressionStatementAst;
-class VariableDefinitionStatementAst;
-class VariableDefinitionAst;
-class IfStatementAst;
-class WhileStatementAst;
-class ForStatementAst;
-class ReturnStatementAst;
-class BreakStatementAst;
-class ContinueStatementAst;
-class ExpressionAst;
-class AssignExpressionAst;
-class OrExpressionAst;
-class AndExpressionAst;
-class ComparativeExpressionAst;
-class AdditiveExpressionAst;
-class MultiplicativeExpressionAst;
-class UnaryExpressionAst;
-class PostfixExpressionAst;
-class ParameterListAst;
-class ParameterAst;
-class PrimaryExpressionAst;
+class Base;
+class Identifier;
+class Type;
+class IntegerLiteral;
+class Program;
+class FunctionDefinition;
+class ArgumentList;
+class Argument;
+class Statement;
+class CompoundStatement;
+class ExpressionStatement;
+class VariableDefinitionStatement;
+class VariableDefinition;
+class IfStatement;
+class WhileStatement;
+class ForStatement;
+class ReturnStatement;
+class BreakStatement;
+class ContinueStatement;
+class Expression;
+class AssignExpression;
+class OrExpression;
+class AndExpression;
+class ComparativeExpression;
+class AdditiveExpression;
+class MultiplicativeExpression;
+class UnaryExpression;
+class PostfixExpression;
+class ParameterList;
+class Parameter;
+class PrimaryExpression;
 
-using AstPtr = std::unique_ptr<BaseAst>;
-using IdentifierPtr = std::unique_ptr<IdentifierAst>;
-using TypePtr = std::unique_ptr<TypeAst>;
-using IntegerLiteralPtr = std::unique_ptr<IntegerLiteralAst>;
-using ProgramPtr = std::unique_ptr<ProgramAst>;
-using FunctionDefinitionPtr = std::unique_ptr<FunctionDefinitionAst>;
-using ArgumentListPtr = std::unique_ptr<ArgumentListAst>;
-using ArgumentPtr = std::unique_ptr<ArgumentAst>;
-using StatementPtr = std::unique_ptr<StatementAst>;
-using CompoundStatementPtr = std::unique_ptr<CompoundStatementAst>;
-using ExpressionStatementPtr = std::unique_ptr<ExpressionStatementAst>;
+using BasePtr = std::unique_ptr<Base>;
+using IdentifierPtr = std::unique_ptr<Identifier>;
+using TypePtr = std::unique_ptr<Type>;
+using IntegerLiteralPtr = std::unique_ptr<IntegerLiteral>;
+using ProgramPtr = std::unique_ptr<Program>;
+using FunctionDefinitionPtr = std::unique_ptr<FunctionDefinition>;
+using ArgumentListPtr = std::unique_ptr<ArgumentList>;
+using ArgumentPtr = std::unique_ptr<Argument>;
+using StatementPtr = std::unique_ptr<Statement>;
+using CompoundStatementPtr = std::unique_ptr<CompoundStatement>;
+using ExpressionStatementPtr = std::unique_ptr<ExpressionStatement>;
 using VariableDefinitionStatementPtr =
-    std::unique_ptr<VariableDefinitionStatementAst>;
-using VariableDefinitionPtr = std::unique_ptr<VariableDefinitionAst>;
-using IfStatementPtr = std::unique_ptr<IfStatementAst>;
-using WhileStatementPtr = std::unique_ptr<WhileStatementAst>;
-using ForStatementPtr = std::unique_ptr<ForStatementAst>;
-using ReturnStatementPtr = std::unique_ptr<ReturnStatementAst>;
-using BreakStatementPtr = std::unique_ptr<BreakStatementAst>;
-using ContinueStatementPtr = std::unique_ptr<ContinueStatementAst>;
-using ExpressionPtr = std::unique_ptr<ExpressionAst>;
-using AssignExpressionPtr = std::unique_ptr<AssignExpressionAst>;
-using OrExpressionPtr = std::unique_ptr<OrExpressionAst>;
-using AndExpressionPtr = std::unique_ptr<AndExpressionAst>;
-using ComparativeExpressionPtr = std::unique_ptr<ComparativeExpressionAst>;
-using AdditiveExpressionPtr = std::unique_ptr<AdditiveExpressionAst>;
-using MultiplicativeExpressionPtr =
-    std::unique_ptr<MultiplicativeExpressionAst>;
-using UnaryExpressionPtr = std::unique_ptr<UnaryExpressionAst>;
-using PostfixExpressionPtr = std::unique_ptr<PostfixExpressionAst>;
-using ParameterListPtr = std::unique_ptr<ParameterListAst>;
-using ParameterPtr = std::unique_ptr<ParameterAst>;
-using PrimaryExpressionPtr = std::unique_ptr<PrimaryExpressionAst>;
+    std::unique_ptr<VariableDefinitionStatement>;
+using VariableDefinitionPtr = std::unique_ptr<VariableDefinition>;
+using IfStatementPtr = std::unique_ptr<IfStatement>;
+using WhileStatementPtr = std::unique_ptr<WhileStatement>;
+using ForStatementPtr = std::unique_ptr<ForStatement>;
+using ReturnStatementPtr = std::unique_ptr<ReturnStatement>;
+using BreakStatementPtr = std::unique_ptr<BreakStatement>;
+using ContinueStatementPtr = std::unique_ptr<ContinueStatement>;
+using ExpressionPtr = std::unique_ptr<Expression>;
+using AssignExpressionPtr = std::unique_ptr<AssignExpression>;
+using OrExpressionPtr = std::unique_ptr<OrExpression>;
+using AndExpressionPtr = std::unique_ptr<AndExpression>;
+using ComparativeExpressionPtr = std::unique_ptr<ComparativeExpression>;
+using AdditiveExpressionPtr = std::unique_ptr<AdditiveExpression>;
+using MultiplicativeExpressionPtr = std::unique_ptr<MultiplicativeExpression>;
+using UnaryExpressionPtr = std::unique_ptr<UnaryExpression>;
+using PostfixExpressionPtr = std::unique_ptr<PostfixExpression>;
+using ParameterListPtr = std::unique_ptr<ParameterList>;
+using ParameterPtr = std::unique_ptr<Parameter>;
+using PrimaryExpressionPtr = std::unique_ptr<PrimaryExpression>;
 
-class BaseAst {
+class Base {
  public:
-  virtual ~BaseAst() = 0;
+  virtual ~Base() = 0;
 };
 
-class IdentifierAst : public BaseAst {
+class Identifier : public Base {
  public:
-  virtual ~IdentifierAst() = 0;
+  virtual ~Identifier() = 0;
 };
 
-class TypeAst : public BaseAst {
+class Type : public Base {
  public:
-  virtual ~TypeAst() = 0;
+  virtual ~Type() = 0;
 };
 
-class IntegerLiteralAst : public BaseAst {
+class IntegerLiteral : public Base {
  public:
-  virtual ~IntegerLiteralAst() = 0;
+  virtual ~IntegerLiteral() = 0;
 };
 
-class ProgramAst : public BaseAst {
+class Program : public Base {
  public:
-  virtual ~ProgramAst() = 0;
+  virtual ~Program() = 0;
 };
 
-class FunctionDefinitionAst : public BaseAst {
+class FunctionDefinition : public Base {
  public:
-  virtual ~FunctionDefinitionAst() = 0;
+  virtual ~FunctionDefinition() = 0;
 };
 
-class ArgumentListAst : public BaseAst {
+class ArgumentList : public Base {
  public:
-  virtual ~ArgumentListAst() = 0;
+  virtual ~ArgumentList() = 0;
 };
 
-class ArgumentAst : public BaseAst {
+class Argument : public Base {
  public:
-  virtual ~ArgumentAst() = 0;
+  virtual ~Argument() = 0;
 };
 
-class StatementAst : public BaseAst {
+class Statement : public Base {
  public:
-  virtual ~StatementAst() = 0;
+  virtual ~Statement() = 0;
 };
 
-class CompoundStatementAst : public StatementAst {
+class CompoundStatement : public Statement {
  public:
-  virtual ~CompoundStatementAst() = 0;
+  virtual ~CompoundStatement() = 0;
 };
 
-class ExpressionStatementAst : public StatementAst {
+class ExpressionStatement : public Statement {
  public:
-  virtual ~ExpressionStatementAst() = 0;
+  virtual ~ExpressionStatement() = 0;
 };
 
-class VariableDefinitionStatementAst : public StatementAst {
+class VariableDefinitionStatement : public Statement {
  public:
-  virtual ~VariableDefinitionStatementAst() = 0;
+  virtual ~VariableDefinitionStatement() = 0;
 };
 
-class VariableDefinitionAst : public BaseAst {
+class VariableDefinition : public Base {
  public:
-  virtual ~VariableDefinitionAst() = 0;
+  virtual ~VariableDefinition() = 0;
 };
 
-class IfStatementAst : public StatementAst {
+class IfStatement : public Statement {
  public:
-  virtual ~IfStatementAst() = 0;
+  virtual ~IfStatement() = 0;
 };
 
-class WhileStatementAst : public StatementAst {
+class WhileStatement : public Statement {
  public:
-  virtual ~WhileStatementAst() = 0;
+  virtual ~WhileStatement() = 0;
 };
 
-class ForStatementAst : public StatementAst {
+class ForStatement : public Statement {
  public:
-  virtual ~ForStatementAst() = 0;
+  virtual ~ForStatement() = 0;
 };
 
-class ReturnStatementAst : public StatementAst {
+class ReturnStatement : public Statement {
  public:
-  virtual ~ReturnStatementAst() = 0;
+  virtual ~ReturnStatement() = 0;
 };
 
-class BreakStatementAst : public StatementAst {
+class BreakStatement : public Statement {
  public:
-  virtual ~BreakStatementAst() = 0;
+  virtual ~BreakStatement() = 0;
 };
 
-class ContinueStatementAst : public StatementAst {
+class ContinueStatement : public Statement {
  public:
-  virtual ~ContinueStatementAst() = 0;
+  virtual ~ContinueStatement() = 0;
 };
 
-class ExpressionAst : public BaseAst {
+class Expression : public Base {
  public:
-  virtual ~ExpressionAst() = 0;
+  virtual ~Expression() = 0;
 };
 
-class AssignExpressionAst : public ExpressionAst {
+class AssignExpression : public Expression {
  public:
-  virtual ~AssignExpressionAst() = 0;
+  virtual ~AssignExpression() = 0;
 };
 
-class OrExpressionAst : public AssignExpressionAst {
+class OrExpression : public AssignExpression {
  public:
-  virtual ~OrExpressionAst() = 0;
+  virtual ~OrExpression() = 0;
 };
 
-class AndExpressionAst : public OrExpressionAst {
+class AndExpression : public OrExpression {
  public:
-  virtual ~AndExpressionAst() = 0;
+  virtual ~AndExpression() = 0;
 };
 
-class ComparativeExpressionAst : public AndExpressionAst {
+class ComparativeExpression : public AndExpression {
  public:
-  virtual ~ComparativeExpressionAst() = 0;
+  virtual ~ComparativeExpression() = 0;
 };
 
-class AdditiveExpressionAst : public ComparativeExpressionAst {
+class AdditiveExpression : public ComparativeExpression {
  public:
-  virtual ~AdditiveExpressionAst() = 0;
+  virtual ~AdditiveExpression() = 0;
 };
 
-class MultiplicativeExpressionAst : public AdditiveExpressionAst {
+class MultiplicativeExpression : public AdditiveExpression {
  public:
-  virtual ~MultiplicativeExpressionAst() = 0;
+  virtual ~MultiplicativeExpression() = 0;
 };
 
-class UnaryExpressionAst : public MultiplicativeExpressionAst {
+class UnaryExpression : public MultiplicativeExpression {
  public:
-  virtual ~UnaryExpressionAst() = 0;
+  virtual ~UnaryExpression() = 0;
 };
 
-class PostfixExpressionAst : public UnaryExpressionAst {
+class PostfixExpression : public UnaryExpression {
  public:
-  virtual ~PostfixExpressionAst() = 0;
+  virtual ~PostfixExpression() = 0;
 };
 
-class ParameterListAst : public BaseAst {
+class ParameterList : public Base {
  public:
-  virtual ~ParameterListAst() = 0;
+  virtual ~ParameterList() = 0;
 };
 
-class ParameterAst : public BaseAst {
+class Parameter : public Base {
  public:
-  virtual ~ParameterAst() = 0;
+  virtual ~Parameter() = 0;
 };
 
-class PrimaryExpressionAst : public PostfixExpressionAst {
+class PrimaryExpression : public PostfixExpression {
  public:
-  virtual ~PrimaryExpressionAst() = 0;
+  virtual ~PrimaryExpression() = 0;
 };
 
+}  // namespace ast
 }  // namespace klang
 
 #endif  // KMC_KLANG_AST_HPP
