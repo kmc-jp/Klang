@@ -9,6 +9,7 @@ class Parser {
  public:
   Parser(TokenVector tokens);
  private:
+  bool is_eof() const;
   const TokenVector tokens_;
   TokenVector::const_iterator current_;
 };
