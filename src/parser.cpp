@@ -102,6 +102,25 @@ ast::FunctionDefinitionPtr Parser::parse_function_definition() {
   return nullptr;
 }
 
+ast::ArgumentListPtr Parser::parse_argument_list() {
+  std::vector<ast::ArgumentPtr> arguments;
+  if (auto first_argument = parse_argument()) {
+    arguments.push_back(std::move(first_argument));
+    while (true) {
+      const auto snapshot = make_snapshot();
+      if (parse_symbol(",")) {
+        if (auto argument = parse_argument()) {
+          arguments.push_back(std::move(argument));
+          continue;
+        }
+      }
+      rewind(snapshot);
+      break;
+    }
+  }
+  return make_unique<ast::ArgumentListData>(std::move(arguments));
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
