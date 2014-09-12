@@ -7,4 +7,9 @@ Parser::Parser(TokenVector tokens)
       current_(std::begin(tokens_))
 {}
 
+bool Parser::is_eof() const {
+  using std::end;
+  return current_ == end(tokens_);
+}
+
 }  // namespace klang
