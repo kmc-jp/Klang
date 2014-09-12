@@ -7,6 +7,10 @@ Parser::Parser(TokenVector tokens)
       current_(std::begin(tokens_))
 {}
 
+TokenType Parser::current_type() const {
+  return is_eof() ? TokenType::IGNORE : current_->type();
+}
+
 bool Parser::is_eof() const {
   using std::end;
   return current_ == end(tokens_);

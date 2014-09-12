@@ -9,6 +9,7 @@ class Parser {
  public:
   Parser(TokenVector tokens);
  private:
+  TokenType current_type() const;
   bool is_eof() const;
   bool advance(int count);
   const TokenVector tokens_;
