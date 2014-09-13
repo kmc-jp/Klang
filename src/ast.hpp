@@ -1,7 +1,7 @@
 #ifndef KMC_KLANG_AST_HPP
 #define KMC_KLANG_AST_HPP
 
-#include <memory>
+#include "memory.hpp"
 
 namespace klang {
 namespace ast {
