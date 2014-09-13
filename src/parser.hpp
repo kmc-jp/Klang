@@ -21,6 +21,8 @@ class Parser {
   ast::ArgumentPtr parse_argument();
   ast::StatementPtr parse_statement();
   ast::CompoundStatementPtr parse_compound_statement();
+  ast::ExpressionStatementPtr parse_expression_statement();
+  ast::ExpressionPtr parse_expression();
  private:
   TokenType current_type() const;
   std::string current_string() const;
