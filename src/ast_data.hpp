@@ -87,20 +87,24 @@ class VariableDefinitionStatementData : public VariableDefinitionStatement {
 
 class MutableVariableDefinitionData : public VariableDefinition {
  public:
-  MutableVariableDefinitionData(IdentifierPtr variable_name,
-                                ExpressionPtr rhs_expression);
+  MutableVariableDefinitionData(TypePtr type_name,
+                                IdentifierPtr variable_name,
+                                ExpressionPtr expression);
  private:
+  TypePtr type_name_;
   IdentifierPtr variable_name_;
-  ExpressionPtr rhs_expression_;
+  ExpressionPtr expression_;
 };
 
 class ImmutableVariableDefinitionData : public VariableDefinition {
  public:
-  ImmutableVariableDefinitionData(IdentifierPtr variable_name,
-                                  ExpressionPtr rhs_expression);
+  ImmutableVariableDefinitionData(TypePtr type_name,
+                                  IdentifierPtr variable_name,
+                                  ExpressionPtr expression);
  private:
+  TypePtr type_name_;
   IdentifierPtr variable_name_;
-  ExpressionPtr rhs_expression_;
+  ExpressionPtr expression_;
 };
 
 class IfStatementData : public IfStatement {
