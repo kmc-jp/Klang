@@ -19,6 +19,7 @@ class Parser {
   ast::FunctionDefinitionPtr parse_function_definition();
   ast::ArgumentListPtr parse_argument_list();
   ast::ArgumentPtr parse_argument();
+  ast::StatementPtr parse_statement();
   ast::CompoundStatementPtr parse_compound_statement();
  private:
   TokenType current_type() const;
