@@ -158,6 +158,19 @@ ast::ExpressionStatementPtr Parser::parse_expression_statement() {
   return nullptr;
 }
 
+ast::VariableDefinitionStatementPtr
+Parser::parse_variable_definition_statement() {
+  const auto snapshot = make_snapshot();
+  if (auto variable_definition = parse_variable_definition()) {
+    if (parse_symbol(";")) {
+      return make_unique<ast::VariableDefinitionStatementData>(
+          std::move(variable_definition));
+    }
+  }
+  rewind(snapshot);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
