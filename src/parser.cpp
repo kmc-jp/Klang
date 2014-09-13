@@ -121,6 +121,18 @@ ast::ArgumentListPtr Parser::parse_argument_list() {
   return make_unique<ast::ArgumentListData>(std::move(arguments));
 }
 
+ast::ArgumentPtr Parser::parse_argument() {
+  const auto snapshot = make_snapshot();
+  if (auto argument_type = parse_type()) {
+    if (auto argument_name = parse_identifier()) {
+      return make_unique<ast::ArgumentData>(std::move(argument_type),
+                                            std::move(argument_name));
+    }
+  }
+  rewind(snapshot);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
