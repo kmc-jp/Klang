@@ -452,6 +452,21 @@ ast::OrExpressionPtr Parser::parse_or_expression() {
   return nullptr;
 }
 
+ast::AndExpressionPtr Parser::parse_and_expression() {
+  if (auto lhs_expression = parse_comparative_expression()) {
+    const auto snapshot = make_snapshot();
+    if (parse_symbol("and")) {
+      if (auto rhs_expression = parse_and_expression()) {
+        return make_unique<ast::AndExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+    }
+    rewind(snapshot);
+    return std::move(lhs_expression);
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
