@@ -27,6 +27,7 @@ class Parser {
   ast::IfStatementPtr parse_if_statement();
   ast::IfStatementPtr parse_else_statement();
   ast::WhileStatementPtr parse_while_statement();
+  ast::ForStatementPtr parse_for_statement();
   ast::ExpressionPtr parse_expression();
  private:
   TokenType current_type() const;
