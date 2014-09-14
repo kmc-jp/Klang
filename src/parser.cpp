@@ -287,6 +287,15 @@ ast::BreakStatementPtr Parser::parse_break_statement() {
   return nullptr;
 }
 
+ast::ContinueStatementPtr Parser::parse_continue_statement() {
+  const auto snapshot = make_snapshot();
+  if (parse_symbol("break") && parse_symbol(";")) {
+    return make_unique<ast::ContinueStatementData>();
+  }
+  rewind(snapshot);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
