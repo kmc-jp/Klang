@@ -133,6 +133,37 @@ ast::ArgumentPtr Parser::parse_argument() {
   return nullptr;
 }
 
+ast::StatementPtr Parser::parse_statement() {
+  if (auto statement = parse_expression_statement()) {
+    return std::move(statement);
+  }
+  if (auto statement = parse_variable_definition_statement()) {
+    return std::move(statement);
+  }
+  if (auto statement = parse_if_statement()) {
+    return std::move(statement);
+  }
+  if (auto statement = parse_while_statement()) {
+    return std::move(statement);
+  }
+  if (auto statement = parse_for_statement()) {
+    return std::move(statement);
+  }
+  if (auto statement = parse_return_statement()) {
+    return std::move(statement);
+  }
+  if (auto statement = parse_break_statement()) {
+    return std::move(statement);
+  }
+  if (auto statement = parse_continue_statement()) {
+    return std::move(statement);
+  }
+  if (auto statement = parse_compound_statement()) {
+    return std::move(statement);
+  }
+  return nullptr;
+}
+
 ast::CompoundStatementPtr Parser::parse_compound_statement() {
   const auto snapshot = make_snapshot();
   std::vector<ast::StatementPtr> statements;
