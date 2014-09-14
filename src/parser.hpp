@@ -30,6 +30,7 @@ class Parser {
   ast::ForStatementPtr parse_for_statement();
   ast::ReturnStatementPtr parse_return_statement();
   ast::BreakStatementPtr parse_break_statement();
+  ast::ContinueStatementPtr parse_continue_statement();
   ast::ExpressionPtr parse_expression();
  private:
   TokenType current_type() const;
