@@ -278,6 +278,15 @@ ast::ReturnStatementPtr Parser::parse_return_statement() {
   return nullptr;
 }
 
+ast::BreakStatementPtr Parser::parse_break_statement() {
+  const auto snapshot = make_snapshot();
+  if (parse_symbol("break") && parse_symbol(";")) {
+    return make_unique<ast::BreakStatementData>();
+  }
+  rewind(snapshot);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
