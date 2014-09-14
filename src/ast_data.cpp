@@ -57,15 +57,21 @@ VariableDefinitionStatementData::VariableDefinitionStatementData(
 {}
 
 MutableVariableDefinitionData::MutableVariableDefinitionData(
-    IdentifierPtr variable_name, ExpressionPtr rhs_expression)
-    : variable_name_(std::move(variable_name)),
-      rhs_expression_(std::move(rhs_expression))
+    TypePtr type_name,
+    IdentifierPtr variable_name,
+    ExpressionPtr expression)
+    : type_name_(std::move(type_name)),
+      variable_name_(std::move(variable_name)),
+      expression_(std::move(expression))
 {}
 
 ImmutableVariableDefinitionData::ImmutableVariableDefinitionData(
-    IdentifierPtr variable_name, ExpressionPtr rhs_expression)
-    : variable_name_(std::move(variable_name)),
-      rhs_expression_(std::move(rhs_expression))
+    TypePtr type_name,
+    IdentifierPtr variable_name,
+    ExpressionPtr expression)
+    : type_name_(std::move(type_name)),
+      variable_name_(std::move(variable_name)),
+      expression_(std::move(expression))
 {}
 
 IfStatementData::IfStatementData(ExpressionPtr condition,
