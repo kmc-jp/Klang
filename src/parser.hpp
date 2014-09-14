@@ -32,6 +32,7 @@ class Parser {
   ast::BreakStatementPtr parse_break_statement();
   ast::ContinueStatementPtr parse_continue_statement();
   ast::ExpressionPtr parse_expression();
+  ast::AssignExpressionPtr parse_assign_expression();
  private:
   TokenType current_type() const;
   std::string current_string() const;
