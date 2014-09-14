@@ -40,6 +40,7 @@ class Parser {
   ast::AssignExpressionPtr parse_divide_assign_expression();
   ast::AssignExpressionPtr parse_modulo_assign_expression();
   ast::OrExpressionPtr parse_or_expression();
+  ast::AndExpressionPtr parse_and_expression();
  private:
   TokenType current_type() const;
   std::string current_string() const;
