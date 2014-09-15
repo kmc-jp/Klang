@@ -11,6 +11,7 @@ class Identifier;
 class Type;
 class IntegerLiteral;
 class CharacterLiteral;
+class StringLiteral;
 class TranslationUnit;
 class FunctionDefinition;
 class ArgumentList;
@@ -44,6 +45,7 @@ using IdentifierPtr = std::unique_ptr<Identifier>;
 using TypePtr = std::unique_ptr<Type>;
 using IntegerLiteralPtr = std::unique_ptr<IntegerLiteral>;
 using CharacterLiteralPtr = std::unique_ptr<CharacterLiteral>;
+using StringLiteralPtr = std::unique_ptr<StringLiteral>;
 using TranslationUnitPtr = std::unique_ptr<TranslationUnit>;
 using FunctionDefinitionPtr = std::unique_ptr<FunctionDefinition>;
 using ArgumentListPtr = std::unique_ptr<ArgumentList>;
@@ -96,6 +98,11 @@ class IntegerLiteral : public Base {
 class CharacterLiteral : public Base {
  public:
   virtual ~CharacterLiteral() = 0;
+};
+
+class StringLiteral : public Base {
+ public:
+  virtual ~StringLiteral() = 0;
 };
 
 class TranslationUnit : public Base {

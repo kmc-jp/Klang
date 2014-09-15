@@ -21,6 +21,10 @@ CharacterLiteralData::CharacterLiteralData(const std::string& character_literal)
     : character_literal_(character_literal)
 {}
 
+StringLiteralData::StringLiteralData(const std::string& string_literal)
+    : string_literal_(string_literal)
+{}
+
 TranslationUnitData::TranslationUnitData(
     std::vector<FunctionDefinitionPtr> functions)
     : functions_(std::move(functions)) {

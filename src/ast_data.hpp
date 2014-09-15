@@ -36,6 +36,13 @@ class CharacterLiteralData : public CharacterLiteral {
   std::string character_literal_;
 };
 
+class StringLiteralData : public StringLiteral {
+ public:
+  StringLiteralData(const std::string& string_literal);
+ private:
+  std::string string_literal_;
+};
+
 class TranslationUnitData : public TranslationUnit {
  public:
   TranslationUnitData(std::vector<FunctionDefinitionPtr> functions);
