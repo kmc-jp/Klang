@@ -29,6 +29,13 @@ class IntegerLiteralData : public IntegerLiteral {
   std::string integer_literal_;
 };
 
+class CharacterLiteralData : public CharacterLiteral {
+ public:
+  CharacterLiteralData(const std::string& character_literal);
+ private:
+  std::string character_literal_;
+};
+
 class TranslationUnitData : public TranslationUnit {
  public:
   TranslationUnitData(std::vector<FunctionDefinitionPtr> functions);
