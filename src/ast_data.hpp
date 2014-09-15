@@ -396,6 +396,13 @@ class IntegerLiteralExpressionData : public PrimaryExpression {
   IntegerLiteralPtr integer_literal_;
 };
 
+class CharacterLiteralExpressionData : public PrimaryExpression {
+ public:
+  CharacterLiteralExpressionData(CharacterLiteralPtr character_literal);
+ private:
+  CharacterLiteralPtr character_literal_;
+};
+
 }  // namespace ast
 }  // namespace klang
 

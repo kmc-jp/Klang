@@ -269,5 +269,10 @@ IntegerLiteralExpressionData::IntegerLiteralExpressionData(
     : integer_literal_(std::move(integer_literal))
 {}
 
+CharacterLiteralExpressionData::CharacterLiteralExpressionData(
+    CharacterLiteralPtr character_literal)
+    : character_literal_(std::move(character_literal))
+{}
+
 }  // namespace ast
 }  // namespace klang
