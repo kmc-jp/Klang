@@ -29,9 +29,9 @@ class IntegerLiteralData : public IntegerLiteral {
   std::string integer_literal_;
 };
 
-class ProgramData : public Program {
+class TranslationUnitData : public TranslationUnit {
  public:
-  ProgramData(std::vector<FunctionDefinitionPtr> functions);
+  TranslationUnitData(std::vector<FunctionDefinitionPtr> functions);
  private:
   std::vector<FunctionDefinitionPtr> functions_;
 };

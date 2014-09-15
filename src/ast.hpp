@@ -10,7 +10,7 @@ class Base;
 class Identifier;
 class Type;
 class IntegerLiteral;
-class Program;
+class TranslationUnit;
 class FunctionDefinition;
 class ArgumentList;
 class Argument;
@@ -42,7 +42,7 @@ using BasePtr = std::unique_ptr<Base>;
 using IdentifierPtr = std::unique_ptr<Identifier>;
 using TypePtr = std::unique_ptr<Type>;
 using IntegerLiteralPtr = std::unique_ptr<IntegerLiteral>;
-using ProgramPtr = std::unique_ptr<Program>;
+using TranslationUnitPtr = std::unique_ptr<TranslationUnit>;
 using FunctionDefinitionPtr = std::unique_ptr<FunctionDefinition>;
 using ArgumentListPtr = std::unique_ptr<ArgumentList>;
 using ArgumentPtr = std::unique_ptr<Argument>;
@@ -91,9 +91,9 @@ class IntegerLiteral : public Base {
   virtual ~IntegerLiteral() = 0;
 };
 
-class Program : public Base {
+class TranslationUnit : public Base {
  public:
-  virtual ~Program() = 0;
+  virtual ~TranslationUnit() = 0;
 };
 
 class FunctionDefinition : public Base {

@@ -17,7 +17,8 @@ IntegerLiteralData::IntegerLiteralData(const std::string& integer_literal)
     : integer_literal_(integer_literal)
 {}
 
-ProgramData::ProgramData(std::vector<FunctionDefinitionPtr> functions)
+TranslationUnitData::TranslationUnitData(
+    std::vector<FunctionDefinitionPtr> functions)
     : functions_(std::move(functions)) {
   assert(1 <= functions_.size());
 }
