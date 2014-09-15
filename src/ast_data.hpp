@@ -403,6 +403,13 @@ class CharacterLiteralExpressionData : public PrimaryExpression {
   CharacterLiteralPtr character_literal_;
 };
 
+class StringLiteralExpressionData : public PrimaryExpression {
+ public:
+  StringLiteralExpressionData(StringLiteralPtr string_literal);
+ private:
+  StringLiteralPtr string_literal_;
+};
+
 }  // namespace ast
 }  // namespace klang
 
