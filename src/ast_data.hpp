@@ -85,24 +85,15 @@ class VariableDefinitionStatementData : public VariableDefinitionStatement {
   VariableDefinitionPtr variable_definition_;
 };
 
-class MutableVariableDefinitionData : public VariableDefinition {
+class VariableDefinitionData : public VariableDefinition {
  public:
-  MutableVariableDefinitionData(TypePtr type_name,
-                                IdentifierPtr variable_name,
-                                ExpressionPtr expression);
+  VariableDefinitionData(TypePtr type_name,
+                         bool is_mutable,
+                         IdentifierPtr variable_name,
+                         ExpressionPtr expression);
  private:
   TypePtr type_name_;
-  IdentifierPtr variable_name_;
-  ExpressionPtr expression_;
-};
-
-class ImmutableVariableDefinitionData : public VariableDefinition {
- public:
-  ImmutableVariableDefinitionData(TypePtr type_name,
-                                  IdentifierPtr variable_name,
-                                  ExpressionPtr expression);
- private:
-  TypePtr type_name_;
+  bool is_mutable_;
   IdentifierPtr variable_name_;
   ExpressionPtr expression_;
 };

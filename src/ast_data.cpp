@@ -57,20 +57,13 @@ VariableDefinitionStatementData::VariableDefinitionStatementData(
     : variable_definition_(std::move(variable_definition))
 {}
 
-MutableVariableDefinitionData::MutableVariableDefinitionData(
+VariableDefinitionData::VariableDefinitionData(
     TypePtr type_name,
+    bool is_mutable,
     IdentifierPtr variable_name,
     ExpressionPtr expression)
     : type_name_(std::move(type_name)),
-      variable_name_(std::move(variable_name)),
-      expression_(std::move(expression))
-{}
-
-ImmutableVariableDefinitionData::ImmutableVariableDefinitionData(
-    TypePtr type_name,
-    IdentifierPtr variable_name,
-    ExpressionPtr expression)
-    : type_name_(std::move(type_name)),
+      is_mutable_(is_mutable),
       variable_name_(std::move(variable_name)),
       expression_(std::move(expression))
 {}
