@@ -15,6 +15,8 @@ class Parser {
   ast::IntegerLiteralPtr parse_integer_literal();
   ast::CharacterLiteralPtr parse_character_literal();
   ast::StringLiteralPtr parse_string_literal();
+  ast::TranslationUnitPtr parse_translation_unit();
+  ast::FunctionDefinitionPtr parse_function_definition();
  private:
   TokenType current_type() const;
   std::string current_string() const;
