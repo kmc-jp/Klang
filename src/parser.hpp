@@ -14,6 +14,7 @@ class Parser {
   bool is_eof() const;
   bool advance(int count);
   TokenVector::const_iterator make_snapshot() const;
+  void rewind(TokenVector::const_iterator snapshot);
   const TokenVector tokens_;
   TokenVector::const_iterator current_;
 };

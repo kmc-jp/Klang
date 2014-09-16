@@ -47,4 +47,8 @@ TokenVector::const_iterator Parser::make_snapshot() const {
   return current_;
 }
 
+void Parser::rewind(TokenVector::const_iterator snapshot) {
+  current_ = snapshot;
+}
+
 }  // namespace klang
