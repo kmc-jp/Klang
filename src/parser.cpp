@@ -611,6 +611,19 @@ ast::AdditiveExpressionPtr Parser::parse_subtract_expression() {
   return nullptr;
 }
 
+ast::MultiplicativeExpressionPtr Parser::parse_multiplicative_expression() {
+  if (auto multiplicative_expression = parse_multiply_expression()) {
+    return std::move(multiplicative_expression);
+  }
+  if (auto multiplicative_expression = parse_divide_expression()) {
+    return std::move(multiplicative_expression);
+  }
+  if (auto multiplicative_expression = parse_modulo_expression()) {
+    return std::move(multiplicative_expression);
+  }
+  return parse_unary_expression();
+}
+
 ast::MultiplicativeExpressionPtr Parser::parse_multiply_expression() {
   const auto snapshot = make_snapshot();
   if (auto lhs_expression = parse_unary_expression()) {
