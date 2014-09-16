@@ -10,6 +10,7 @@ class Parser {
   Parser(TokenVector tokens);
  private:
   TokenType current_type() const;
+  std::string current_string() const;
   bool is_eof() const;
   bool advance(int count);
   const TokenVector tokens_;
