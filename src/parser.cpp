@@ -784,6 +784,14 @@ ast::PrimaryExpressionPtr Parser::parse_character_literal_expression() {
   return nullptr;
 }
 
+ast::PrimaryExpressionPtr Parser::parse_string_literal_expression() {
+  if (auto string_literal = parse_string_literal()) {
+    return make_unique<ast::StringLiteralExpressionData>(
+        std::move(string_literal));
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
