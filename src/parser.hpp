@@ -43,6 +43,7 @@ class Parser {
   ast::AndExpressionPtr parse_and_expression();
   ast::ComparativeExpressionPtr parse_comparative_expression();
   ast::ComparativeExpressionPtr parse_equal_expression();
+  ast::ComparativeExpressionPtr parse_not_equal_expression();
   ast::AdditiveExpressionPtr parse_additive_expression();
  private:
   TokenType current_type() const;
