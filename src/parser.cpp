@@ -331,6 +331,28 @@ ast::ExpressionPtr Parser::parse_expression() {
   return parse_assign_expression();
 }
 
+ast::AssignExpressionPtr Parser::parse_assign_expression() {
+  if (auto assign_expression = parse_single_assign_expression()) {
+    return std::move(assign_expression);
+  }
+  if (auto assign_expression = parse_add_assign_expression()) {
+    return std::move(assign_expression);
+  }
+  if (auto assign_expression = parse_subtract_assign_expression()) {
+    return std::move(assign_expression);
+  }
+  if (auto assign_expression = parse_multiply_assign_expression()) {
+    return std::move(assign_expression);
+  }
+  if (auto assign_expression = parse_divide_assign_expression()) {
+    return std::move(assign_expression);
+  }
+  if (auto assign_expression = parse_modulo_assign_expression()) {
+    return std::move(assign_expression);
+  }
+  return parse_or_expression();
+}
+
 ast::AssignExpressionPtr Parser::parse_single_assign_expression() {
   const auto snapshot = make_snapshot();
   if (auto lhs_expression = parse_or_expression()) {
