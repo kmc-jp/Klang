@@ -212,9 +212,16 @@ ast::IfStatementPtr Parser::parse_if_statement() {
 }
 
 ast::IfStatementPtr Parser::parse_else_statement() {
-  if (auto compound_statement = parse_compound_statement()) {
-    return make_unique<ast::ElseStatementData>(std::move(compound_statement));
+  const auto snapshot = make_snapshot();
+  if (parse_symbol("else")) {
+    if (auto else_if_statement = parse_if_statement()) {
+      return std::move(else_if_statement);
+    }
+    if (auto compound_statement = parse_compound_statement()) {
+      return make_unique<ast::ElseStatementData>(std::move(compound_statement));
+    }
   }
+  rewind(snapshot);
   return nullptr;
 }
 
