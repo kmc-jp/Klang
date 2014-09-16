@@ -24,6 +24,8 @@ class Parser {
   ast::ExpressionStatementPtr parse_expression_statement();
   ast::VariableDefinitionStatementPtr parse_variable_definition_statement();
   ast::VariableDefinitionPtr parse_variable_definition();
+  ast::IfStatementPtr parse_if_statement();
+  ast::IfStatementPtr parse_else_statement();
   ast::ExpressionPtr parse_expression();
  private:
   TokenType current_type() const;
