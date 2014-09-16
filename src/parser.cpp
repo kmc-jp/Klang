@@ -761,6 +761,13 @@ ast::PrimaryExpressionPtr Parser::parse_parenthesized_expression() {
   return nullptr;
 }
 
+ast::PrimaryExpressionPtr Parser::parse_identifier_expression() {
+  if (auto identifier = parse_identifier()) {
+    return make_unique<ast::IdentifierExpressionData>(std::move(identifier));
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
