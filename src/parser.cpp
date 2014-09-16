@@ -698,6 +698,13 @@ ast::UnaryExpressionPtr Parser::parse_minus_expression() {
   return nullptr;
 }
 
+ast::PostfixExpressionPtr Parser::parse_postfix_expression() {
+  if (auto postfix_expression = parse_function_call()) {
+    return std::move(postfix_expression);
+  }
+  return parse_primary_expression();
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }

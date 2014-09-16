@@ -59,6 +59,8 @@ class Parser {
   ast::UnaryExpressionPtr parse_not_expression();
   ast::UnaryExpressionPtr parse_minus_expression();
   ast::PostfixExpressionPtr parse_postfix_expression();
+  ast::PostfixExpressionPtr parse_function_call();
+  ast::PrimaryExpressionPtr parse_primary_expression();
  private:
   TokenType current_type() const;
   std::string current_string() const;
