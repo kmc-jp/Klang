@@ -1,5 +1,6 @@
 #include "parser.hpp"
 
+#include <cassert>
 #include "ast_data.hpp"
 
 namespace klang {
@@ -62,6 +63,16 @@ ast::StringLiteralPtr Parser::parse_string_literal() {
   } else {
     return nullptr;
   }
+}
+
+ast::TranslationUnitPtr Parser::parse_translation_unit() {
+  std::vector<ast::FunctionDefinitionPtr> functions;
+  while (auto function = parse_function_definition()) {
+    functions.push_back(std::move(function));
+  }
+  assert(is_eof());
+  assert(0 < functions.size());
+  return make_unique<ast::TranslationUnitData>(std::move(functions));
 }
 
 TokenType Parser::current_type() const {
