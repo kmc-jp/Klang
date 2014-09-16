@@ -747,6 +747,25 @@ ast::ParameterPtr Parser::parse_parameter() {
   return nullptr;
 }
 
+ast::PrimaryExpressionPtr Parser::parse_primary_expression() {
+  if (auto parenthesized = parse_parenthesized_expression()) {
+    return std::move(parenthesized);
+  }
+  if (auto identifier = parse_identifier_expression()) {
+    return std::move(identifier);
+  }
+  if (auto integer_literal = parse_integer_literal_expression()) {
+    return std::move(integer_literal);
+  }
+  if (auto character_literal = parse_character_literal_expression()) {
+    return std::move(character_literal);
+  }
+  if (auto string_literal = parse_string_literal_expression()) {
+    return std::move(string_literal);
+  }
+  return nullptr;
+}
+
 ast::PrimaryExpressionPtr Parser::parse_parenthesized_expression() {
   const auto snapshot = make_snapshot();
   if (parse_symbol("(")) {
