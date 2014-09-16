@@ -573,6 +573,16 @@ ast::ComparativeExpressionPtr Parser::parse_greater_or_equal_expression() {
   return nullptr;
 }
 
+ast::AdditiveExpressionPtr Parser::parse_additive_expression() {
+  if (auto additive_expression = parse_add_expression()) {
+    return std::move(additive_expression);
+  }
+  if (auto additive_expression = parse_subtract_expression()) {
+    return std::move(additive_expression);
+  }
+  return parse_multiplicative_expression();
+}
+
 ast::AdditiveExpressionPtr Parser::parse_add_expression() {
   const auto snapshot = make_snapshot();
   if (auto lhs_expression = parse_multiplicative_expression()) {
