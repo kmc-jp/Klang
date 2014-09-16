@@ -211,6 +211,13 @@ ast::IfStatementPtr Parser::parse_if_statement() {
   return nullptr;
 }
 
+ast::IfStatementPtr Parser::parse_else_statement() {
+  if (auto compound_statement = parse_compound_statement()) {
+    return make_unique<ast::ElseStatementData>(std::move(compound_statement));
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
