@@ -65,6 +65,7 @@ class Parser {
   ast::PrimaryExpressionPtr parse_primary_expression();
   ast::PrimaryExpressionPtr parse_parenthesized_expression();
   ast::PrimaryExpressionPtr parse_identifier_expression();
+  ast::PrimaryExpressionPtr parse_integer_literal_expression();
  private:
   TokenType current_type() const;
   std::string current_string() const;
