@@ -193,6 +193,24 @@ ast::VariableDefinitionPtr Parser::parse_variable_definition() {
   return nullptr;
 }
 
+ast::IfStatementPtr Parser::parse_if_statement() {
+  const auto snapshot = make_snapshot();
+  if (parse_symbol("if") && parse_symbol("(")) {
+    if (auto condition = parse_expression()) {
+      if (parse_symbol(")")) {
+        if (auto compound_statement = parse_compound_statement()) {
+          return make_unique<ast::IfStatementData>(
+              std::move(condition),
+              std::move(compound_statement),
+              parse_else_statement());
+        }
+      }
+    }
+  }
+  rewind(snapshot);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
