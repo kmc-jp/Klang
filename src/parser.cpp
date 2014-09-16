@@ -467,6 +467,28 @@ ast::AndExpressionPtr Parser::parse_and_expression() {
   return nullptr;
 }
 
+ast::ComparativeExpressionPtr Parser::parse_comparative_expression() {
+  if (auto comparative_expression = parse_equal_expression()) {
+    return std::move(comparative_expression);
+  }
+  if (auto comparative_expression = parse_not_equal_expression()) {
+    return std::move(comparative_expression);
+  }
+  if (auto comparative_expression = parse_less_expression()) {
+    return std::move(comparative_expression);
+  }
+  if (auto comparative_expression = parse_greater_expression()) {
+    return std::move(comparative_expression);
+  }
+  if (auto comparative_expression = parse_less_or_equal_expression()) {
+    return std::move(comparative_expression);
+  }
+  if (auto comparative_expression = parse_greater_or_equal_expression()) {
+    return std::move(comparative_expression);
+  }
+  return parse_additive_expression();
+}
+
 ast::ComparativeExpressionPtr Parser::parse_equal_expression() {
   const auto snapshot = make_snapshot();
   if (auto lhs_expression = parse_additive_expression()) {
