@@ -17,7 +17,16 @@ IntegerLiteralData::IntegerLiteralData(const std::string& integer_literal)
     : integer_literal_(integer_literal)
 {}
 
-ProgramData::ProgramData(std::vector<FunctionDefinitionPtr> functions)
+CharacterLiteralData::CharacterLiteralData(const std::string& character_literal)
+    : character_literal_(character_literal)
+{}
+
+StringLiteralData::StringLiteralData(const std::string& string_literal)
+    : string_literal_(string_literal)
+{}
+
+TranslationUnitData::TranslationUnitData(
+    std::vector<FunctionDefinitionPtr> functions)
     : functions_(std::move(functions)) {
   assert(1 <= functions_.size());
 }
@@ -56,20 +65,13 @@ VariableDefinitionStatementData::VariableDefinitionStatementData(
     : variable_definition_(std::move(variable_definition))
 {}
 
-MutableVariableDefinitionData::MutableVariableDefinitionData(
+VariableDefinitionData::VariableDefinitionData(
     TypePtr type_name,
+    bool is_mutable,
     IdentifierPtr variable_name,
     ExpressionPtr expression)
     : type_name_(std::move(type_name)),
-      variable_name_(std::move(variable_name)),
-      expression_(std::move(expression))
-{}
-
-ImmutableVariableDefinitionData::ImmutableVariableDefinitionData(
-    TypePtr type_name,
-    IdentifierPtr variable_name,
-    ExpressionPtr expression)
-    : type_name_(std::move(type_name)),
+      is_mutable_(is_mutable),
       variable_name_(std::move(variable_name)),
       expression_(std::move(expression))
 {}
@@ -265,6 +267,16 @@ IdentifierExpressionData::IdentifierExpressionData(IdentifierPtr identifier)
 IntegerLiteralExpressionData::IntegerLiteralExpressionData(
     IntegerLiteralPtr integer_literal)
     : integer_literal_(std::move(integer_literal))
+{}
+
+CharacterLiteralExpressionData::CharacterLiteralExpressionData(
+    CharacterLiteralPtr character_literal)
+    : character_literal_(std::move(character_literal))
+{}
+
+StringLiteralExpressionData::StringLiteralExpressionData(
+    StringLiteralPtr string_literal)
+    : string_literal_(std::move(string_literal))
 {}
 
 }  // namespace ast

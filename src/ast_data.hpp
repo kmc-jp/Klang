@@ -29,9 +29,23 @@ class IntegerLiteralData : public IntegerLiteral {
   std::string integer_literal_;
 };
 
-class ProgramData : public Program {
+class CharacterLiteralData : public CharacterLiteral {
  public:
-  ProgramData(std::vector<FunctionDefinitionPtr> functions);
+  CharacterLiteralData(const std::string& character_literal);
+ private:
+  std::string character_literal_;
+};
+
+class StringLiteralData : public StringLiteral {
+ public:
+  StringLiteralData(const std::string& string_literal);
+ private:
+  std::string string_literal_;
+};
+
+class TranslationUnitData : public TranslationUnit {
+ public:
+  TranslationUnitData(std::vector<FunctionDefinitionPtr> functions);
  private:
   std::vector<FunctionDefinitionPtr> functions_;
 };
@@ -85,24 +99,15 @@ class VariableDefinitionStatementData : public VariableDefinitionStatement {
   VariableDefinitionPtr variable_definition_;
 };
 
-class MutableVariableDefinitionData : public VariableDefinition {
+class VariableDefinitionData : public VariableDefinition {
  public:
-  MutableVariableDefinitionData(TypePtr type_name,
-                                IdentifierPtr variable_name,
-                                ExpressionPtr expression);
+  VariableDefinitionData(TypePtr type_name,
+                         bool is_mutable,
+                         IdentifierPtr variable_name,
+                         ExpressionPtr expression);
  private:
   TypePtr type_name_;
-  IdentifierPtr variable_name_;
-  ExpressionPtr expression_;
-};
-
-class ImmutableVariableDefinitionData : public VariableDefinition {
- public:
-  ImmutableVariableDefinitionData(TypePtr type_name,
-                                  IdentifierPtr variable_name,
-                                  ExpressionPtr expression);
- private:
-  TypePtr type_name_;
+  bool is_mutable_;
   IdentifierPtr variable_name_;
   ExpressionPtr expression_;
 };
@@ -389,6 +394,20 @@ class IntegerLiteralExpressionData : public PrimaryExpression {
   IntegerLiteralExpressionData(IntegerLiteralPtr integer_literal);
  private:
   IntegerLiteralPtr integer_literal_;
+};
+
+class CharacterLiteralExpressionData : public PrimaryExpression {
+ public:
+  CharacterLiteralExpressionData(CharacterLiteralPtr character_literal);
+ private:
+  CharacterLiteralPtr character_literal_;
+};
+
+class StringLiteralExpressionData : public PrimaryExpression {
+ public:
+  StringLiteralExpressionData(StringLiteralPtr string_literal);
+ private:
+  StringLiteralPtr string_literal_;
 };
 
 }  // namespace ast
