@@ -666,6 +666,16 @@ ast::MultiplicativeExpressionPtr Parser::parse_modulo_expression() {
   return nullptr;
 }
 
+ast::UnaryExpressionPtr Parser::parse_unary_expression() {
+  if (auto unary_expression = parse_not_expression()) {
+    return std::move(unary_expression);
+  }
+  if (auto unary_expression = parse_minus_expression()) {
+    return std::move(unary_expression);
+  }
+  return parse_postfix_expression();
+}
+
 ast::UnaryExpressionPtr Parser::parse_not_expression() {
   const auto snapshot = make_snapshot();
   if (parse_symbol("not")) {
