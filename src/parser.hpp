@@ -37,6 +37,7 @@ class Parser {
   ast::AssignExpressionPtr parse_add_assign_expression();
   ast::AssignExpressionPtr parse_subtract_assign_expression();
   ast::AssignExpressionPtr parse_multiply_assign_expression();
+  ast::AssignExpressionPtr parse_divide_assign_expression();
   ast::OrExpressionPtr parse_or_expression();
  private:
   TokenType current_type() const;
