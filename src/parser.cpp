@@ -747,6 +747,20 @@ ast::ParameterPtr Parser::parse_parameter() {
   return nullptr;
 }
 
+ast::PrimaryExpressionPtr Parser::parse_parenthesized_expression() {
+  const auto snapshot = make_snapshot();
+  if (parse_symbol("(")) {
+    if (auto expression = parse_expression()) {
+      if (parse_symbol(")")) {
+        return make_unique<ast::ParenthesizedExpressionData>(
+            std::move(expression));
+      }
+    }
+  }
+  rewind(snapshot);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
