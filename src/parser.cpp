@@ -43,4 +43,8 @@ bool Parser::advance(int count) {
   return true;
 }
 
+TokenVector::const_iterator Parser::make_snapshot() const {
+  return current_;
+}
+
 }  // namespace klang

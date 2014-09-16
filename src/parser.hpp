@@ -13,6 +13,7 @@ class Parser {
   std::string current_string() const;
   bool is_eof() const;
   bool advance(int count);
+  TokenVector::const_iterator make_snapshot() const;
   const TokenVector tokens_;
   TokenVector::const_iterator current_;
 };
