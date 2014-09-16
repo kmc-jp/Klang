@@ -740,6 +740,13 @@ ast::ParameterListPtr Parser::parse_parameter_list() {
   return make_unique<ast::ParameterListData>(std::move(parameters));
 }
 
+ast::ParameterPtr Parser::parse_parameter() {
+  if (auto expression = parse_expression()) {
+    return make_unique<ast::ParameterData>(std::move(expression));
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
