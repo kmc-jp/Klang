@@ -331,6 +331,20 @@ ast::ExpressionPtr Parser::parse_expression() {
   return parse_assign_expression();
 }
 
+ast::AssignExpressionPtr Parser::parse_single_assign_expression() {
+  const auto snapshot = make_snapshot();
+  if (auto lhs_expression = parse_or_expression()) {
+    if (parse_symbol(":=")) {
+      if (auto rhs_expression = parse_or_expression()) {
+        return make_unique<ast::AssignExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+    }
+  }
+  rewind(snapshot);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
