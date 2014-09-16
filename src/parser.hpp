@@ -54,6 +54,7 @@ class Parser {
   ast::MultiplicativeExpressionPtr parse_multiplicative_expression();
   ast::MultiplicativeExpressionPtr parse_multiply_expression();
   ast::MultiplicativeExpressionPtr parse_divide_expression();
+  ast::MultiplicativeExpressionPtr parse_modulo_expression();
   ast::UnaryExpressionPtr parse_unary_expression();
  private:
   TokenType current_type() const;

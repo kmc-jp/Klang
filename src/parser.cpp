@@ -639,6 +639,20 @@ ast::MultiplicativeExpressionPtr Parser::parse_divide_expression() {
   return nullptr;
 }
 
+ast::MultiplicativeExpressionPtr Parser::parse_modulo_expression() {
+  const auto snapshot = make_snapshot();
+  if (auto lhs_expression = parse_unary_expression()) {
+    if (parse_symbol("%")) {
+      if (auto rhs_expression = parse_multiplicative_expression()) {
+        return make_unique<ast::ModuloExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+    }
+  }
+  rewind(snapshot);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
