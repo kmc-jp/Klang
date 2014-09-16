@@ -666,6 +666,17 @@ ast::MultiplicativeExpressionPtr Parser::parse_modulo_expression() {
   return nullptr;
 }
 
+ast::UnaryExpressionPtr Parser::parse_not_expression() {
+  const auto snapshot = make_snapshot();
+  if (parse_symbol("not")) {
+    if (auto unary_expression = parse_unary_expression()) {
+      return make_unique<ast::NotExpressionData>(std::move(unary_expression));
+    }
+  }
+  rewind(snapshot);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
