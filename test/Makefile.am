@@ -10,7 +10,7 @@ libgtest_all_a_LIBADD = ../src/lexer.o
 GTEST_FILES = helper_test_main.cpp $(GTEST_DIR)/gtest.h
 
 TESTS = test_nothing test_sample1 test_lexer
-XFAIL_TESTS = test_lexer
+
 check_PROGRAMS = $(TESTS)
 test_nothing_SOURCES = test_nothing.cpp # not using gtest
 test_sample1_SOURCES = test_sample1.cpp $(GTEST_FILES) # using gtest
