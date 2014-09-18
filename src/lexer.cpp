@@ -131,6 +131,26 @@ TokenType match_type(std::string const& str) {
   return TokenType::UNKNOWN;
 }
 
+std::string extract_string(const std::string& str) {
+  if (str.front() == '"') {
+	bool escaped = false;
+	std::string new_str;
+	for(auto c : str) {
+	  if (escaped) {
+		if(c == '"') new_str.push_back('"');
+		if(c == 'n') new_str.push_back('\n');
+		escaped = false;
+	  } else if (c == '\\') {
+		escaped = true;
+	  } else if (c != '"') {
+		new_str.push_back(c);
+	  }
+	}
+	return new_str;
+  }
+  return str;
+}
+
 TokenVector tokenize(std::istream& is) {
   std::string str, code;
   while (std::getline(is, str)) {
@@ -145,7 +165,7 @@ TokenVector tokenize(std::istream& is) {
     TokenType next = match_type(str + c);
     if (prev != TokenType::UNKNOWN && next == TokenType::UNKNOWN) {
       if (prev != TokenType::IGNORE) {
-        tokens.push_back(Token(prev, str, line));
+        tokens.push_back(Token(prev, extract_string(str), line));
       }
       str = c;
       prev = match_type(str);
