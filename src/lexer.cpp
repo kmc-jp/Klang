@@ -159,9 +159,8 @@ TokenVector tokenize(std::istream& is) {
   TokenVector tokens;
   str.clear();
   TokenType prev = TokenType::UNKNOWN;
-  int line = 0;
+  int line = 1;
   for (char c : code) {
-    if (c == '\n') ++line;
     TokenType next = match_type(str + c);
     if (prev != TokenType::UNKNOWN && next == TokenType::UNKNOWN) {
       if (prev != TokenType::IGNORE) {
@@ -173,6 +172,7 @@ TokenVector tokenize(std::istream& is) {
       str += c;
       prev = next;
     }
+    if (c == '\n') ++line;
   }
   return tokens;
 }
