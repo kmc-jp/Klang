@@ -470,19 +470,6 @@ ast::AdditiveExpressionPtr Parser::parse_additive_expression() {
 }
 
 ast::MultiplicativeExpressionPtr Parser::parse_multiplicative_expression() {
-  if (auto multiplicative_expression = parse_multiply_expression()) {
-    return std::move(multiplicative_expression);
-  }
-  if (auto multiplicative_expression = parse_divide_expression()) {
-    return std::move(multiplicative_expression);
-  }
-  if (auto multiplicative_expression = parse_modulo_expression()) {
-    return std::move(multiplicative_expression);
-  }
-  return parse_unary_expression();
-}
-
-ast::MultiplicativeExpressionPtr Parser::parse_multiply_expression() {
   const auto snapshot = make_snapshot();
   if (auto lhs_expression = parse_unary_expression()) {
     if (parse_symbol("*")) {
@@ -490,35 +477,19 @@ ast::MultiplicativeExpressionPtr Parser::parse_multiply_expression() {
         return make_unique<ast::MultiplyExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::MultiplicativeExpressionPtr Parser::parse_divide_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_unary_expression()) {
-    if (parse_symbol("/")) {
+    } else if (parse_symbol("/")) {
       if (auto rhs_expression = parse_multiplicative_expression()) {
         return make_unique<ast::DivideExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::MultiplicativeExpressionPtr Parser::parse_modulo_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_unary_expression()) {
-    if (parse_symbol("%")) {
+    } else if (parse_symbol("%")) {
       if (auto rhs_expression = parse_multiplicative_expression()) {
         return make_unique<ast::ModuloExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
+    } else {
+	  return std::move(lhs_expression);
+	}
   }
   rewind(snapshot);
   return nullptr;
