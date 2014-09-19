@@ -67,7 +67,7 @@ bool symbol(const std::string& str) {
     "~", "+", "-", "*", "/", "%",
     ":=", ":+=", ":-=", ":*=", ":/=", ":%=",
     "=", "=/", "<", ">", "<=", ">=",
-    ";", "(", ")", "{", "}", "->",
+    ";", "(", ")", "{", "}", "->", "~}",
     "and", "or", "not", "int", "def", "var",
     "if", "else", "while", "for", "break", "continue", "return"
   };
@@ -125,7 +125,6 @@ bool string_token(const std::string& str) {
 }
 
 TokenType match_type(std::string const& str) {
-  if (str == "~}") return TokenType::SYMBOL;
   if (comment(str)) return TokenType::IGNORE;
   if (symbol(str)) return TokenType::SYMBOL;
   if (identifier(str)) return TokenType::IDENTIFIER;
