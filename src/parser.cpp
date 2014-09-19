@@ -403,28 +403,6 @@ ast::AndExpressionPtr Parser::parse_and_expression() {
 }
 
 ast::ComparativeExpressionPtr Parser::parse_comparative_expression() {
-  if (auto comparative_expression = parse_equal_expression()) {
-    return std::move(comparative_expression);
-  }
-  if (auto comparative_expression = parse_not_equal_expression()) {
-    return std::move(comparative_expression);
-  }
-  if (auto comparative_expression = parse_less_expression()) {
-    return std::move(comparative_expression);
-  }
-  if (auto comparative_expression = parse_greater_expression()) {
-    return std::move(comparative_expression);
-  }
-  if (auto comparative_expression = parse_less_or_equal_expression()) {
-    return std::move(comparative_expression);
-  }
-  if (auto comparative_expression = parse_greater_or_equal_expression()) {
-    return std::move(comparative_expression);
-  }
-  return parse_additive_expression();
-}
-
-ast::ComparativeExpressionPtr Parser::parse_equal_expression() {
   const auto snapshot = make_snapshot();
   if (auto lhs_expression = parse_additive_expression()) {
     if (parse_symbol("=")) {
@@ -432,77 +410,39 @@ ast::ComparativeExpressionPtr Parser::parse_equal_expression() {
         return make_unique<ast::EqualExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::ComparativeExpressionPtr Parser::parse_not_equal_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_additive_expression()) {
-    if (parse_symbol("=/")) {
+    } else if (parse_symbol("=/")) {
       if (auto rhs_expression = parse_additive_expression()) {
         return make_unique<ast::NotEqualExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::ComparativeExpressionPtr Parser::parse_less_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_additive_expression()) {
-    if (parse_symbol("<")) {
+    } else if (parse_symbol("<")) {
       if (auto rhs_expression = parse_additive_expression()) {
         return make_unique<ast::LessExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::ComparativeExpressionPtr Parser::parse_greater_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_additive_expression()) {
-    if (parse_symbol(">")) {
+    } else if (parse_symbol(">")) {
       if (auto rhs_expression = parse_additive_expression()) {
         return make_unique<ast::GreaterExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::ComparativeExpressionPtr Parser::parse_less_or_equal_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_additive_expression()) {
-    if (parse_symbol("<=")) {
+    } else if (parse_symbol("<=")) {
       if (auto rhs_expression = parse_additive_expression()) {
         return make_unique<ast::LessOrEqualExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::ComparativeExpressionPtr Parser::parse_greater_or_equal_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_additive_expression()) {
-    if (parse_symbol(">=")) {
+    } else if (parse_symbol("<=")) {
+      if (auto rhs_expression = parse_additive_expression()) {
+        return make_unique<ast::LessOrEqualExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+    } else if (parse_symbol(">=")) {
       if (auto rhs_expression = parse_additive_expression()) {
         return make_unique<ast::GreaterOrEqualExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
+    } else {
+	  return std::move(lhs_expression);
+	}
   }
   rewind(snapshot);
   return nullptr;
