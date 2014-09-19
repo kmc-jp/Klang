@@ -320,7 +320,7 @@ ast::BreakStatementPtr Parser::parse_break_statement() {
 
 ast::ContinueStatementPtr Parser::parse_continue_statement() {
   const auto snapshot = make_snapshot();
-  if (parse_symbol("break") && parse_symbol(";")) {
+  if (parse_symbol("continue") && parse_symbol(";")) {
     return make_unique<ast::ContinueStatementData>();
   }
   rewind(snapshot);
