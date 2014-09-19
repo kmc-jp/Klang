@@ -96,7 +96,7 @@ bool multiline_comment(const std::string& str) {
 		nest--;
 	  }
 	}
-	bool closed = (nest == 0 && str.compare(str.size()-2, 2, "~}")) == 0;
+	bool closed = (nest == 0 && str.compare(str.size()-2, 2, "~}") == 0);
 	return (nest > 0 || closed);
   }
   return false;
