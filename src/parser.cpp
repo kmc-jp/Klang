@@ -332,28 +332,6 @@ ast::ExpressionPtr Parser::parse_expression() {
 }
 
 ast::AssignExpressionPtr Parser::parse_assign_expression() {
-  if (auto assign_expression = parse_single_assign_expression()) {
-    return std::move(assign_expression);
-  }
-  if (auto assign_expression = parse_add_assign_expression()) {
-    return std::move(assign_expression);
-  }
-  if (auto assign_expression = parse_subtract_assign_expression()) {
-    return std::move(assign_expression);
-  }
-  if (auto assign_expression = parse_multiply_assign_expression()) {
-    return std::move(assign_expression);
-  }
-  if (auto assign_expression = parse_divide_assign_expression()) {
-    return std::move(assign_expression);
-  }
-  if (auto assign_expression = parse_modulo_assign_expression()) {
-    return std::move(assign_expression);
-  }
-  return parse_or_expression();
-}
-
-ast::AssignExpressionPtr Parser::parse_single_assign_expression() {
   const auto snapshot = make_snapshot();
   if (auto lhs_expression = parse_or_expression()) {
     if (parse_symbol(":=")) {
@@ -361,77 +339,34 @@ ast::AssignExpressionPtr Parser::parse_single_assign_expression() {
         return make_unique<ast::AssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::AssignExpressionPtr Parser::parse_add_assign_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_or_expression()) {
-    if (parse_symbol(":+=")) {
+    } else if (parse_symbol(":+=")) {
       if (auto rhs_expression = parse_or_expression()) {
         return make_unique<ast::AddAssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::AssignExpressionPtr Parser::parse_subtract_assign_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_or_expression()) {
-    if (parse_symbol(":-=")) {
+    } else if (parse_symbol(":-=")) {
       if (auto rhs_expression = parse_or_expression()) {
         return make_unique<ast::SubtractAssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::AssignExpressionPtr Parser::parse_multiply_assign_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_or_expression()) {
-    if (parse_symbol(":*=")) {
+    } else if (parse_symbol(":*=")) {
       if (auto rhs_expression = parse_or_expression()) {
         return make_unique<ast::MultiplyAssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::AssignExpressionPtr Parser::parse_divide_assign_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_or_expression()) {
-    if (parse_symbol(":/=")) {
+    } else if (parse_symbol(":/=")) {
       if (auto rhs_expression = parse_or_expression()) {
         return make_unique<ast::DivideAssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::AssignExpressionPtr Parser::parse_modulo_assign_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_or_expression()) {
-    if (parse_symbol(":%=")) {
+    } else if (parse_symbol(":%=")) {
       if (auto rhs_expression = parse_or_expression()) {
         return make_unique<ast::ModuloAssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
+    } else {
+	  return std::move(lhs_expression);
+	}
   }
   rewind(snapshot);
   return nullptr;
