@@ -134,9 +134,6 @@ ast::ArgumentPtr Parser::parse_argument() {
 }
 
 ast::StatementPtr Parser::parse_statement() {
-  if (auto statement = parse_expression_statement()) {
-    return std::move(statement);
-  }
   if (auto statement = parse_variable_definition_statement()) {
     return std::move(statement);
   }
@@ -159,6 +156,9 @@ ast::StatementPtr Parser::parse_statement() {
     return std::move(statement);
   }
   if (auto statement = parse_compound_statement()) {
+    return std::move(statement);
+  }
+  if (auto statement = parse_expression_statement()) {
     return std::move(statement);
   }
   return nullptr;
