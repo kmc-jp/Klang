@@ -30,7 +30,7 @@ ast::IdentifierPtr Parser::parse_identifier() {
 }
 
 ast::TypePtr Parser::parse_type() {
-  if (current_type() == TokenType::IDENTIFIER) {
+  if (current_type() == TokenType::SYMBOL) {
     advance(1);
     return make_unique<ast::TypeData>(current_string());
   } else {
@@ -320,7 +320,7 @@ ast::BreakStatementPtr Parser::parse_break_statement() {
 
 ast::ContinueStatementPtr Parser::parse_continue_statement() {
   const auto snapshot = make_snapshot();
-  if (parse_symbol("break") && parse_symbol(";")) {
+  if (parse_symbol("continue") && parse_symbol(";")) {
     return make_unique<ast::ContinueStatementData>();
   }
   rewind(snapshot);
