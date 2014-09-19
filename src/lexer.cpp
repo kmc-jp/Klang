@@ -84,9 +84,11 @@ bool singleline_comment(const std::string& str) {
 }
 
 bool multiline_comment(const std::string& str) {
+  using std::begin;
+  using std::end;
   if (str.compare(0, 2, "{~") == 0) {
 	int nest = 0;
-	for (auto it = str.begin(); it + 1 != str.end(); it++) {
+	for (auto it = begin(str); it + 1 != end(str); it++) {
 	  std::string tk(it, it+2);
 	  if (tk == "{~") {
 		nest++;
@@ -105,13 +107,15 @@ bool comment(const std::string& str) {
 }
 
 bool string_token(const std::string& str) {
+  using std::begin;
+  using std::end;
   if (str.front() == '"') {
 	bool escaped = false;
-	for(auto it = str.begin() + 1; it != str.end(); it++) {
+	for(auto it = begin(str) + 1; it != end(str); it++) {
 	  if (*it == '\\') {
 		escaped = true;
 	  } else if (*it == '"' && not escaped) {
-		return it + 1 == str.end();
+		return it + 1 == end(str);
 	  } else {
 		escaped = false;
 	  }
