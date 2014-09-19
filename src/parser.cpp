@@ -30,7 +30,7 @@ ast::IdentifierPtr Parser::parse_identifier() {
 }
 
 ast::TypePtr Parser::parse_type() {
-  if (current_type() == TokenType::IDENTIFIER) {
+  if (current_type() == TokenType::SYMBOL) {
     advance(1);
     return make_unique<ast::TypeData>(current_string());
   } else {
