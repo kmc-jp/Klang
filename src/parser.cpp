@@ -449,16 +449,6 @@ ast::ComparativeExpressionPtr Parser::parse_comparative_expression() {
 }
 
 ast::AdditiveExpressionPtr Parser::parse_additive_expression() {
-  if (auto additive_expression = parse_add_expression()) {
-    return std::move(additive_expression);
-  }
-  if (auto additive_expression = parse_subtract_expression()) {
-    return std::move(additive_expression);
-  }
-  return parse_multiplicative_expression();
-}
-
-ast::AdditiveExpressionPtr Parser::parse_add_expression() {
   const auto snapshot = make_snapshot();
   if (auto lhs_expression = parse_multiplicative_expression()) {
     if (parse_symbol("+")) {
@@ -466,21 +456,14 @@ ast::AdditiveExpressionPtr Parser::parse_add_expression() {
         return make_unique<ast::AddExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
-  }
-  rewind(snapshot);
-  return nullptr;
-}
-
-ast::AdditiveExpressionPtr Parser::parse_subtract_expression() {
-  const auto snapshot = make_snapshot();
-  if (auto lhs_expression = parse_multiplicative_expression()) {
-    if (parse_symbol("-")) {
+    } else if (parse_symbol("-")) {
       if (auto rhs_expression = parse_additive_expression()) {
         return make_unique<ast::SubtractExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
-    }
+    } else {
+	  return std::move(lhs_expression);
+	}
   }
   rewind(snapshot);
   return nullptr;
