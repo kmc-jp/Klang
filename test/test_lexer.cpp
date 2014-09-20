@@ -1,7 +1,7 @@
-#include "gtest.h"
-
 #include "lexer.hpp"
 #include "helper_lexer.hpp"
+
+#include "gtest.h"
 
 TEST(lexer, emptySource) {
   std::stringstream is;
@@ -23,25 +23,29 @@ TEST(lexer, hello) {
      << "  return 0;" << nl
      << "}" << nl;
   auto tokens = klang::tokenize(is);
-  std::stringstream expect;
-  expect << "SYMBOL: def at Line 7" << nl
-         << "IDENTIFIER: main at Line 7" << nl
-         << "SYMBOL: ( at Line 7" << nl
-         << "SYMBOL: ) at Line 7" << nl
-         << "SYMBOL: -> at Line 7" << nl
-         << "SYMBOL: ( at Line 7" << nl
-         << "SYMBOL: int at Line 7" << nl
-         << "SYMBOL: ) at Line 7" << nl
-         << "SYMBOL: { at Line 7" << nl
-         << "IDENTIFIER: print at Line 8" << nl
-         << "SYMBOL: ( at Line 8" << nl
-         << "STRING: Hello, World!" << nl
-         << " at Line 8" << nl
-         << "SYMBOL: ) at Line 8" << nl
-         << "SYMBOL: ; at Line 8" << nl
-         << "SYMBOL: return at Line 9" << nl
-         << "NUMBER: 0 at Line 9" << nl
-         << "SYMBOL: ; at Line 9" << nl
-         << "SYMBOL: } at Line 10" << nl;
-  EXPECT_EQ(expect.str(), test::to_string(tokens));
+  using T = klang::Token;
+  using klang::TokenType;
+  klang::TokenVector const expect = {
+      T{TokenType::SYMBOL, "def", 7},
+      T{TokenType::IDENTIFIER, "main", 7},
+      T{TokenType::SYMBOL, "(", 7},
+      T{TokenType::SYMBOL, ")", 7},
+      T{TokenType::SYMBOL, "->", 7},
+      T{TokenType::SYMBOL, "(", 7},
+      T{TokenType::SYMBOL, "int", 7},
+      T{TokenType::SYMBOL, ")", 7},
+      T{TokenType::SYMBOL, "{", 7},
+      T{TokenType::IDENTIFIER, "print", 8},
+      T{TokenType::SYMBOL, "(", 8},
+      T{TokenType::STRING, "Hello, World!\n", 8},
+      T{TokenType::SYMBOL, ")", 8},
+      T{TokenType::SYMBOL, ";", 8},
+      T{TokenType::SYMBOL, "return", 9},
+      T{TokenType::NUMBER, "0", 9},
+      T{TokenType::SYMBOL, ";", 9},
+      T{TokenType::SYMBOL, "}", 10},
+      };
+  ASSERT_EQ(expect.size(), tokens.size());
+  for(size_t i(0); i < expect.size(); ++i)
+      EXPECT_TRUE(expect[i] == tokens[i]);
 }
