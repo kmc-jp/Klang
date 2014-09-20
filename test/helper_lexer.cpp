@@ -20,3 +20,9 @@ std::string test::to_string(klang::TokenVector const& vec){
   }
   return os.str();
 }
+
+bool operator==(klang::Token const& lhs, klang::Token const& rhs) {
+    return lhs.type() == rhs.type()
+        && lhs.str()  == rhs.str()
+        && lhs.line() == rhs.line();
+}
