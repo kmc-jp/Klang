@@ -67,7 +67,7 @@ bool symbol(const std::string& str) {
     "~", "+", "-", "*", "/", "%",
     ":=", ":+=", ":-=", ":*=", ":/=", ":%=",
     "=", "=/", "<", ">", "<=", ">=",
-    ";", "(", ")", "{", "}",
+    ";", "(", ")", "{", "}", "->", "~}",
     "and", "or", "not", "int", "def", "var",
     "if", "else", "while", "for", "break", "continue", "return"
   };
@@ -78,12 +78,80 @@ bool ignore(const std::string& str) {
   return (str == " " || str == "\n");
 }
 
+bool singleline_comment(const std::string& str) {
+  bool inside = (str.back() == '\n' || str.find("\n") == std::string::npos);
+  return (str.compare(0, 2, "~~") == 0 && inside);
+}
+
+bool multiline_comment(const std::string& str) {
+  using std::begin;
+  using std::end;
+  if (str.compare(0, 2, "{~") == 0) {
+	int nest = 0;
+	for (auto it = begin(str); it + 1 != end(str); ++it) {
+	  std::string tk(it, it+2);
+	  if (tk == "{~") {
+		++nest;
+	  } else if(tk == "~}") {
+		--nest;
+	  }
+	}
+	bool closed = (nest == 0 && str.compare(str.size()-2, 2, "~}") == 0);
+	return (nest > 0 || closed);
+  }
+  return false;
+}
+
+bool comment(const std::string& str) {
+  return (singleline_comment(str) || multiline_comment(str));
+}
+
+bool string_token(const std::string& str) {
+  using std::begin;
+  using std::end;
+  if (str.front() == '"') {
+	bool escaped = false;
+	for(auto it = begin(str) + 1; it != end(str); ++it) {
+	  if (*it == '\\') {
+		escaped = true;
+	  } else if (*it == '"' && (!escaped)) {
+		return it + 1 == end(str);
+	  } else {
+		escaped = false;
+	  }
+	}
+  }
+  return false;
+}
+
 TokenType match_type(std::string const& str) {
+  if (comment(str)) return TokenType::IGNORE;
   if (symbol(str)) return TokenType::SYMBOL;
   if (identifier(str)) return TokenType::IDENTIFIER;
   if (decimal_integer(str)) return TokenType::NUMBER;
+  if (string_token(str)) return TokenType::STRING;
   if (ignore(str)) return TokenType::IGNORE;
   return TokenType::UNKNOWN;
+}
+
+std::string extract_string(const std::string& str) {
+  if (str.front() == '"') {
+	bool escaped = false;
+	std::string new_str;
+	for(auto c : str) {
+	  if (escaped) {
+		if(c == '"') new_str.push_back('"');
+		if(c == 'n') new_str.push_back('\n');
+		escaped = false;
+	  } else if (c == '\\') {
+		escaped = true;
+	  } else if (c != '"') {
+		new_str.push_back(c);
+	  }
+	}
+	return new_str;
+  }
+  return str;
 }
 
 TokenVector tokenize(std::istream& is) {
@@ -94,13 +162,12 @@ TokenVector tokenize(std::istream& is) {
   TokenVector tokens;
   str.clear();
   TokenType prev = TokenType::UNKNOWN;
-  int line = 0;
+  int line = 1;
   for (char c : code) {
-    if (c == '\n') ++line;
     TokenType next = match_type(str + c);
     if (prev != TokenType::UNKNOWN && next == TokenType::UNKNOWN) {
       if (prev != TokenType::IGNORE) {
-        tokens.push_back(Token(prev, str, line));
+        tokens.push_back(Token(prev, extract_string(str), line));
       }
       str = c;
       prev = match_type(str);
@@ -108,6 +175,7 @@ TokenVector tokenize(std::istream& is) {
       str += c;
       prev = next;
     }
+    if (c == '\n') ++line;
   }
   return tokens;
 }
