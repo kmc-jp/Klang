@@ -11,36 +11,37 @@ TEST(lexer, emptySource) {
 
 TEST(lexer, hello) {
   std::stringstream is;
-  is << "{~\n"
-     << "  とりあえずのデバッグ用\n"
-     << "  まだdeclareもstringもない\n"
-     << "  declare print(string) -> ();\n"
-     << "~}\n"
-     << "\n"
-     << "def main() -> (int) {\n"
-     << "  print(\"Hello, World!\\n\");\n"
-     << "  return 0;\n"
-     << "}\n";
+  std::string nl("\n");
+  is << "{~" << nl
+     << "  とりあえずのデバッグ用" << nl
+     << "  まだdeclareもstringもない" << nl
+     << "  declare print(string) -> ();" << nl
+     << "~}" << nl
+     << "" << nl
+     << "def main() -> (int) {" << nl
+     << "  print(\"Hello, World!\\n\");" << nl
+     << "  return 0;" << nl
+     << "}" << nl;
   auto tokens = klang::tokenize(is);
   std::stringstream expect;
-  expect << "SYMBOL: def at Line 7\n"
-         << "IDENTIFIER: main at Line 7\n"
-         << "SYMBOL: ( at Line 7\n"
-         << "SYMBOL: ) at Line 7\n"
-         << "SYMBOL: -> at Line 7\n"
-         << "SYMBOL: ( at Line 7\n"
-         << "SYMBOL: int at Line 7\n"
-         << "SYMBOL: ) at Line 7\n"
-         << "SYMBOL: { at Line 7\n"
-         << "IDENTIFIER: print at Line 8\n"
-         << "SYMBOL: ( at Line 8\n"
-         << "STRING: Hello, World!\n"
-         << " at Line 8\n"
-         << "SYMBOL: ) at Line 8\n"
-         << "SYMBOL: ; at Line 8\n"
-         << "SYMBOL: return at Line 9\n"
-         << "NUMBER: 0 at Line 9\n"
-         << "SYMBOL: ; at Line 9\n"
-         << "SYMBOL: } at Line 10\n";
+  expect << "SYMBOL: def at Line 7" << nl
+         << "IDENTIFIER: main at Line 7" << nl
+         << "SYMBOL: ( at Line 7" << nl
+         << "SYMBOL: ) at Line 7" << nl
+         << "SYMBOL: -> at Line 7" << nl
+         << "SYMBOL: ( at Line 7" << nl
+         << "SYMBOL: int at Line 7" << nl
+         << "SYMBOL: ) at Line 7" << nl
+         << "SYMBOL: { at Line 7" << nl
+         << "IDENTIFIER: print at Line 8" << nl
+         << "SYMBOL: ( at Line 8" << nl
+         << "STRING: Hello, World!" << nl
+         << " at Line 8" << nl
+         << "SYMBOL: ) at Line 8" << nl
+         << "SYMBOL: ; at Line 8" << nl
+         << "SYMBOL: return at Line 9" << nl
+         << "NUMBER: 0 at Line 9" << nl
+         << "SYMBOL: ; at Line 9" << nl
+         << "SYMBOL: } at Line 10" << nl;
   EXPECT_EQ(expect.str(), test::to_string(tokens));
 }
