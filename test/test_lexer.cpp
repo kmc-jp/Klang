@@ -44,8 +44,8 @@ TEST(lexer, hello) {
       T{TokenType::NUMBER, "0", 9},
       T{TokenType::SYMBOL, ";", 9},
       T{TokenType::SYMBOL, "}", 10},
-      };
+  };
   ASSERT_EQ(expect.size(), tokens.size());
   for(size_t i(0); i < expect.size(); ++i)
-      EXPECT_TRUE(expect[i] == tokens[i]);
+    EXPECT_EQ(expect[i], tokens[i]);
 }
