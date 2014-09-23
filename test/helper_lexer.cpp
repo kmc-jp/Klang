@@ -12,11 +12,16 @@ std::string test::to_string(klang::TokenType t){
   return "UNKNOWN";
 }
 
+std::string test::to_string(klang::Token const& t){
+  std::ostringstream os;
+  os << to_string(t.type()) << ": " << t.str() << " at Line " << t.line() << "\n";
+  return os.str();
+}
+
 std::string test::to_string(klang::TokenVector const& vec){
   std::ostringstream os;
   for(auto const& e: vec) {
-    os << to_string(e.type()) << ": " << e.str()
-       << " at Line " << e.line() << "\n";
+    os << to_string(e);
   }
   return os.str();
 }
