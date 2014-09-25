@@ -12,17 +12,34 @@ std::string test::to_string(klang::TokenType t){
   return "UNKNOWN";
 }
 
+std::string test::to_string(klang::Token const& t){
+  std::ostringstream os;
+  os << to_string(t.type()) << ": " << t.str() << " at Line " << t.line() << "\n";
+  return os.str();
+}
+
 std::string test::to_string(klang::TokenVector const& vec){
   std::ostringstream os;
   for(auto const& e: vec) {
-    os << to_string(e.type()) << ": " << e.str()
-       << " at Line " << e.line() << "\n";
+    os << to_string(e);
   }
   return os.str();
 }
 
-bool operator==(klang::Token const& lhs, klang::Token const& rhs) {
-    return lhs.type() == rhs.type()
-        && lhs.str()  == rhs.str()
-        && lhs.line() == rhs.line();
+bool klang::operator==(klang::Token const& lhs, klang::Token const& rhs) {
+  return lhs.type() == rhs.type()
+      && lhs.str()  == rhs.str()
+      && lhs.line() == rhs.line();
+}
+
+std::ostream& operator<<(std::ostream& os, klang::TokenType t){
+  return os << test::to_string(t);
+}
+
+std::ostream& operator<<(std::ostream& os, klang::Token const& t){
+  return os << test::to_string(t);
+}
+
+std::ostream& operator<<(std::ostream& os, klang::TokenVector const& vec){
+  return os << test::to_string(vec);
 }
