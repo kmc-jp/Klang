@@ -70,8 +70,6 @@ ast::TranslationUnitPtr Parser::parse_translation_unit() {
   while (auto function = parse_function_definition()) {
     functions.push_back(std::move(function));
   }
-  assert(is_eof());
-  assert(0 < functions.size());
   return make_unique<ast::TranslationUnitData>(std::move(functions));
 }
 
