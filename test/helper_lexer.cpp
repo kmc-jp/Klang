@@ -26,12 +26,6 @@ std::string test::to_string(klang::TokenVector const& vec){
   return os.str();
 }
 
-bool klang::operator==(klang::Token const& lhs, klang::Token const& rhs) {
-  return lhs.type() == rhs.type()
-      && lhs.str()  == rhs.str()
-      && lhs.line() == rhs.line();
-}
-
 std::ostream& operator<<(std::ostream& os, klang::TokenType t){
   return os << test::to_string(t);
 }

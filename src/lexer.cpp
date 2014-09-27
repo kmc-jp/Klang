@@ -180,4 +180,13 @@ TokenVector tokenize(std::istream& is) {
   return tokens;
 }
 
+bool operator==(Token const& lhs, Token const& rhs) {
+  return lhs.type() == rhs.type()
+      && lhs.str()  == rhs.str()
+      && lhs.line() == rhs.line();
+}
+bool operator!=(Token const& lhs, Token const& rhs) {
+  return !( lhs == rhs );
+}
+
 }  // namespace klang

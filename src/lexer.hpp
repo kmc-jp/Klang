@@ -30,6 +30,9 @@ class Token {
   int line_;
 };
 
+bool operator==(Token const& lhs, Token const& rhs);
+bool operator!=(Token const& lhs, Token const& rhs);
+
 typedef std::vector<Token> TokenVector;
 
 TokenVector tokenize(std::istream& is);
