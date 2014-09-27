@@ -199,6 +199,23 @@ ast::IfStatementPtr Parser::parse_else_statement() {
   return nullptr;
 }
 
+ast::WhileStatementPtr Parser::parse_while_statement() {
+  const auto s = snapshot();
+  if (parse_symbol("while") && parse_symbol("(")) {
+    if (auto condition = parse_expression()) {
+      if (parse_symbol(")")) {
+        if (auto compound_statement = parse_compound_statement()) {
+          return make_unique<ast::WhileStatementData>(
+              std::move(condition),
+              std::move(compound_statement));
+        }
+      }
+    }
+  }
+  rewind(s);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
