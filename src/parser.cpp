@@ -36,4 +36,8 @@ bool Parser::advance(int count) {
   return true;
 }
 
+auto Parser::snapshot() const -> Pointer {
+  return current_;
+}
+
 }  // namespace klang
