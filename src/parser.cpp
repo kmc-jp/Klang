@@ -1,5 +1,7 @@
 #include "parser.hpp"
 
+#include "ast_data.hpp"
+
 namespace klang {
 
 Parser::Parser(TokenVector tokens)
@@ -14,6 +16,15 @@ bool Parser::parse_symbol(const char* str) {
     return true;
   } else {
     return false;
+  }
+}
+
+ast::IdentifierPtr Parser::parse_identifier() {
+  if (current_type() == TokenType::IDENTIFIER) {
+    advance(1);
+    return make_unique<ast::IdentifierData>(current_string());
+  } else {
+    return nullptr;
   }
 }
 
