@@ -55,6 +55,15 @@ ast::CharacterLiteralPtr Parser::parse_character_literal() {
   }
 }
 
+ast::StringLiteralPtr Parser::parse_string_literal() {
+  if (current_type() == TokenType::STRING) {
+    advance(1);
+    return make_unique<ast::StringLiteralData>(current_string());
+  } else {
+    return nullptr;
+  }
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }

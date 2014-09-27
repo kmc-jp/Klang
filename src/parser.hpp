@@ -14,6 +14,7 @@ class Parser {
   ast::TypePtr parse_type();
   ast::IntegerLiteralPtr parse_integer_literal();
   ast::CharacterLiteralPtr parse_character_literal();
+  ast::StringLiteralPtr parse_string_literal();
  private:
   using Pointer = TokenVector::const_iterator;
   TokenType current_type() const;
