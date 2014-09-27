@@ -365,8 +365,8 @@ ast::AssignExpressionPtr Parser::parse_assign_expression() {
             std::move(lhs_expression), std::move(rhs_expression));
       }
     } else {
-	  return std::move(lhs_expression);
-	}
+      return std::move(lhs_expression);
+    }
   }
   rewind(snapshot);
   return nullptr;
@@ -441,8 +441,8 @@ ast::ComparativeExpressionPtr Parser::parse_comparative_expression() {
             std::move(lhs_expression), std::move(rhs_expression));
       }
     } else {
-	  return std::move(lhs_expression);
-	}
+      return std::move(lhs_expression);
+    }
   }
   rewind(snapshot);
   return nullptr;
@@ -462,8 +462,8 @@ ast::AdditiveExpressionPtr Parser::parse_additive_expression() {
             std::move(lhs_expression), std::move(rhs_expression));
       }
     } else {
-	  return std::move(lhs_expression);
-	}
+      return std::move(lhs_expression);
+    }
   }
   rewind(snapshot);
   return nullptr;
@@ -488,8 +488,8 @@ ast::MultiplicativeExpressionPtr Parser::parse_multiplicative_expression() {
             std::move(lhs_expression), std::move(rhs_expression));
       }
     } else {
-	  return std::move(lhs_expression);
-	}
+      return std::move(lhs_expression);
+    }
   }
   rewind(snapshot);
   return nullptr;
