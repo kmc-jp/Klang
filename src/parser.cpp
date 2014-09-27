@@ -240,6 +240,19 @@ ast::ForStatementPtr Parser::parse_for_statement() {
   return nullptr;
 }
 
+ast::ReturnStatementPtr Parser::parse_return_statement() {
+  const auto s = snapshot();
+  if (parse_symbol("return")) {
+    if (auto return_value = parse_expression()) {
+      if (parse_symbol(";")) {
+        return make_unique<ast::ReturnStatementData>(std::move(return_value));
+      }
+    }
+  }
+  rewind(s);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
