@@ -12,4 +12,28 @@ bool Parser::is_eof() const {
   return current_ == end(tokens_);
 }
 
+bool Parser::advance(int count) {
+  using std::begin;
+  using std::end;
+  const auto b = begin(tokens_);
+  const auto e = end(tokens_);
+  while (count < 0) {
+    if (current_ != b) {
+      ++count;
+      --current_;
+    } else {
+      return false;
+    }
+  }
+  while (0 < count) {
+    if (current_ != e) {
+      --count;
+      ++current_;
+    } else {
+      return false;
+    }
+  }
+  return true;
+}
+
 }  // namespace klang

@@ -11,6 +11,7 @@ class Parser {
  private:
   using Pointer = TokenVector::const_iterator;
   bool is_eof() const;
+  bool advance(int count);
   const TokenVector tokens_;
   Pointer current_;
 };
