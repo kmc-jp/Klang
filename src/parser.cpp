@@ -37,6 +37,15 @@ ast::TypePtr Parser::parse_type() {
   }
 }
 
+ast::IntegerLiteralPtr Parser::parse_integer_literal() {
+  if (current_type() == TokenType::NUMBER) {
+    advance(1);
+    return make_unique<ast::IntegerLiteralData>(current_string());
+  } else {
+    return nullptr;
+  }
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }

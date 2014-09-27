@@ -12,6 +12,7 @@ class Parser {
   bool parse_symbol(const char* str);
   ast::IdentifierPtr parse_identifier();
   ast::TypePtr parse_type();
+  ast::IntegerLiteralPtr parse_integer_literal();
  private:
   using Pointer = TokenVector::const_iterator;
   TokenType current_type() const;
