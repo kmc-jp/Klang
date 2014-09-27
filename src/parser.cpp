@@ -7,6 +7,16 @@ Parser::Parser(TokenVector tokens)
       current_(std::begin(tokens_))
 {}
 
+bool Parser::parse_symbol(const char* str) {
+  if (current_type() == TokenType::SYMBOL &&
+      current_string() == std::string{str}) {
+    advance(1);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
