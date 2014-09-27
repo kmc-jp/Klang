@@ -153,6 +153,21 @@ ast::StatementPtr Parser::parse_statement() {
   return nullptr;
 }
 
+ast::CompoundStatementPtr Parser::parse_compound_statement() {
+  std::vector<ast::StatementPtr> statements;
+  const auto s = snapshot();
+  if (parse_symbol("{")) {
+    while (auto statement = parse_statement()) {
+      statements.push_back(std::move(statement));
+    }
+    if (parse_symbol("}")) {
+      return make_unique<ast::CompoundStatementData>(std::move(statements));
+    }
+  }
+  rewind(s);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
