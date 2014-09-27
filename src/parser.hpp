@@ -13,6 +13,7 @@ class Parser {
   bool is_eof() const;
   bool advance(int count);
   Pointer snapshot() const;
+  void rewind(Pointer p);
   const TokenVector tokens_;
   Pointer current_;
 };

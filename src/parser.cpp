@@ -40,4 +40,8 @@ auto Parser::snapshot() const -> Pointer {
   return current_;
 }
 
+void Parser::rewind(Pointer p) {
+  current_ = p;
+}
+
 }  // namespace klang
