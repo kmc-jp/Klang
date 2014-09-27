@@ -17,6 +17,8 @@ class Parser {
   ast::StringLiteralPtr parse_string_literal();
   ast::TranslationUnitPtr parse_translation_unit();
   ast::FunctionDefinitionPtr parse_function_definition();
+  ast::ArgumentListPtr parse_argument_list();
+  ast::CompoundStatementPtr parse_compound_statement();
  private:
   using Pointer = TokenVector::const_iterator;
   TokenType current_type() const;
