@@ -11,6 +11,11 @@ TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
 
+std::string Parser::current_string() const {
+  static const std::string empty_string{""};
+  return is_eof() ? empty_string : current_->str();
+}
+
 bool Parser::is_eof() const {
   using std::end;
   return current_ == end(tokens_);

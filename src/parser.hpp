@@ -11,6 +11,7 @@ class Parser {
  private:
   using Pointer = TokenVector::const_iterator;
   TokenType current_type() const;
+  std::string current_string() const;
   bool is_eof() const;
   bool advance(int count);
   Pointer snapshot() const;
