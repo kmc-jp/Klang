@@ -22,6 +22,7 @@ class Parser {
   ast::StatementPtr parse_statement();
   ast::CompoundStatementPtr parse_compound_statement();
   ast::IfStatementPtr parse_if_statement();
+  ast::IfStatementPtr parse_else_statement();
   ast::WhileStatementPtr parse_while_statement();
   ast::ForStatementPtr parse_for_statement();
   ast::ReturnStatementPtr parse_return_statement();
@@ -29,6 +30,7 @@ class Parser {
   ast::ContinueStatementPtr parse_continue_statement();
   ast::VariableDefinitionStatementPtr parse_variable_definition_statement();
   ast::ExpressionStatementPtr parse_expression_statement();
+  ast::ExpressionPtr parse_expression();
  private:
   using Pointer = TokenVector::const_iterator;
   TokenType current_type() const;
