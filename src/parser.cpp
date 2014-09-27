@@ -284,6 +284,28 @@ Parser::parse_variable_definition_statement() {
   return nullptr;
 }
 
+ast::VariableDefinitionPtr Parser::parse_variable_definition() {
+  const auto s = snapshot();
+  if (parse_symbol("def")) {
+    if (auto type_name = parse_type()) {
+      const bool is_mutable = parse_symbol("var");
+      if (auto variable_name = parse_identifier()) {
+        if (parse_symbol(":=")) {
+          if (auto expression = parse_expression()) {
+            return make_unique<ast::VariableDefinitionData>(
+                std::move(type_name),
+                is_mutable,
+                std::move(variable_name),
+                std::move(expression));
+          }
+        }
+      }
+    }
+  }
+  rewind(s);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
