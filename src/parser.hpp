@@ -32,6 +32,7 @@ class Parser {
   ast::VariableDefinitionPtr parse_variable_definition();
   ast::ExpressionStatementPtr parse_expression_statement();
   ast::ExpressionPtr parse_expression();
+  ast::AssignExpressionPtr parse_assign_expression();
  private:
   using Pointer = TokenVector::const_iterator;
   TokenType current_type() const;

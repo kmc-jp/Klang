@@ -316,6 +316,10 @@ ast::ExpressionStatementPtr Parser::parse_expression_statement() {
   return nullptr;
 }
 
+ast::ExpressionPtr Parser::parse_expression() {
+  return parse_assign_expression();
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
