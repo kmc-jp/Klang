@@ -64,6 +64,14 @@ ast::StringLiteralPtr Parser::parse_string_literal() {
   }
 }
 
+ast::TranslationUnitPtr Parser::parse_translation_unit() {
+  std::vector<ast::FunctionDefinitionPtr> functions;
+  while (auto function = parse_function_definition()) {
+    functions.push_back(std::move(function));
+  }
+  return make_unique<ast::TranslationUnitData>(std::move(functions));
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
