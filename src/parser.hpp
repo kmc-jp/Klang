@@ -29,6 +29,7 @@ class Parser {
   ast::BreakStatementPtr parse_break_statement();
   ast::ContinueStatementPtr parse_continue_statement();
   ast::VariableDefinitionStatementPtr parse_variable_definition_statement();
+  ast::VariableDefinitionPtr parse_variable_definition();
   ast::ExpressionStatementPtr parse_expression_statement();
   ast::ExpressionPtr parse_expression();
  private:

@@ -271,6 +271,19 @@ ast::ContinueStatementPtr Parser::parse_continue_statement() {
   return nullptr;
 }
 
+ast::VariableDefinitionStatementPtr
+Parser::parse_variable_definition_statement() {
+  const auto s = snapshot();
+  if (auto variable_definition = parse_variable_definition()) {
+    if (parse_symbol(";")) {
+      return make_unique<ast::VariableDefinitionStatementData>(
+          std::move(variable_definition));
+    }
+  }
+  rewind(s);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
