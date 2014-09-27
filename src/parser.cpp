@@ -28,6 +28,15 @@ ast::IdentifierPtr Parser::parse_identifier() {
   }
 }
 
+ast::TypePtr Parser::parse_type() {
+  if (current_type() == TokenType::SYMBOL) {
+    advance(1);
+    return make_unique<ast::TypeData>(current_string());
+  } else {
+    return nullptr;
+  }
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
