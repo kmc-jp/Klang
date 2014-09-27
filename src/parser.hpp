@@ -10,6 +10,7 @@ class Parser {
   Parser(TokenVector tokens);
  private:
   using Pointer = TokenVector::const_iterator;
+  bool is_eof() const;
   const TokenVector tokens_;
   Pointer current_;
 };
