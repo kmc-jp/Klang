@@ -11,17 +11,18 @@ TEST(lexer, emptySource) {
 
 TEST(lexer, hello) {
   std::stringstream is;
-  std::string nl("\n");
-  is << "{~" << nl
-     << "  とりあえずのデバッグ用" << nl
-     << "  まだdeclareもstringもない" << nl
-     << "  declare print(string) -> ();" << nl
-     << "~}" << nl
-     << "" << nl
-     << "def main() -> (int) {" << nl
-     << "  print(\"Hello, World!\\n\");" << nl
-     << "  return 0;" << nl
-     << "}" << nl;
+  is <<
+R"({~
+  とりあえずのデバッグ用
+  まだdeclareもstringもない
+  declare print(string) -> ();
+~}
+
+def main() -> (int) {
+  print("Hello, World!\n");
+  return 0;
+}
+)";
   auto tokens = klang::tokenize(is);
   using T = klang::Token;
   using klang::TokenType;
