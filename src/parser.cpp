@@ -557,6 +557,32 @@ ast::ParameterPtr Parser::parse_parameter() {
   return nullptr;
 }
 
+ast::PrimaryExpressionPtr Parser::parse_primary_expression() {
+  const auto s = snapshot();
+  if (parse_symbol("(")) {
+    if (auto expression = parse_expression()) {
+      if (parse_symbol(")")) {
+        return make_unique<ast::ParenthesizedExpressionData>(
+            std::move(expression));
+      }
+    }
+    rewind(s);
+  } else if (auto identifier = parse_identifier()) {
+    return make_unique<ast::IdentifierExpressionData>(
+        std::move(identifier));
+  } else if (auto integer_literal = parse_integer_literal()) {
+    return make_unique<ast::IntegerLiteralExpressionData>(
+        std::move(integer_literal));
+  } else if (auto character_literal = parse_character_literal()) {
+    return make_unique<ast::CharacterLiteralExpressionData>(
+        std::move(character_literal));
+  } else if (auto string_literal = parse_string_literal()) {
+    return make_unique<ast::StringLiteralExpressionData>(
+        std::move(string_literal));
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
