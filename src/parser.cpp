@@ -531,6 +531,25 @@ ast::PostfixExpressionPtr Parser::parse_function_call_expression() {
   return nullptr;
 }
 
+ast::ParameterListPtr Parser::parse_parameter_list() {
+  std::vector<ast::ParameterPtr> parameters;
+  if (auto first_parameter = parse_parameter()) {
+    parameters.push_back(std::move(first_parameter));
+    while (true) {
+      const auto s = snapshot();
+      if (parse_symbol(",")) {
+        if (auto parameter = parse_parameter()) {
+          parameters.push_back(std::move(parameter));
+          continue;
+        }
+      }
+      rewind(s);
+      break;
+    }
+  }
+  return make_unique<ast::ParameterListData>(std::move(parameters));
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
