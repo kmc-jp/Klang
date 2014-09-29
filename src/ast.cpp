@@ -39,15 +39,6 @@ Statement::~Statement()
 CompoundStatement::~CompoundStatement()
 {}
 
-ExpressionStatement::~ExpressionStatement()
-{}
-
-VariableDefinitionStatement::~VariableDefinitionStatement()
-{}
-
-VariableDefinition::~VariableDefinition()
-{}
-
 IfStatement::~IfStatement()
 {}
 
@@ -64,6 +55,15 @@ BreakStatement::~BreakStatement()
 {}
 
 ContinueStatement::~ContinueStatement()
+{}
+
+VariableDefinitionStatement::~VariableDefinitionStatement()
+{}
+
+VariableDefinition::~VariableDefinition()
+{}
+
+ExpressionStatement::~ExpressionStatement()
 {}
 
 Expression::~Expression()

@@ -18,15 +18,15 @@ class ArgumentList;
 class Argument;
 class Statement;
 class CompoundStatement;
-class ExpressionStatement;
-class VariableDefinitionStatement;
-class VariableDefinition;
 class IfStatement;
 class WhileStatement;
 class ForStatement;
 class ReturnStatement;
 class BreakStatement;
 class ContinueStatement;
+class VariableDefinitionStatement;
+class VariableDefinition;
+class ExpressionStatement;
 class Expression;
 class AssignExpression;
 class OrExpression;
@@ -52,16 +52,16 @@ using ArgumentListPtr = std::unique_ptr<ArgumentList>;
 using ArgumentPtr = std::unique_ptr<Argument>;
 using StatementPtr = std::unique_ptr<Statement>;
 using CompoundStatementPtr = std::unique_ptr<CompoundStatement>;
-using ExpressionStatementPtr = std::unique_ptr<ExpressionStatement>;
-using VariableDefinitionStatementPtr =
-    std::unique_ptr<VariableDefinitionStatement>;
-using VariableDefinitionPtr = std::unique_ptr<VariableDefinition>;
 using IfStatementPtr = std::unique_ptr<IfStatement>;
 using WhileStatementPtr = std::unique_ptr<WhileStatement>;
 using ForStatementPtr = std::unique_ptr<ForStatement>;
 using ReturnStatementPtr = std::unique_ptr<ReturnStatement>;
 using BreakStatementPtr = std::unique_ptr<BreakStatement>;
 using ContinueStatementPtr = std::unique_ptr<ContinueStatement>;
+using VariableDefinitionStatementPtr =
+    std::unique_ptr<VariableDefinitionStatement>;
+using VariableDefinitionPtr = std::unique_ptr<VariableDefinition>;
+using ExpressionStatementPtr = std::unique_ptr<ExpressionStatement>;
 using ExpressionPtr = std::unique_ptr<Expression>;
 using AssignExpressionPtr = std::unique_ptr<AssignExpression>;
 using OrExpressionPtr = std::unique_ptr<OrExpression>;
@@ -135,21 +135,6 @@ class CompoundStatement : public Statement {
   virtual ~CompoundStatement() = 0;
 };
 
-class ExpressionStatement : public Statement {
- public:
-  virtual ~ExpressionStatement() = 0;
-};
-
-class VariableDefinitionStatement : public Statement {
- public:
-  virtual ~VariableDefinitionStatement() = 0;
-};
-
-class VariableDefinition : public Base {
- public:
-  virtual ~VariableDefinition() = 0;
-};
-
 class IfStatement : public Statement {
  public:
   virtual ~IfStatement() = 0;
@@ -178,6 +163,21 @@ class BreakStatement : public Statement {
 class ContinueStatement : public Statement {
  public:
   virtual ~ContinueStatement() = 0;
+};
+
+class VariableDefinitionStatement : public Statement {
+ public:
+  virtual ~VariableDefinitionStatement() = 0;
+};
+
+class VariableDefinition : public Base {
+ public:
+  virtual ~VariableDefinition() = 0;
+};
+
+class ExpressionStatement : public Statement {
+ public:
+  virtual ~ExpressionStatement() = 0;
 };
 
 class Expression : public Base {
