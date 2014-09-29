@@ -488,6 +488,24 @@ ast::MultiplicativeExpressionPtr Parser::parse_multiplicative_expression() {
   return nullptr;
 }
 
+ast::UnaryExpressionPtr Parser::parse_unary_expression() {
+  const auto s = snapshot();
+  if (parse_symbol("not")) {
+    if (auto unary_expression = parse_unary_expression()) {
+      return make_unique<ast::NotExpressionData>(std::move(unary_expression));
+    }
+    rewind(s);
+  } else if (parse_symbol("~")) {
+    if (auto unary_expression = parse_unary_expression()) {
+      return make_unique<ast::MinusExpressionData>(std::move(unary_expression));
+    }
+    rewind(s);
+  } else if (auto postfix_expression = parse_postfix_expression()) {
+    return std::move(postfix_expression);
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
