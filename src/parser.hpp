@@ -38,6 +38,7 @@ class Parser {
   ast::ComparativeExpressionPtr parse_comparative_expression();
   ast::AdditiveExpressionPtr parse_additive_expression();
   ast::MultiplicativeExpressionPtr parse_multiplicative_expression();
+  ast::UnaryExpressionPtr parse_unary_expression();
  private:
   using Pointer = TokenVector::const_iterator;
   TokenType current_type() const;

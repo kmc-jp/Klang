@@ -461,6 +461,33 @@ ast::AdditiveExpressionPtr Parser::parse_additive_expression() {
   return nullptr;
 }
 
+ast::MultiplicativeExpressionPtr Parser::parse_multiplicative_expression() {
+  if (auto lhs_expression = parse_unary_expression()) {
+    const auto s = snapshot();
+    if (parse_symbol("*")) {
+      if (auto rhs_expression = parse_multiplicative_expression()) {
+        return make_unique<ast::MultiplyExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if (parse_symbol("/")) {
+      if (auto rhs_expression = parse_multiplicative_expression()) {
+        return make_unique<ast::DivideExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if (parse_symbol("%")) {
+      if (auto rhs_expression = parse_multiplicative_expression()) {
+        return make_unique<ast::ModuloExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    }
+    return std::move(lhs_expression);
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
