@@ -320,6 +320,51 @@ ast::ExpressionPtr Parser::parse_expression() {
   return parse_assign_expression();
 }
 
+ast::AssignExpressionPtr Parser::parse_assign_expression() {
+  if (auto lhs_expression = parse_or_expression()) {
+    const auto s = snapshot();
+    if (parse_symbol(":=")) {
+      if (auto rhs_expression = parse_or_expression()) {
+        return make_unique<ast::AssignExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if(parse_symbol(":+=")) {
+      if (auto rhs_expression = parse_or_expression()) {
+        return make_unique<ast::AddAssignExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if(parse_symbol(":-=")) {
+      if (auto rhs_expression = parse_or_expression()) {
+        return make_unique<ast::SubtractAssignExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if(parse_symbol(":*=")) {
+      if (auto rhs_expression = parse_or_expression()) {
+        return make_unique<ast::MultiplyAssignExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if(parse_symbol(":/=")) {
+      if (auto rhs_expression = parse_or_expression()) {
+        return make_unique<ast::DivideAssignExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if(parse_symbol(":%=")) {
+      if (auto rhs_expression = parse_or_expression()) {
+        return make_unique<ast::ModuloAssignExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    }
+    return std::move(lhs_expression);
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
