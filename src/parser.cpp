@@ -515,7 +515,7 @@ ast::PostfixExpressionPtr Parser::parse_postfix_expression() {
   return nullptr;
 }
 
-ast::PostfixExpressionPtr Parser::parse_function_call_expression() {
+ast::FunctionCallExpressionPtr Parser::parse_function_call_expression() {
   const auto s = snapshot();
   if (auto function_name = parse_identifier()) {
     if (parse_symbol("(")) {

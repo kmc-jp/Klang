@@ -352,7 +352,7 @@ class MinusExpressionData : public UnaryExpression {
   UnaryExpressionPtr unary_expression_;
 };
 
-class FunctionCallExpressionData : public PostfixExpression {
+class FunctionCallExpressionData : public FunctionCallExpression {
  public:
   FunctionCallExpressionData(IdentifierPtr function_name,
                              ParameterListPtr parameter_list);

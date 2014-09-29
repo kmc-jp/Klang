@@ -36,6 +36,7 @@ class AdditiveExpression;
 class MultiplicativeExpression;
 class UnaryExpression;
 class PostfixExpression;
+class FunctionCallExpression;
 class ParameterList;
 class Parameter;
 class PrimaryExpression;
@@ -71,6 +72,7 @@ using AdditiveExpressionPtr = std::unique_ptr<AdditiveExpression>;
 using MultiplicativeExpressionPtr = std::unique_ptr<MultiplicativeExpression>;
 using UnaryExpressionPtr = std::unique_ptr<UnaryExpression>;
 using PostfixExpressionPtr = std::unique_ptr<PostfixExpression>;
+using FunctionCallExpressionPtr = std::unique_ptr<FunctionCallExpression>;
 using ParameterListPtr = std::unique_ptr<ParameterList>;
 using ParameterPtr = std::unique_ptr<Parameter>;
 using PrimaryExpressionPtr = std::unique_ptr<PrimaryExpression>;
@@ -223,6 +225,11 @@ class UnaryExpression : public MultiplicativeExpression {
 class PostfixExpression : public UnaryExpression {
  public:
   virtual ~PostfixExpression() = 0;
+};
+
+class FunctionCallExpression : public PostfixExpression {
+ public:
+  virtual ~FunctionCallExpression() = 0;
 };
 
 class ParameterList : public Base {
