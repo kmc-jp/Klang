@@ -515,6 +515,22 @@ ast::PostfixExpressionPtr Parser::parse_postfix_expression() {
   return nullptr;
 }
 
+ast::PostfixExpressionPtr Parser::parse_function_call_expression() {
+  const auto s = snapshot();
+  if (auto function_name = parse_identifier()) {
+    if (parse_symbol("(")) {
+      if (auto parameter_list = parse_parameter_list()) {
+        if (parse_symbol(")")) {
+          return make_unique<ast::FunctionCallData>(
+              std::move(function_name), std::move(parameter_list));
+        }
+      }
+    }
+  }
+  rewind(s);
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
