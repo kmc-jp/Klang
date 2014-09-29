@@ -506,6 +506,15 @@ ast::UnaryExpressionPtr Parser::parse_unary_expression() {
   return nullptr;
 }
 
+ast::PostfixExpressionPtr Parser::parse_postfix_expression() {
+  if (auto postfix_expression = parse_function_call_expression()) {
+    return std::move(postfix_expression);
+  } else if (auto primary_expression = parse_primary_expression()) {
+    return std::move(primary_expression);
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }

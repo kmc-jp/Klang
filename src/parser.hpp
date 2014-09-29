@@ -40,6 +40,8 @@ class Parser {
   ast::MultiplicativeExpressionPtr parse_multiplicative_expression();
   ast::UnaryExpressionPtr parse_unary_expression();
   ast::PostfixExpressionPtr parse_postfix_expression();
+  ast::PostfixExpressionPtr parse_function_call_expression();
+  ast::PrimaryExpressionPtr parse_primary_expression();
  private:
   using Pointer = TokenVector::const_iterator;
   TokenType current_type() const;
