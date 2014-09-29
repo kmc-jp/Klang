@@ -352,10 +352,10 @@ class MinusExpressionData : public UnaryExpression {
   UnaryExpressionPtr unary_expression_;
 };
 
-class FunctionCallData : public PostfixExpression {
+class FunctionCallExpressionData : public PostfixExpression {
  public:
-  FunctionCallData(IdentifierPtr function_name,
-                   ParameterListPtr parameter_list);
+  FunctionCallExpressionData(IdentifierPtr function_name,
+                             ParameterListPtr parameter_list);
  private:
   IdentifierPtr function_name_;
   ParameterListPtr parameter_list_;

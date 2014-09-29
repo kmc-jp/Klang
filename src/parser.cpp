@@ -521,7 +521,7 @@ ast::PostfixExpressionPtr Parser::parse_function_call_expression() {
     if (parse_symbol("(")) {
       if (auto parameter_list = parse_parameter_list()) {
         if (parse_symbol(")")) {
-          return make_unique<ast::FunctionCallData>(
+          return make_unique<ast::FunctionCallExpressionData>(
               std::move(function_name), std::move(parameter_list));
         }
       }

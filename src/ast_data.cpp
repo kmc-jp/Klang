@@ -241,8 +241,9 @@ MinusExpressionData::MinusExpressionData(UnaryExpressionPtr unary_expression)
     : unary_expression_(std::move(unary_expression))
 {}
 
-FunctionCallData::FunctionCallData(IdentifierPtr function_name,
-                                   ParameterListPtr parameter_list)
+FunctionCallExpressionData::FunctionCallExpressionData(
+    IdentifierPtr function_name,
+    ParameterListPtr parameter_list)
     : function_name_(std::move(function_name)),
       parameter_list_(std::move(parameter_list))
 {}
