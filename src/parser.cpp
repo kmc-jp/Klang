@@ -440,6 +440,27 @@ ast::ComparativeExpressionPtr Parser::parse_comparative_expression() {
   return nullptr;
 }
 
+ast::AdditiveExpressionPtr Parser::parse_additive_expression() {
+  if (auto lhs_expression = parse_multiplicative_expression()) {
+    const auto s = snapshot();
+    if (parse_symbol("+")) {
+      if (auto rhs_expression = parse_additive_expression()) {
+        return make_unique<ast::AddExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if (parse_symbol("-")) {
+      if (auto rhs_expression = parse_additive_expression()) {
+        return make_unique<ast::SubtractExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    }
+    return std::move(lhs_expression);
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
