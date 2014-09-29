@@ -395,6 +395,51 @@ ast::AndExpressionPtr Parser::parse_and_expression() {
   return nullptr;
 }
 
+ast::ComparativeExpressionPtr Parser::parse_comparative_expression() {
+  if (auto lhs_expression = parse_additive_expression()) {
+    const auto s = snapshot();
+    if (parse_symbol("=")) {
+      if (auto rhs_expression = parse_additive_expression()) {
+        return make_unique<ast::EqualExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if (parse_symbol("=/")) {
+      if (auto rhs_expression = parse_additive_expression()) {
+        return make_unique<ast::NotEqualExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if (parse_symbol("<")) {
+      if (auto rhs_expression = parse_additive_expression()) {
+        return make_unique<ast::LessExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if (parse_symbol(">")) {
+      if (auto rhs_expression = parse_additive_expression()) {
+        return make_unique<ast::GreaterExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if (parse_symbol("<=")) {
+      if (auto rhs_expression = parse_additive_expression()) {
+        return make_unique<ast::LessOrEqualExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    } else if (parse_symbol(">=")) {
+      if (auto rhs_expression = parse_additive_expression()) {
+        return make_unique<ast::GreaterOrEqualExpressionData>(
+            std::move(lhs_expression), std::move(rhs_expression));
+      }
+      rewind(s);
+    }
+    return std::move(lhs_expression);
+  }
+  return nullptr;
+}
+
 TokenType Parser::current_type() const {
   return is_eof() ? TokenType::IGNORE : current_->type();
 }
