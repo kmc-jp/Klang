@@ -1,7 +1,5 @@
 #include "ast_data.hpp"
 
-#include <cassert>
-
 namespace klang {
 namespace ast {
 
@@ -28,7 +26,6 @@ StringLiteralData::StringLiteralData(const std::string& string_literal)
 TranslationUnitData::TranslationUnitData(
     std::vector<FunctionDefinitionPtr> functions)
     : functions_(std::move(functions)) {
-  assert(1 <= functions_.size());
 }
 
 FunctionDefinitionData::FunctionDefinitionData(
