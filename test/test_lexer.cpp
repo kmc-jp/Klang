@@ -50,3 +50,24 @@ def main() -> (int) {
   for(size_t i(0); i < expect.size(); ++i)
     EXPECT_EQ(expect[i], tokens[i]);
 }
+
+TEST(lexer, comment1) {
+  std::stringstream is;
+  is <<
+R"(
+{~ comment
+  {~ nest ~}
+~}
+def placeholder
+)";
+  auto tokens = klang::tokenize(is);
+  using T = klang::Token;
+  using klang::TokenType;
+  klang::TokenVector const expect = {
+      T{TokenType::SYMBOL, "def", 5},
+      T{TokenType::IDENTIFIER, "placeholder", 5},
+  };
+  ASSERT_EQ(expect.size(), tokens.size());
+  for(size_t i(0); i < expect.size(); ++i)
+    EXPECT_EQ(expect[i], tokens[i]);
+}

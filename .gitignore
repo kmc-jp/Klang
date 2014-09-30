@@ -63,4 +63,5 @@ src/klang
 /test/test_nothing
 /test/test_sample1
 /test/test_lexer
+/test/test_lexer_fail
 /test/test_parser
