@@ -85,33 +85,6 @@ class CompoundStatementData : public CompoundStatement {
   std::vector<StatementPtr> statements_;
 };
 
-class ExpressionStatementData : public ExpressionStatement {
- public:
-  ExpressionStatementData(ExpressionPtr expression);
- private:
-  ExpressionPtr expression_;
-};
-
-class VariableDefinitionStatementData : public VariableDefinitionStatement {
- public:
-  VariableDefinitionStatementData(VariableDefinitionPtr variable_definition);
- private:
-  VariableDefinitionPtr variable_definition_;
-};
-
-class VariableDefinitionData : public VariableDefinition {
- public:
-  VariableDefinitionData(TypePtr type_name,
-                         bool is_mutable,
-                         IdentifierPtr variable_name,
-                         ExpressionPtr expression);
- private:
-  TypePtr type_name_;
-  bool is_mutable_;
-  IdentifierPtr variable_name_;
-  ExpressionPtr expression_;
-};
-
 class IfStatementData : public IfStatement {
  public:
   IfStatementData(ExpressionPtr condition,
@@ -165,6 +138,33 @@ class BreakStatementData : public BreakStatement {
 class ContinueStatementData : public ContinueStatement {
  public:
   ContinueStatementData();
+};
+
+class VariableDefinitionStatementData : public VariableDefinitionStatement {
+ public:
+  VariableDefinitionStatementData(VariableDefinitionPtr variable_definition);
+ private:
+  VariableDefinitionPtr variable_definition_;
+};
+
+class VariableDefinitionData : public VariableDefinition {
+ public:
+  VariableDefinitionData(TypePtr type_name,
+                         bool is_mutable,
+                         IdentifierPtr variable_name,
+                         ExpressionPtr expression);
+ private:
+  TypePtr type_name_;
+  bool is_mutable_;
+  IdentifierPtr variable_name_;
+  ExpressionPtr expression_;
+};
+
+class ExpressionStatementData : public ExpressionStatement {
+ public:
+  ExpressionStatementData(ExpressionPtr expression);
+ private:
+  ExpressionPtr expression_;
 };
 
 class AssignExpressionData : public AssignExpression {

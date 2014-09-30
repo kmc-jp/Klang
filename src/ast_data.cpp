@@ -56,26 +56,6 @@ CompoundStatementData::CompoundStatementData(
     : statements_(std::move(statements))
 {}
 
-ExpressionStatementData::ExpressionStatementData(ExpressionPtr expression)
-    : expression_(std::move(expression))
-{}
-
-VariableDefinitionStatementData::VariableDefinitionStatementData(
-    VariableDefinitionPtr variable_definition)
-    : variable_definition_(std::move(variable_definition))
-{}
-
-VariableDefinitionData::VariableDefinitionData(
-    TypePtr type_name,
-    bool is_mutable,
-    IdentifierPtr variable_name,
-    ExpressionPtr expression)
-    : type_name_(std::move(type_name)),
-      is_mutable_(is_mutable),
-      variable_name_(std::move(variable_name)),
-      expression_(std::move(expression))
-{}
-
 IfStatementData::IfStatementData(ExpressionPtr condition,
                                  CompoundStatementPtr compound_statement,
                                  IfStatementPtr else_statement)
@@ -112,6 +92,26 @@ BreakStatementData::BreakStatementData()
 {}
 
 ContinueStatementData::ContinueStatementData()
+{}
+
+VariableDefinitionStatementData::VariableDefinitionStatementData(
+    VariableDefinitionPtr variable_definition)
+    : variable_definition_(std::move(variable_definition))
+{}
+
+VariableDefinitionData::VariableDefinitionData(
+    TypePtr type_name,
+    bool is_mutable,
+    IdentifierPtr variable_name,
+    ExpressionPtr expression)
+    : type_name_(std::move(type_name)),
+      is_mutable_(is_mutable),
+      variable_name_(std::move(variable_name)),
+      expression_(std::move(expression))
+{}
+
+ExpressionStatementData::ExpressionStatementData(ExpressionPtr expression)
+    : expression_(std::move(expression))
 {}
 
 AssignExpressionData::AssignExpressionData(
