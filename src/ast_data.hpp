@@ -89,14 +89,14 @@ class IfStatementData : public IfStatement {
  public:
   IfStatementData(ExpressionPtr condition,
                   CompoundStatementPtr compound_statement,
-                  IfStatementPtr else_statement);
+                  ElseStatementPtr else_statement);
  private:
   ExpressionPtr condition_;
   CompoundStatementPtr then_block_;
-  IfStatementPtr else_block_;
+  ElseStatementPtr else_block_;
 };
 
-class ElseStatementData : public IfStatement {
+class ElseStatementData : public ElseStatement {
  public:
   ElseStatementData(CompoundStatementPtr compound_statement);
  private:
@@ -352,10 +352,10 @@ class MinusExpressionData : public UnaryExpression {
   UnaryExpressionPtr unary_expression_;
 };
 
-class FunctionCallData : public PostfixExpression {
+class FunctionCallExpressionData : public FunctionCallExpression {
  public:
-  FunctionCallData(IdentifierPtr function_name,
-                   ParameterListPtr parameter_list);
+  FunctionCallExpressionData(IdentifierPtr function_name,
+                             ParameterListPtr parameter_list);
  private:
   IdentifierPtr function_name_;
   ParameterListPtr parameter_list_;

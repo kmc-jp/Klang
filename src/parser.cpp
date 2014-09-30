@@ -186,7 +186,7 @@ ast::IfStatementPtr Parser::parse_if_statement() {
   return nullptr;
 }
 
-ast::IfStatementPtr Parser::parse_else_statement() {
+ast::ElseStatementPtr Parser::parse_else_statement() {
   const auto s = snapshot();
   if (parse_symbol("else")) {
     if (auto else_if_statement = parse_if_statement()) {
@@ -515,13 +515,13 @@ ast::PostfixExpressionPtr Parser::parse_postfix_expression() {
   return nullptr;
 }
 
-ast::PostfixExpressionPtr Parser::parse_function_call_expression() {
+ast::FunctionCallExpressionPtr Parser::parse_function_call_expression() {
   const auto s = snapshot();
   if (auto function_name = parse_identifier()) {
     if (parse_symbol("(")) {
       if (auto parameter_list = parse_parameter_list()) {
         if (parse_symbol(")")) {
-          return make_unique<ast::FunctionCallData>(
+          return make_unique<ast::FunctionCallExpressionData>(
               std::move(function_name), std::move(parameter_list));
         }
       }

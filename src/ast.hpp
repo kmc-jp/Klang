@@ -19,6 +19,7 @@ class Argument;
 class Statement;
 class CompoundStatement;
 class IfStatement;
+class ElseStatement;
 class WhileStatement;
 class ForStatement;
 class ReturnStatement;
@@ -36,6 +37,7 @@ class AdditiveExpression;
 class MultiplicativeExpression;
 class UnaryExpression;
 class PostfixExpression;
+class FunctionCallExpression;
 class ParameterList;
 class Parameter;
 class PrimaryExpression;
@@ -53,6 +55,7 @@ using ArgumentPtr = std::unique_ptr<Argument>;
 using StatementPtr = std::unique_ptr<Statement>;
 using CompoundStatementPtr = std::unique_ptr<CompoundStatement>;
 using IfStatementPtr = std::unique_ptr<IfStatement>;
+using ElseStatementPtr = std::unique_ptr<ElseStatement>;
 using WhileStatementPtr = std::unique_ptr<WhileStatement>;
 using ForStatementPtr = std::unique_ptr<ForStatement>;
 using ReturnStatementPtr = std::unique_ptr<ReturnStatement>;
@@ -71,6 +74,7 @@ using AdditiveExpressionPtr = std::unique_ptr<AdditiveExpression>;
 using MultiplicativeExpressionPtr = std::unique_ptr<MultiplicativeExpression>;
 using UnaryExpressionPtr = std::unique_ptr<UnaryExpression>;
 using PostfixExpressionPtr = std::unique_ptr<PostfixExpression>;
+using FunctionCallExpressionPtr = std::unique_ptr<FunctionCallExpression>;
 using ParameterListPtr = std::unique_ptr<ParameterList>;
 using ParameterPtr = std::unique_ptr<Parameter>;
 using PrimaryExpressionPtr = std::unique_ptr<PrimaryExpression>;
@@ -135,7 +139,12 @@ class CompoundStatement : public Statement {
   virtual ~CompoundStatement() = 0;
 };
 
-class IfStatement : public Statement {
+class ElseStatement : public Statement {
+ public:
+  virtual ~ElseStatement() = 0;
+};
+
+class IfStatement : public ElseStatement {
  public:
   virtual ~IfStatement() = 0;
 };
@@ -223,6 +232,11 @@ class UnaryExpression : public MultiplicativeExpression {
 class PostfixExpression : public UnaryExpression {
  public:
   virtual ~PostfixExpression() = 0;
+};
+
+class FunctionCallExpression : public PostfixExpression {
+ public:
+  virtual ~FunctionCallExpression() = 0;
 };
 
 class ParameterList : public Base {

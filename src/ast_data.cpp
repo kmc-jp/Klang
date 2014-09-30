@@ -1,7 +1,5 @@
 #include "ast_data.hpp"
 
-#include <cassert>
-
 namespace klang {
 namespace ast {
 
@@ -28,7 +26,6 @@ StringLiteralData::StringLiteralData(const std::string& string_literal)
 TranslationUnitData::TranslationUnitData(
     std::vector<FunctionDefinitionPtr> functions)
     : functions_(std::move(functions)) {
-  assert(1 <= functions_.size());
 }
 
 FunctionDefinitionData::FunctionDefinitionData(
@@ -58,7 +55,7 @@ CompoundStatementData::CompoundStatementData(
 
 IfStatementData::IfStatementData(ExpressionPtr condition,
                                  CompoundStatementPtr compound_statement,
-                                 IfStatementPtr else_statement)
+                                 ElseStatementPtr else_statement)
     : condition_(std::move(condition)),
       then_block_(std::move(compound_statement)),
       else_block_(std::move(else_statement))
@@ -241,8 +238,9 @@ MinusExpressionData::MinusExpressionData(UnaryExpressionPtr unary_expression)
     : unary_expression_(std::move(unary_expression))
 {}
 
-FunctionCallData::FunctionCallData(IdentifierPtr function_name,
-                                   ParameterListPtr parameter_list)
+FunctionCallExpressionData::FunctionCallExpressionData(
+    IdentifierPtr function_name,
+    ParameterListPtr parameter_list)
     : function_name_(std::move(function_name)),
       parameter_list_(std::move(parameter_list))
 {}

@@ -39,6 +39,9 @@ Statement::~Statement()
 CompoundStatement::~CompoundStatement()
 {}
 
+ElseStatement::~ElseStatement()
+{}
+
 IfStatement::~IfStatement()
 {}
 
@@ -91,6 +94,9 @@ UnaryExpression::~UnaryExpression()
 {}
 
 PostfixExpression::~PostfixExpression()
+{}
+
+FunctionCallExpression::~FunctionCallExpression()
 {}
 
 ParameterList::~ParameterList()

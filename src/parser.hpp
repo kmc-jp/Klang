@@ -22,7 +22,7 @@ class Parser {
   ast::StatementPtr parse_statement();
   ast::CompoundStatementPtr parse_compound_statement();
   ast::IfStatementPtr parse_if_statement();
-  ast::IfStatementPtr parse_else_statement();
+  ast::ElseStatementPtr parse_else_statement();
   ast::WhileStatementPtr parse_while_statement();
   ast::ForStatementPtr parse_for_statement();
   ast::ReturnStatementPtr parse_return_statement();
@@ -40,7 +40,7 @@ class Parser {
   ast::MultiplicativeExpressionPtr parse_multiplicative_expression();
   ast::UnaryExpressionPtr parse_unary_expression();
   ast::PostfixExpressionPtr parse_postfix_expression();
-  ast::PostfixExpressionPtr parse_function_call_expression();
+  ast::FunctionCallExpressionPtr parse_function_call_expression();
   ast::ParameterListPtr parse_parameter_list();
   ast::ParameterPtr parse_parameter();
   ast::PrimaryExpressionPtr parse_primary_expression();
