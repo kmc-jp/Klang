@@ -186,7 +186,7 @@ ast::IfStatementPtr Parser::parse_if_statement() {
   return nullptr;
 }
 
-ast::IfStatementPtr Parser::parse_else_statement() {
+ast::ElseStatementPtr Parser::parse_else_statement() {
   const auto s = snapshot();
   if (parse_symbol("else")) {
     if (auto else_if_statement = parse_if_statement()) {

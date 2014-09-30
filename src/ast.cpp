@@ -39,6 +39,9 @@ Statement::~Statement()
 CompoundStatement::~CompoundStatement()
 {}
 
+ElseStatement::~ElseStatement()
+{}
+
 IfStatement::~IfStatement()
 {}
 

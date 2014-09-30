@@ -19,6 +19,7 @@ class Argument;
 class Statement;
 class CompoundStatement;
 class IfStatement;
+class ElseStatement;
 class WhileStatement;
 class ForStatement;
 class ReturnStatement;
@@ -54,6 +55,7 @@ using ArgumentPtr = std::unique_ptr<Argument>;
 using StatementPtr = std::unique_ptr<Statement>;
 using CompoundStatementPtr = std::unique_ptr<CompoundStatement>;
 using IfStatementPtr = std::unique_ptr<IfStatement>;
+using ElseStatementPtr = std::unique_ptr<ElseStatement>;
 using WhileStatementPtr = std::unique_ptr<WhileStatement>;
 using ForStatementPtr = std::unique_ptr<ForStatement>;
 using ReturnStatementPtr = std::unique_ptr<ReturnStatement>;
@@ -137,7 +139,12 @@ class CompoundStatement : public Statement {
   virtual ~CompoundStatement() = 0;
 };
 
-class IfStatement : public Statement {
+class ElseStatement : public Statement {
+ public:
+  virtual ~ElseStatement() = 0;
+};
+
+class IfStatement : public ElseStatement {
  public:
   virtual ~IfStatement() = 0;
 };

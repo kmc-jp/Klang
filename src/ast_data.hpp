@@ -89,14 +89,14 @@ class IfStatementData : public IfStatement {
  public:
   IfStatementData(ExpressionPtr condition,
                   CompoundStatementPtr compound_statement,
-                  IfStatementPtr else_statement);
+                  ElseStatementPtr else_statement);
  private:
   ExpressionPtr condition_;
   CompoundStatementPtr then_block_;
-  IfStatementPtr else_block_;
+  ElseStatementPtr else_block_;
 };
 
-class ElseStatementData : public IfStatement {
+class ElseStatementData : public ElseStatement {
  public:
   ElseStatementData(CompoundStatementPtr compound_statement);
  private:
