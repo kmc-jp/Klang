@@ -54,8 +54,7 @@ def main() -> (int) {
 TEST(lexer, comment1) {
   std::stringstream is;
   is <<
-R"(
-{~ comment
+R"({~ comment
   {~ nest ~}
 ~}
 def placeholder
@@ -64,8 +63,8 @@ def placeholder
   using T = klang::Token;
   using klang::TokenType;
   klang::TokenVector const expect = {
-      T{TokenType::SYMBOL, "def", 5},
-      T{TokenType::IDENTIFIER, "placeholder", 5},
+      T{TokenType::SYMBOL, "def", 4},
+      T{TokenType::IDENTIFIER, "placeholder", 4},
   };
   ASSERT_EQ(expect.size(), tokens.size());
   for(size_t i(0); i < expect.size(); ++i)
