@@ -601,6 +601,8 @@ void Parser::rewind(Pointer p) {
 
 
 void Parser::fail() {
+  current_ = begin(tokens_);
+
   std::stringstream ss;
   ss << "unexpected token " << current_string() << " near at " << current_->line();
   throw std::runtime_error(ss.str());
