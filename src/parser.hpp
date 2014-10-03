@@ -9,7 +9,8 @@ namespace klang {
 class Parser {
  public:
   Parser(TokenVector tokens);
-  bool parse_symbol(const char* str);
+  void parse_symbol(const char* str);
+  bool try_symbol(const char* str);
   ast::IdentifierPtr parse_identifier();
   ast::TypePtr parse_type();
   ast::IntegerLiteralPtr parse_integer_literal();
@@ -52,6 +53,7 @@ class Parser {
   bool advance(int count);
   Pointer snapshot() const;
   void rewind(Pointer p);
+  void fail();
   const TokenVector tokens_;
   Pointer current_;
 };
