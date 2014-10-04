@@ -75,7 +75,8 @@ bool symbol(const std::string& str) {
 }
 
 bool ignore(const std::string& str) {
-  return (str == " " || str == "\n");
+  if(str.size() != 1) return false;
+  return std::isspace(str[0]);
 }
 
 bool singleline_comment(const std::string& str) {
