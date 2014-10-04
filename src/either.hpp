@@ -76,8 +76,9 @@ class Either {
   optional<Right> right_;
 };
 
-template <typename Left, typename Right, typename E = Either<Left, Right> >
-bool operator==(const E& lhs, const E& rhs) {
+template <typename Left, typename Right>
+bool operator==(const Either<Left, Right>& lhs,
+                const Either<Left, Right>& rhs) {
   if (lhs && rhs) {
     return *lhs == *rhs;
   } else if (!lhs && !rhs) {
@@ -87,8 +88,9 @@ bool operator==(const E& lhs, const E& rhs) {
   }
 }
 
-template <typename Left, typename Right, typename E = Either<Left, Right> >
-bool operator<(const E& lhs, const E& rhs) {
+template <typename Left, typename Right>
+bool operator<(const Either<Left, Right>& lhs,
+               const Either<Left, Right>& rhs) {
   if (lhs) {
     if (rhs) {
       return *lhs < *rhs;
@@ -104,8 +106,8 @@ bool operator<(const E& lhs, const E& rhs) {
   }
 }
 
-template <typename Left, typename Right, typename E = Either<Left, Right> >
-void swap(E& lhs, E& rhs) {
+template <typename Left, typename Right>
+void swap(Either<Left, Right>& lhs, Either<Left, Right>& rhs) {
   lhs.swap(rhs);
 }
 
