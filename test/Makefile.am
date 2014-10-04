@@ -8,7 +8,7 @@ libgtest_all_a_SOURCES = $(GTEST_DIR)/gtest-all.cc $(GTEST_DIR)/gtest.h
 
 GTEST_FILES = helper_test_main.cpp $(GTEST_DIR)/gtest.h
 
-TESTS = test_nothing test_sample1 test_lexer test_lexer_fail test_parser
+TESTS = test_nothing test_sample1 test_lexer test_lexer_fail test_parser test_either
 XFAIL_TESTS = test_lexer_fail
 
 check_PROGRAMS = $(TESTS)
@@ -24,3 +24,6 @@ test_lexer_fail_LDADD = $(check_LIBRARIES) ../src/liblexer.a
 
 test_parser_SOURCES = test_parser.cpp $(GTEST_FILES)
 test_parser_LDADD = $(check_LIBRARIES) ../src/libparser.a ../src/liblexer.a
+
+test_either_SOURCES = test_either.cpp $(GTEST_FILES)
+test_either_LDADD = $(check_LIBRARIES)
