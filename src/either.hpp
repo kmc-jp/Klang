@@ -5,7 +5,8 @@
 
 namespace klang {
 
-using optional = boost::optional;
+template <typename T>
+using optional = boost::optional<T>;
 
 struct LeftTag {} left_tag;
 struct RightTag {} right_tag;
@@ -23,15 +24,17 @@ class Either {
   Either(Either&& either);
   Either& operator=(const Either& either);
   Either& operator=(Either&& either);
-  Either& operator=(const Right& right);
-  Either& operator=(Right&& right);
+  void swap(Either& that);
   bool is_left() const;
   bool is_right() const;
   const Left& left_value() const;
   const Right& right_value() const;
   explicit operator bool() const;
-  const Right& operator*() const;
+  const Right& operator*() const&;
+  Right& operator*() &;
+  Right&& operator*() &&;
   const Right* operator->() const;
+  Right* operator->();
  private:
   optional<Left> left_;
   optional<Right> right_;
@@ -42,6 +45,9 @@ bool operator==(const E& lhs, const E& rhs);
 
 template <typename Left, typename Right, typename E = Either<Left, Right> >
 bool operator<(const E& lhs, const E& rhs);
+
+template <typename Left, typename Right, typename E = Either<Left, Right> >
+void swap(E& lhs, E& rhs);
 
 }  // namespace klang
 
