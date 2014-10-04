@@ -6,6 +6,7 @@ before_install:
   - sudo apt-get -qq update
 install:
   - sudo apt-get install -qq gnulib #stdbool.m4 is required for AC_CHECK_HEADER_STDBOOL in configure.ac
+  - sudo apt-get install -qq libboost-dev
   - if [ "$CXX" = "g++" ]; then
        sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
        sudo apt-get -qq update;
