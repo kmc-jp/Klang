@@ -88,8 +88,8 @@ bool multiline_comment(const std::string& str) {
   using std::end;
   if (str.compare(0, 2, "{~") == 0) {
 	int nest = 0;
-	for (auto it = begin(str); it + 1 != end(str); ++it) {
-	  std::string tk(it, it+2);
+	for(auto it = begin(str); std::next(it) != end(str); ++it) {
+      std::string tk(it, std::next(it, 2));
 	  if (tk == "{~") {
 		++nest;
 	  } else if(tk == "~}") {
@@ -111,11 +111,11 @@ bool string_token(const std::string& str) {
   using std::end;
   if (str.front() == '"') {
 	bool escaped = false;
-	for(auto it = begin(str) + 1; it != end(str); ++it) {
+	for(auto it = std::next(begin(str)); it != end(str); ++it) {
 	  if (*it == '\\') {
 		escaped = true;
 	  } else if (*it == '"' && (!escaped)) {
-		return it + 1 == end(str);
+        return std::next(it) == end(str);
 	  } else {
 		escaped = false;
 	  }
