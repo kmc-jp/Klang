@@ -88,17 +88,17 @@ bool multiline_comment(const std::string& str) {
   using std::begin;
   using std::end;
   if (str.compare(0, 2, "{~") == 0) {
-	int nest = 0;
-	for (auto it = begin(str); it + 1 != end(str); ++it) {
-	  std::string tk(it, it+2);
-	  if (tk == "{~") {
-		++nest;
-	  } else if(tk == "~}") {
-		--nest;
-	  }
-	}
-	bool closed = (nest == 0 && str.compare(str.size()-2, 2, "~}") == 0);
-	return (nest > 0 || closed);
+    int nest = 0;
+    for(auto it = begin(str); std::next(it) != end(str); ++it) {
+      std::string tk(it, std::next(it, 2));
+      if (tk == "{~") {
+        ++nest;
+      } else if(tk == "~}") {
+        --nest;
+      }
+    }
+    bool closed = (nest == 0 && str.compare(str.size()-2, 2, "~}") == 0);
+    return (nest > 0 || closed);
   }
   return false;
 }
@@ -111,16 +111,16 @@ bool string_token(const std::string& str) {
   using std::begin;
   using std::end;
   if (str.front() == '"') {
-	bool escaped = false;
-	for(auto it = begin(str) + 1; it != end(str); ++it) {
-	  if (*it == '\\') {
-		escaped = true;
-	  } else if (*it == '"' && (!escaped)) {
-		return it + 1 == end(str);
-	  } else {
-		escaped = false;
-	  }
-	}
+    bool escaped = false;
+    for(auto it = std::next(begin(str)); it != end(str); ++it) {
+      if (*it == '\\') {
+        escaped = true;
+      } else if (*it == '"' && (!escaped)) {
+        return std::next(it) == end(str);
+      } else {
+        escaped = false;
+      }
+    }
   }
   return false;
 }
@@ -137,20 +137,20 @@ TokenType match_type(std::string const& str) {
 
 std::string extract_string(const std::string& str) {
   if (str.front() == '"') {
-	bool escaped = false;
-	std::string new_str;
-	for(auto c : str) {
-	  if (escaped) {
-		if(c == '"') new_str.push_back('"');
-		if(c == 'n') new_str.push_back('\n');
-		escaped = false;
-	  } else if (c == '\\') {
-		escaped = true;
-	  } else if (c != '"') {
-		new_str.push_back(c);
-	  }
-	}
-	return new_str;
+    bool escaped = false;
+    std::string new_str;
+    for(auto c : str) {
+      if (escaped) {
+        if(c == '"') new_str.push_back('"');
+        if(c == 'n') new_str.push_back('\n');
+        escaped = false;
+      } else if (c == '\\') {
+        escaped = true;
+      } else if (c != '"') {
+        new_str.push_back(c);
+      }
+    }
+    return new_str;
   }
   return str;
 }
