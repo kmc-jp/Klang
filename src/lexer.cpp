@@ -80,14 +80,16 @@ bool ignore(const std::string& str) {
 }
 
 bool singleline_comment(const std::string& str) {
+  using std::begin;
+  using std::end;
   bool inside = (str.back() == '\n' || str.find("\n") == std::string::npos);
-  return (str.compare(0, 2, "~~") == 0 && inside);
+  return std::equal(begin(str), std::next(begin(str), 2), "~~") && inside;
 }
 
 bool multiline_comment(const std::string& str) {
   using std::begin;
   using std::end;
-  if (str.compare(0, 2, "{~") == 0) {
+  if (std::equal(begin(str), std::next(begin(str), 2), "{~")) {
     int nest = 0;
     for(auto it = begin(str); std::next(it) != end(str); ++it) {
       std::string tk(it, std::next(it, 2));
@@ -97,7 +99,7 @@ bool multiline_comment(const std::string& str) {
         --nest;
       }
     }
-    bool closed = (nest == 0 && str.compare(str.size()-2, 2, "~}") == 0);
+    bool closed = (nest == 0 && std::equal(std::prev(end(str), 2), std::prev(end(str)), "~}"));
     return (nest > 0 || closed);
   }
   return false;
