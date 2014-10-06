@@ -16,6 +16,9 @@ AC_PROG_RANLIB
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h fcntl.h float.h limits.h netdb.h stddef.h stdlib.h string.h strings.h sys/time.h sys/timeb.h unistd.h wchar.h wctype.h])
+AC_LANG_PUSH([C++])
+AC_CHECK_HEADER([boost/optional.hpp], , [AC_MSG_ERROR([Please install])])
+AC_LANG_POP([C++])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL
