@@ -156,12 +156,15 @@ std::string extract_string(const std::string& str) {
 }
 
 TokenVector tokenize(std::istream& is) {
-  std::string str, code;
-  while (std::getline(is, str)) {
-    code += str + '\n';
+  std::string code;
+  {
+      std::string str;
+      while (std::getline(is, str)) {
+          code += str + '\n';
+      }
   }
   TokenVector tokens;
-  str.clear();
+  std::string str;
   TokenType prev = TokenType::UNKNOWN;
   int line = 1;
   for (char c : code) {
