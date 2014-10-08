@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <algorithm>
+#include <iterator>
 #include <vector>
 
 namespace klang {
@@ -156,13 +157,7 @@ std::string extract_string(const std::string& str) {
 }
 
 TokenVector tokenize(std::istream& is) {
-  std::string code;
-  {
-      std::string str;
-      while (std::getline(is, str)) {
-          code += str + '\n';
-      }
-  }
+  std::string code{std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>()};
   TokenVector tokens;
   std::string str;
   TokenType prev = TokenType::UNKNOWN;
