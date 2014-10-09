@@ -51,7 +51,7 @@ AC_ARG_WITH([llvm],
 	if test "x$want_llvm" = "xyes"; then
 		if test -e "$ac_llvm_config_path"; then
 			LLVM_CPPFLAGS=`$ac_llvm_config_path --cxxflags`
-			LLVM_LDFLAGS="$($ac_llvm_config_path --ldflags) $($ac_llvm_config_path --libs $1)"
+			LLVM_LDFLAGS="$($ac_llvm_config_path --ldflags)"
 
 			AC_REQUIRE([AC_PROG_CXX])
 			CPPFLAGS_SAVED="$CPPFLAGS"
@@ -59,8 +59,12 @@ AC_ARG_WITH([llvm],
 			export CPPFLAGS
 
 			LDFLAGS_SAVED="$LDFLAGS"
-			LDFLAGS="$LDFLAGS $LLVM_LDFLAGS -lc++ -lncurses"
+			LDFLAGS="$LDFLAGS $LLVM_LDFLAGS"
 			export LDFLAGS
+
+            LIBS_SAVED="$LIBS"
+            LIBS="$LIBS -lc++ -lncurses $($ac_llvm_config_path --libs $1)"
+            export LIBS
 
 			AC_CACHE_CHECK(can compile with and link with llvm([$1]),
 						   ax_cv_llvm,
@@ -78,7 +82,8 @@ AC_ARG_WITH([llvm],
 			fi
 
 			CPPFLAGS="$CPPFLAGS_SAVED"
-		LDFLAGS="$LDFLAGS_SAVED"
+            LDFLAGS="$LDFLAGS_SAVED"
+            LIBS="$LIBS"
 		else
 			succeeded=no
 		fi
