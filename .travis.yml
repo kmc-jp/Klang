@@ -22,6 +22,14 @@ install:
   - $CXX --version
   - ACLOCAL_ARGS="-I/usr/share/gnulib/m4" ./autogen.sh
   - ./configure
+  - whitch llvm-config
+  - llvm-config --cxxflags
+  - llvm-config --ldflags
+  - llvm-config --libs codegen
+  - echo "#include <llvm/IR/Module.h>" > payo.cpp
+  - echo "#include <llvm/IR/LLVMContext.h>" >> payo.cpp
+  - echo "int main() { llvm::Module *M= new llvm::Module(\"test\", llvm::getGlobalContext()); return 0; }" >> payo.cpp
+  - $CXX -o conftest `llvm-config --cxxflags` `llvm-config --ldflags` conftest.cpp `llvm-config --libs` -lc++ -lncurses
   - make
 script:
   - make check
