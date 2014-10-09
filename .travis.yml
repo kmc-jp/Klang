@@ -12,6 +12,7 @@ install:
   - sudo apt-get install -qq autoconf-archive #ax_with_curses.m4 is require for AC_WITH_CURSES
   - sudo apt-get install -qq libllvm3.4 llvm-3.4 llvm-3.4-dev llvm-3.4-runtime
   - sudo apt-get install -qq libboost-dev
+  - sudo ln -s /usr/bin/llvm-config-3.4 /usr/bin/llvm-config
   - if [ "$CXX" = "g++" ]; then
        sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
        sudo apt-get -qq update;
