@@ -83,11 +83,13 @@ bool ignore(const std::string& str) {
   return std::isspace(str[0]);
 }
 
-bool singleline_comment(const std::string& str) {
+bool singleline_comment(const_iterator head, const_iterator tail) {
   using std::begin;
   using std::end;
-  bool inside = (str.back() == '\n' || str.find("\n") == std::string::npos);
-  return std::equal(begin(str), std::next(begin(str), 2), "~~") && inside;
+  if(std::equal(head, std::next(head, 2), "~~")) {
+      return std::find(head, tail, '\n') == std::prev(tail);
+  }
+  return false;
 }
 
 bool multiline_comment(const std::string& str) {
@@ -109,8 +111,8 @@ bool multiline_comment(const std::string& str) {
   return false;
 }
 
-bool comment(const std::string& str) {
-  return (singleline_comment(str) || multiline_comment(str));
+bool comment(const_iterator head, const_iterator tail) {
+  return (singleline_comment(head, tail) || multiline_comment(head, tail));
 }
 
 bool string_token(const std::string& str) {
