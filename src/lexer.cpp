@@ -133,13 +133,13 @@ bool string_token(const std::string& str) {
   return false;
 }
 
-TokenType match_type(std::string const& str) {
-  if (comment(str)) return TokenType::IGNORE;
-  if (symbol(str)) return TokenType::SYMBOL;
-  if (identifier(str)) return TokenType::IDENTIFIER;
-  if (decimal_integer(str)) return TokenType::NUMBER;
-  if (string_token(str)) return TokenType::STRING;
-  if (ignore(str)) return TokenType::IGNORE;
+TokenType match_type(const_iterator head, const_iterator tail) {
+  if (comment(head, tail)) return TokenType::IGNORE;
+  if (symbol(head, tail)) return TokenType::SYMBOL;
+  if (identifier(head, tail)) return TokenType::IDENTIFIER;
+  if (decimal_integer(head, tail)) return TokenType::NUMBER;
+  if (string_token(head, tail)) return TokenType::STRING;
+  if (ignore(head, tail)) return TokenType::IGNORE;
   return TokenType::UNKNOWN;
 }
 
