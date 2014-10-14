@@ -39,12 +39,12 @@ bool decimal_digit(char c) {
   return std::isdigit(c);
 }
 
-bool identifier(const std::string& str) {
-  if (str.empty() || !alphabet_or_bar(str.front())) {
+bool identifier(const_iterator head, const_iterator tail) {
+  if (head == tail || !alphabet_or_bar(*head)) {
     return false;
   }
-  for (char c : str) {
-    if (!alphabet_or_bar(c) && !decimal_digit(c)) {
+  for (auto it(head); it != tail; ++it) {
+    if (!alphabet_or_bar(*it) && !decimal_digit(*it)) {
       return false;
     }
   }
