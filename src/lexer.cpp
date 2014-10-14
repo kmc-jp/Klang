@@ -92,12 +92,12 @@ bool singleline_comment(const_iterator head, const_iterator tail) {
   return false;
 }
 
-bool multiline_comment(const std::string& str) {
+bool multiline_comment(const_iterator head, const_iterator tail) {
   using std::begin;
   using std::end;
-  if (std::equal(begin(str), std::next(begin(str), 2), "{~")) {
+  if (std::equal(head, std::next(head, 2), "{~")) {
     int nest = 0;
-    for(auto it = begin(str); std::next(it) != end(str); ++it) {
+    for(auto it = head; std::next(it) != tail; ++it) {
       std::string tk(it, std::next(it, 2));
       if (tk == "{~") {
         ++nest;
@@ -105,7 +105,7 @@ bool multiline_comment(const std::string& str) {
         --nest;
       }
     }
-    bool closed = (nest == 0 && std::equal(std::prev(end(str), 2), std::prev(end(str)), "~}"));
+    bool closed = nest == 0 && std::equal(std::prev(tail, 2), std::prev(tail), "~}");
     return (nest > 0 || closed);
   }
   return false;
