@@ -159,7 +159,7 @@ std::string extract_string(const std::string& str) {
 }
 
 TokenVector tokenize(std::istream& is) {
-  std::string code{std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>()};
+  std::string const code{std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>()};
   TokenVector tokens;
   std::string str;
   TokenType prev = TokenType::UNKNOWN;
