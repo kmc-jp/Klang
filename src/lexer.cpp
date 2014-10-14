@@ -64,9 +64,10 @@ bool decimal_integer(const std::string& str) {
   return true;
 }
 
-bool symbol(const std::string& str) {
+bool symbol(const_iterator head, const_iterator tail) {
   using std::begin;
   using std::end;
+  std::string const str(head, tail);
   static std::vector<std::string> const symbol_list = {
     "~", "+", "-", "*", "/", "%",
     ":=", ":+=", ":-=", ":*=", ":/=", ":%=",
