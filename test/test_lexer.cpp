@@ -9,7 +9,7 @@ TEST(lexer, emptySource) {
   bool success;
   std::tie(success, tokens) = klang::tokenize(is);
   EXPECT_TRUE(success);
-  EXPECT_EQ("", test::to_string(tokens));
+  EXPECT_EQ(klang::TokenVector(), tokens);
 }
 
 TEST(lexer, return0) {
@@ -39,9 +39,7 @@ R"(def main() -> (int) {
       T{TokenType::SYMBOL, ";", 2},
       T{TokenType::SYMBOL, "}", 3},
   };
-  ASSERT_EQ(expect.size(), tokens.size());
-  for(size_t i(0); i < expect.size(); ++i)
-    EXPECT_EQ(expect[i], tokens[i]);
+  ASSERT_EQ(expect, tokens);
 }
 
 TEST(lexer, hello) {
@@ -84,9 +82,7 @@ def main() -> (int) {
       T{TokenType::SYMBOL, ";", 9},
       T{TokenType::SYMBOL, "}", 10},
   };
-  ASSERT_EQ(expect.size(), tokens.size());
-  for(size_t i(0); i < expect.size(); ++i)
-    EXPECT_EQ(expect[i], tokens[i]);
+  ASSERT_EQ(expect, tokens);
 }
 
 TEST(lexer, NestedComment1) {
@@ -107,9 +103,7 @@ def placeholder
       T{TokenType::SYMBOL, "def", 4},
       T{TokenType::IDENTIFIER, "placeholder", 4},
   };
-  ASSERT_EQ(expect.size(), tokens.size());
-  for(size_t i(0); i < expect.size(); ++i)
-    EXPECT_EQ(expect[i], tokens[i]);
+  ASSERT_EQ(expect, tokens);
 }
 
 TEST(lexer, brokenComment1Fixed) {
