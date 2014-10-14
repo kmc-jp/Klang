@@ -12,6 +12,38 @@ TEST(lexer, emptySource) {
   EXPECT_EQ("", test::to_string(tokens));
 }
 
+TEST(lexer, return0) {
+  std::stringstream is;
+  is <<
+R"(def main() -> (int) {
+  return 0;
+})";
+  klang::TokenVector tokens;
+  bool success;
+  std::tie(success, tokens) = klang::tokenize(is);
+  EXPECT_TRUE(success);
+  using T = klang::Token;
+  using klang::TokenType;
+  klang::TokenVector const expect = {
+      T{TokenType::SYMBOL, "def", 1},
+      T{TokenType::IDENTIFIER, "main", 1},
+      T{TokenType::SYMBOL, "(", 1},
+      T{TokenType::SYMBOL, ")", 1},
+      T{TokenType::SYMBOL, "->", 1},
+      T{TokenType::SYMBOL, "(", 1},
+      T{TokenType::SYMBOL, "int", 1},
+      T{TokenType::SYMBOL, ")", 1},
+      T{TokenType::SYMBOL, "{", 1},
+      T{TokenType::SYMBOL, "return", 2},
+      T{TokenType::NUMBER, "0", 2},
+      T{TokenType::SYMBOL, ";", 2},
+      T{TokenType::SYMBOL, "}", 3},
+  };
+  ASSERT_EQ(expect.size(), tokens.size());
+  for(size_t i(0); i < expect.size(); ++i)
+    EXPECT_EQ(expect[i], tokens[i]);
+}
+
 TEST(lexer, hello) {
   std::stringstream is;
   is <<
