@@ -134,16 +134,18 @@ class WhileStatementData : public WhileStatement {
 
 class ForStatementData : public ForStatement {
  public:
-  ForStatementData(ExpressionPtr expression1,
-                   ExpressionPtr expression2,
-                   ExpressionPtr expression3,
+  ForStatementData(ExpressionPtr init_expression,
+                   ExpressionPtr cond_expression,
+                   ExpressionPtr reinit_expression,
                    CompoundStatementPtr compound_statement);
-  ExpressionPtr const& expression1() const { return expression1_; }
-  ExpressionPtr const& expression2() const { return expression2_; }
-  ExpressionPtr const& expression3() const { return expression3_; }
+  ExpressionPtr const& init_expression() const { return init_expression_; }
+  ExpressionPtr const& cond_expression() const { return cond_expression_; }
+  ExpressionPtr const& reinit_expression() const { return reinit_expression_; }
   CompoundStatementPtr const& compound_statement() const { return compound_statement_; }
  private:
-  ExpressionPtr expression1_, expression2_, expression3_;
+  ExpressionPtr init_expression_;
+  ExpressionPtr cond_expression_;
+  ExpressionPtr reinit_expression_;
   CompoundStatementPtr compound_statement_;
 };
 
