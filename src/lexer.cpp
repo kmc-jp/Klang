@@ -114,16 +114,16 @@ bool comment(const_iterator head, const_iterator tail) {
   return (singleline_comment(head, tail) || multiline_comment(head, tail));
 }
 
-bool string_token(const std::string& str) {
+bool string_token(const_iterator head, const_iterator tail) {
   using std::begin;
   using std::end;
-  if (str.front() == '"') {
+  if (*head == '"') {
     bool escaped = false;
-    for(auto it = std::next(begin(str)); it != end(str); ++it) {
+    for(auto it = std::next(head); it != tail; ++it) {
       if (*it == '\\') {
         escaped = true;
       } else if (*it == '"' && (!escaped)) {
-        return std::next(it) == end(str);
+        return std::next(it) == tail;
       } else {
         escaped = false;
       }
