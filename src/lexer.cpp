@@ -77,9 +77,11 @@ bool symbol(const_iterator head, const_iterator tail) {
   return (std::find(begin(symbol_list), end(symbol_list), str) != end(symbol_list));
 }
 
-bool ignore(const std::string& str) {
-  if(str.size() != 1) return false;
-  return std::isspace(str[0]);
+bool ignore(const_iterator head, const_iterator tail) {
+  if(std::distance(head, tail) != 1) return false;
+  // `std::distance(head, tail) != 1` は、`next(head) != tail` のほうが高速かもしれない。
+  // 意図が失われるので、ひとまず`distance` を使う。
+  return std::isspace(*head);
 }
 
 bool singleline_comment(const_iterator head, const_iterator tail) {
