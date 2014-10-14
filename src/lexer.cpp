@@ -51,15 +51,13 @@ bool identifier(const_iterator head, const_iterator tail) {
   return true;
 }
 
-bool decimal_integer(const std::string& str) {
-  if (str == "0") return true;
-  if (str.empty() || !nonzero_digit(str.front())) {
+bool decimal_integer(const_iterator head, const_iterator tail) {
+  if (*head == '0' && std::distance(head, tail) == 1) return true;
+  if (head == tail || !nonzero_digit(*head)) {
     return false;
   }
-  for (char c : str) {
-    if (!decimal_digit(c)) {
-      return false;
-    }
+  for (auto it(head); it != tail; ++it) {
+    if (!decimal_digit(*it)) return false;
   }
   return true;
 }
