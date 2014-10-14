@@ -12,6 +12,10 @@ TEST(parser, emptySource) {
   klang::Parser p(tokens);
   auto ptu = p.parse_translation_unit();
   ASSERT_TRUE(ptu != nullptr);
+  auto tud = dynamic_cast<klang::ast::TranslationUnitData*>(ptu.get());
+  ASSERT_TRUE(tud != nullptr);
+  auto const& funcs = tud->functions();
+  ASSERT_EQ(0u, funcs.size());
 }
 
 TEST(parser, onlyReturn) {
