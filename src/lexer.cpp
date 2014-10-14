@@ -144,24 +144,24 @@ TokenType match_type(const_iterator head, const_iterator tail) {
   return TokenType::UNKNOWN;
 }
 
-std::string extract_string(const std::string& str) {
-  if (str.front() == '"') {
+std::string extract_string(const_iterator head, const_iterator tail) {
+  if (*head == '"') {
     bool escaped = false;
     std::string new_str;
-    for(auto c : str) {
+    for(auto it(head); it != tail; ++it) {
       if (escaped) {
-        if(c == '"') new_str.push_back('"');
-        if(c == 'n') new_str.push_back('\n');
+        if(*it == '"') new_str.push_back('"');
+        if(*it == 'n') new_str.push_back('\n');
         escaped = false;
-      } else if (c == '\\') {
+      } else if (*it == '\\') {
         escaped = true;
-      } else if (c != '"') {
-        new_str.push_back(c);
+      } else if (*it != '"') {
+        new_str.push_back(*it);
       }
     }
     return new_str;
   }
-  return str;
+  return std::string{head, tail};
 }
 
 TokenVector tokenize(std::istream& is) {
