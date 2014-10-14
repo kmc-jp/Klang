@@ -14,54 +14,48 @@ bool Parser::parse_symbol(const char* str) {
       current_string() == std::string{str}) {
     advance(1);
     return true;
-  } else {
-    return false;
   }
+  return false;
 }
 
 ast::IdentifierPtr Parser::parse_identifier() {
   if (current_type() == TokenType::IDENTIFIER) {
     advance(1);
     return make_unique<ast::IdentifierData>(current_string());
-  } else {
-    return nullptr;
   }
+  return nullptr;
 }
 
 ast::TypePtr Parser::parse_type() {
   if (current_type() == TokenType::SYMBOL) {
     advance(1);
     return make_unique<ast::TypeData>(current_string());
-  } else {
-    return nullptr;
   }
+  return nullptr;
 }
 
 ast::IntegerLiteralPtr Parser::parse_integer_literal() {
   if (current_type() == TokenType::NUMBER) {
     advance(1);
     return make_unique<ast::IntegerLiteralData>(current_string());
-  } else {
-    return nullptr;
   }
+  return nullptr;
 }
 
 ast::CharacterLiteralPtr Parser::parse_character_literal() {
   if (current_type() == TokenType::CHARACTER) {
     advance(1);
     return make_unique<ast::CharacterLiteralData>(current_string());
-  } else {
-    return nullptr;
   }
+  return nullptr;
 }
 
 ast::StringLiteralPtr Parser::parse_string_literal() {
   if (current_type() == TokenType::STRING) {
     advance(1);
     return make_unique<ast::StringLiteralData>(current_string());
-  } else {
-    return nullptr;
   }
+  return nullptr;
 }
 
 ast::TranslationUnitPtr Parser::parse_translation_unit() {
