@@ -1,6 +1,8 @@
 #ifndef KMC_KLANG_EITHER_HPP
 #define KMC_KLANG_EITHER_HPP
 
+#include <cassert>
+
 namespace klang {
 
 struct LeftTag {};
@@ -35,6 +37,29 @@ class Either {
     Either tmp{std::move(*this)};
     *this = std::move(that);
     that = std::move(tmp);
+  }
+  explicit operator bool() const {
+    return is_right_;
+  }
+  const R& operator*() const& {
+    assert(is_right_);
+    return right_;
+  }
+  R& operator*() & {
+    assert(is_right_);
+    return right_;
+  }
+  R&& operator*() && {
+    assert(is_right_);
+    return std::move(right_);
+  }
+  const R* operator->() const {
+    assert(is_right_);
+    return &right_;
+  }
+  R* operator->() {
+    assert(is_right_);
+    return &right_;
   }
   template <typename L_, typename R_>
   friend class Either;
