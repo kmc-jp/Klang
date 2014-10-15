@@ -14,6 +14,18 @@ constexpr RightTag right_tag;
 template <typename L, typename R>
 class Either {
  public:
+  Either(LeftTag, const L& left)
+      : is_right_{false}, left_{left}
+  {}
+  Either(LeftTag, L&& left)
+      : is_right_{false}, left_{std::move(left)}
+  {}
+  Either(RightTag, const R& right)
+      : is_right_{true}, right_{right}
+  {}
+  Either(RightTag, R&& right)
+      : is_right_{true}, right_{std::move(right)}
+  {}
   Either(const Either& that)
       : is_right_{that.is_right_} {
     construct(that);
