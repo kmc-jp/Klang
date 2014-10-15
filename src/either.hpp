@@ -33,6 +33,10 @@ class Left {
   explicit Left(L&& src)
       : left_{std::move(src)}
   {}
+  template <typename... Args>
+  explicit Left(Args&&... args)
+      : left_{std::forward<Args>(args)...}
+  {}
   Left(const Left&) = default;
   Left(Left&&) = default;
   Left& operator=(const Left&) = default;
@@ -78,6 +82,10 @@ class Right {
   {}
   explicit Right(R&& src)
       : right_{std::move(src)}
+  {}
+  template <typename... Args>
+  explicit Right(Args&&... args)
+      : right_{std::forward<Args>(args)...}
   {}
   Right(const Right&) = default;
   Right(Right&&) = default;
@@ -133,6 +141,14 @@ class Either {
   Either(RightTag, R&& right)
       : is_right_{true}, right_{std::move(right)}
   {}
+  template <typename... Args>
+  explicit Either(LeftTag, Args&&... args)
+      : is_right_{false}, left_{std::forward<Args>(args)...}
+  {}
+  template <typename... Args>
+  explicit Either(RightTag, Args&&... args)
+      : is_right_{true}, right_{std::forward<Args>(args)...}
+  {}
   Either(const Either& that)
       : is_right_{that.is_right_} {
     construct(that);
@@ -178,6 +194,18 @@ class Either {
   Right<R> right() && {
     assert(is_right_);
     return Right<R>{std::move(right_)};
+  }
+  template <typename... Args>
+  void emplace(LeftTag, Args&&... args) {
+    destruct();
+    is_right_ = false;
+    new (&left_) L{std::forward<Args>(args)...};
+  }
+  template <typename... Args>
+  void emplace(RightTag, Args&&... args) {
+    destruct();
+    is_right_ = true;
+    new (&right_) R{std::forward<Args>(args)...};
   }
   explicit operator bool() const {
     return is_right_;
