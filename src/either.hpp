@@ -2,15 +2,27 @@
 #define KMC_KLANG_EITHER_HPP
 
 #include <cassert>
+#include <type_traits>
 #include <utility>
 
 namespace klang {
+namespace {
+extern void* enabler;
+
+template <typename From, typename To>
+struct enable_if_convertible
+    : public std::enable_if<std::is_convertible<From, To>::value>
+{};
+}
 
 struct LeftTag {};
 struct RightTag {};
 
 constexpr LeftTag left_tag;
 constexpr RightTag right_tag;
+
+template <typename L, typename R>
+class Either;
 
 template <typename L>
 class Left {
@@ -34,6 +46,14 @@ class Left {
   }
   L&& value() && {
     return std::move(left_);
+  }
+  template <typename R>
+  operator Either<L, R>() const& {
+    return Either<L, R>{left_tag, left_};
+  }
+  template <typename R>
+  operator Either<L, R>() && {
+    return Either<L, R>{left_tag, std::move(left_)};
   }
   template <typename L_>
   friend class Left;
@@ -72,6 +92,16 @@ class Right {
   }
   R&& value() && {
     return std::move(right_);
+  }
+  template <typename L, typename R_,
+            typename enable_if_convertible<R, R_>::type*& = enabler>
+  operator Either<L, R_>() const& {
+    return Either<L, R_>{right_tag, right_};
+  }
+  template <typename L, typename R_,
+            typename enable_if_convertible<R, R_>::type*& = enabler>
+  operator Either<L, R_>() && {
+    return Either<L, R_>{right_tag, std::move(right_)};
   }
   template <typename R_>
   friend class Right;
