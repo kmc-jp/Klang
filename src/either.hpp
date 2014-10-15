@@ -127,6 +127,28 @@ class Either {
     *this = std::move(that);
     that = std::move(tmp);
   }
+  bool is_left() const {
+    return !is_right_;
+  }
+  bool is_right() const {
+    return is_right_;
+  }
+  Left<L> left() const& {
+    assert(!is_right_);
+    return Left<L>{left_};
+  }
+  Left<L> left() && {
+    assert(!is_right_);
+    return Left<L>{std::move(left_)};
+  }
+  Right<R> right() const& {
+    assert(is_right_);
+    return Right<R>{right_};
+  }
+  Right<R> right() && {
+    assert(is_right_);
+    return Right<R>{std::move(right_)};
+  }
   explicit operator bool() const {
     return is_right_;
   }
