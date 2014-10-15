@@ -309,6 +309,26 @@ class Either {
   };
 };
 
+template <typename T>
+Left<typename std::decay<T>::type> make_left(T&& left) {
+  return Left<typename std::decay<T>::type>{std::forward<T>(left)};
+}
+
+template <typename T, typename... Args>
+Left<T> make_left(Args&&... args) {
+  return Left<T>{std::forward<Args>(args)...};
+}
+
+template <typename T>
+Right<typename std::decay<T>::type> make_right(T&& right) {
+  return Right<typename std::decay<T>::type>{std::forward<T>(right)};
+}
+
+template <typename T, typename... Args>
+Right<T> make_right(Args&&... args) {
+  return Right<T>{std::forward<Args>(args)...};
+}
+
 }  // namespace klang
 
 #endif  // KMC_KLANG_EITHER_HPP
