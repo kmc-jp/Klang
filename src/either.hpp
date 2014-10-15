@@ -8,8 +8,11 @@ namespace klang {
 template <typename T>
 using optional = boost::optional<T>;
 
-struct LeftTag {} left_tag;
-struct RightTag {} right_tag;
+struct LeftTag {};
+struct RightTag {};
+
+constexpr LeftTag left_tag;
+constexpr RightTag right_tag;
 
 template <typename Left, typename Right>
 class Either {
