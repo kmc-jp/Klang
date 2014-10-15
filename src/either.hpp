@@ -31,6 +31,34 @@ class Either {
   ~Either() {
     destruct();
   }
+  void swap(Either& that) {
+    Either tmp{std::move(*this)};
+    *this = std::move(that);
+    that = std::move(tmp);
+  }
+  template <typename L_, typename R_>
+  friend class Either;
+  friend void swap(Either& lhs, Either& rhs) {
+    lhs.swap(rhs);
+  }
+  friend bool operator==(const Either& lhs, const Either& rhs) {
+    if (lhs.is_right_ != rhs.is_right_) {
+      return false;
+    } else if (lhs.is_right_) {
+      return lhs.right_ == rhs.right_;
+    } else {
+      return lhs.left_ == rhs.left_;
+    }
+  }
+  friend bool operator<(const Either& lhs, const Either& rhs) {
+    if (lhs.is_right_ != rhs.is_right_) {
+      return rhs.is_right_;
+    } else if (lhs.is_right_) {
+      return lhs.right_ < rhs.right_;
+    } else {
+      return lhs.left_ < rhs.left_;
+    }
+  }
  private:
   void construct(const Either& src) {
     if (src.is_right_) {
