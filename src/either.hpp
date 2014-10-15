@@ -2,6 +2,7 @@
 #define KMC_KLANG_EITHER_HPP
 
 #include <cassert>
+#include <utility>
 
 namespace klang {
 
@@ -10,6 +11,82 @@ struct RightTag {};
 
 constexpr LeftTag left_tag;
 constexpr RightTag right_tag;
+
+template <typename L>
+class Left {
+ public:
+  explicit Left(const L& src)
+      : left_{src}
+  {}
+  explicit Left(L&& src)
+      : left_{std::move(src)}
+  {}
+  Left(const Left&) = default;
+  Left(Left&&) = default;
+  Left& operator=(const Left&) = default;
+  Left& operator=(Left&&) = default;
+  void swap(Left& that) {
+    using std::swap;
+    swap(left_, that.left_);
+  }
+  const L& value() const& {
+    return left_;
+  }
+  L&& value() && {
+    return std::move(left_);
+  }
+  template <typename L_>
+  friend class Left;
+  friend void swap(Left& lhs, Left& rhs) {
+    lhs.swap(rhs);
+  }
+  friend bool operator==(const Left& lhs, const Left& rhs) {
+    return lhs.left_ == rhs.left_;
+  }
+  friend bool operator<(const Left& lhs, const Left& rhs) {
+    return lhs.left_ < rhs.left_;
+  }
+ private:
+  L left_;
+};
+
+template <typename R>
+class Right {
+ public:
+  explicit Right(const R& src)
+      : right_{src}
+  {}
+  explicit Right(R&& src)
+      : right_{std::move(src)}
+  {}
+  Right(const Right&) = default;
+  Right(Right&&) = default;
+  Right& operator=(const Right&) = default;
+  Right& operator=(Right&&) = default;
+  void swap(Right& that) {
+    using std::swap;
+    swap(right_, that.right_);
+  }
+  const R& value() const& {
+    return right_;
+  }
+  R&& value() && {
+    return std::move(right_);
+  }
+  template <typename R_>
+  friend class Right;
+  friend void swap(Right& lhs, Right& rhs) {
+    lhs.swap(rhs);
+  }
+  friend bool operator==(const Right& lhs, const Right& rhs) {
+    return lhs.right_ == rhs.right_;
+  }
+  friend bool operator<(const Right& lhs, const Right& rhs) {
+    return lhs.right_ < rhs.right_;
+  }
+ private:
+  R right_;
+};
 
 template <typename L, typename R>
 class Either {
