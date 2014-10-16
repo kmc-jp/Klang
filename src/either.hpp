@@ -18,8 +18,8 @@ struct enable_if_convertible
 struct LeftTag {};
 struct RightTag {};
 
-constexpr LeftTag left_tag;
-constexpr RightTag right_tag;
+constexpr LeftTag left_tag{};
+constexpr RightTag right_tag{};
 
 template <typename L, typename R>
 class Either;
