@@ -6,14 +6,15 @@
 #include <utility>
 
 namespace klang {
-namespace {
+
 extern void* enabler;
 
+namespace /* unnamed namespace */ {
 template <typename From, typename To>
 struct enable_if_convertible
     : public std::enable_if<std::is_convertible<From, To>::value>
 {};
-}
+}  // unnamed namespace
 
 struct LeftTag {};
 struct RightTag {};
