@@ -6,6 +6,9 @@
 #include <vector>
 
 namespace klang {
+namespace {
+  using const_iterator = std::string::const_iterator;
+}
 
 Token::Token()
   : type_(TokenType::UNKNOWN), str_(), line_(-1)
@@ -159,24 +162,26 @@ std::string extract_string(const std::string& str) {
 }
 
 TokenVector tokenize(std::istream& is) {
-  std::string const code{std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>()};
+  using std::begin;
+  using std::end;
+  std::string const code(std::string{std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>()} + '\n');
+  // ファイルの末尾が改行で終わっているほうが処理しやすい。
   TokenVector tokens;
-  std::string str;
   TokenType prev = TokenType::UNKNOWN;
+  const_iterator head(begin(code));
   int line = 1;
-  for (char c : code) {
-    TokenType next = match_type(str + c);
+  for (auto it(begin(code)); it != end(code); ++it) {
+    TokenType next = match_type(head, std::next(it));
     if (prev != TokenType::UNKNOWN && next == TokenType::UNKNOWN) {
       if (prev != TokenType::IGNORE) {
-        tokens.push_back(Token(prev, extract_string(str), line));
+        tokens.push_back(Token(prev, extract_string(head, it), line));
       }
-      str = c;
-      prev = match_type(str);
+      head = it;
+      prev = match_type(head, std::next(head));
     } else {
-      str += c;
       prev = next;
     }
-    if (c == '\n') ++line;
+    if (*it == '\n') ++line;
   }
   return tokens;
 }
