@@ -57,7 +57,7 @@ def main() -> (int) {
     EXPECT_EQ(expect[i], tokens[i]);
 }
 
-TEST(lexer, comment1) {
+TEST(lexer, NestedComment1) {
   std::stringstream is;
   is <<
 R"({~ comment
@@ -78,4 +78,30 @@ def placeholder
   ASSERT_EQ(expect.size(), tokens.size());
   for(size_t i(0); i < expect.size(); ++i)
     EXPECT_EQ(expect[i], tokens[i]);
+}
+
+TEST(lexer, brokenComment1Fixed) {
+  std::stringstream is;
+  is <<
+R"(
+{~ comment
+  {~ broken nest
+~}
+def placeholder
+)";
+  klang::TokenVector tokens;
+  bool success;
+  std::tie(success, tokens) = klang::tokenize(is);
+  EXPECT_FALSE(success);
+  ASSERT_EQ(klang::TokenVector(), tokens);
+}
+
+TEST(lexer, brokenComment2) {
+  std::stringstream is;
+  is << R"({~ broken comment)";
+  klang::TokenVector tokens;
+  bool success;
+  std::tie(success, tokens) = klang::tokenize(is);
+  EXPECT_FALSE(success);
+  ASSERT_EQ(klang::TokenVector(), tokens);
 }
