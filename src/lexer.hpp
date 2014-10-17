@@ -3,6 +3,7 @@
 
 #include <istream>
 #include <string>
+#include <tuple>
 #include <vector>
 
 namespace klang {
@@ -35,7 +36,7 @@ bool operator!=(Token const& lhs, Token const& rhs);
 
 typedef std::vector<Token> TokenVector;
 
-TokenVector tokenize(std::istream& is);
+std::tuple<bool, TokenVector> tokenize(std::istream& is);
 
 }  // namespace klang
 

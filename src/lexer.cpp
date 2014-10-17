@@ -3,7 +3,6 @@
 #include <cctype>
 #include <algorithm>
 #include <iterator>
-#include <vector>
 
 namespace klang {
 namespace {
@@ -164,7 +163,7 @@ std::string extract_string(const_iterator head, const_iterator tail) {
   return std::string{head, tail};
 }
 
-TokenVector tokenize(std::istream& is) {
+std::tuple<bool, TokenVector> tokenize(std::istream& is) {
   using std::begin;
   using std::end;
   std::string const code(std::string{std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>()} + '\n');
@@ -186,7 +185,8 @@ TokenVector tokenize(std::istream& is) {
     }
     if (*it == '\n') ++line;
   }
-  return tokens;
+  ++head; // head とend(code) が一致した時が、最後まで食べた時である。
+  return std::make_tuple(head == end(code), tokens);
 }
 
 bool operator==(Token const& lhs, Token const& rhs) {
