@@ -12,7 +12,10 @@ R"(
 ~}
 def placeholder
 )";
-  auto tokens = klang::tokenize(is);
+  klang::TokenVector tokens;
+  bool success;
+  std::tie(success, tokens) = klang::tokenize(is);
+  EXPECT_TRUE(success);
   using T = klang::Token;
   using klang::TokenType;
   klang::TokenVector const expect = {
