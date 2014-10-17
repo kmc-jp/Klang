@@ -23,6 +23,22 @@ TEST(lexer, primSymbol ## name) { \
 }
 // end of TEST_PRIM_SYMBOL
 
+#define TEST_PRIM_IDENTIFIER(name, identifier) \
+TEST(lexer, primIdentifier ## name) { \
+  std::stringstream is; \
+  is << identifier; \
+  klang::TokenVector tokens; \
+  bool success; \
+  std::tie(success, tokens) = klang::tokenize(is); \
+  EXPECT_TRUE(success); \
+  klang::TokenVector const expect = { \
+      T{TokenType::IDENTIFIER, identifier, 1}, \
+  }; \
+  EXPECT_EQ(expect, tokens); \
+}
+// end of TEST_PRIM_IDENTIFIER
+
+
 TEST(lexer, emptySource) {
   std::stringstream is;
   klang::TokenVector tokens;
@@ -118,6 +134,16 @@ TEST_PRIM_SYMBOL(For, "for")
 TEST_PRIM_SYMBOL(Break, "break")
 TEST_PRIM_SYMBOL(Continue, "continue")
 TEST_PRIM_SYMBOL(Return, "return")
+
+TEST_PRIM_IDENTIFIER(AllLower, "identifier")
+TEST_PRIM_IDENTIFIER(AllUpper, "IDENTIFIER")
+TEST_PRIM_IDENTIFIER(Camel, "Identifier")
+TEST_PRIM_IDENTIFIER(Snake, "i_d_e_n_t_i_f_i_e_r")
+TEST_PRIM_IDENTIFIER(Number, "identifier42")
+TEST_PRIM_IDENTIFIER(HeadBar, "_identifier")
+TEST_PRIM_IDENTIFIER(BarOrNum, "_4_2_")
+TEST_PRIM_IDENTIFIER(AllBar, "__________")
+TEST_PRIM_IDENTIFIER(BarNumAlpha, "_42identifier")
 
 TEST(lexer, hello) {
   std::stringstream is;
