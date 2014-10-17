@@ -55,6 +55,16 @@ TEST(lexer, primCommentSingle) {
   EXPECT_EQ(klang::TokenVector(), tokens);
 }
 
+TEST(lexer, primCommentMulti) {
+  std::stringstream is;
+  is << "{~ This is comment. ~}";
+  klang::TokenVector tokens;
+  bool success;
+  std::tie(success, tokens) = klang::tokenize(is);
+  EXPECT_TRUE(success);
+  EXPECT_EQ(klang::TokenVector(), tokens);
+}
+
 TEST(lexer, hello) {
   std::stringstream is;
   is <<
