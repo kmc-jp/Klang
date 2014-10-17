@@ -8,6 +8,21 @@ namespace {
     using klang::TokenType;
 }
 
+#define TEST_PRIM_SYMBOL(name, sym) \
+TEST(lexer, primSymbol ## name) { \
+  std::stringstream is; \
+  is << sym; \
+  klang::TokenVector tokens; \
+  bool success; \
+  std::tie(success, tokens) = klang::tokenize(is); \
+  EXPECT_TRUE(success); \
+  klang::TokenVector const expect = { \
+      T{TokenType::SYMBOL, sym, 1}, \
+  }; \
+  EXPECT_EQ(expect, tokens); \
+}
+// end of TEST_PRIM_SYMBOL
+
 TEST(lexer, emptySource) {
   std::stringstream is;
   klang::TokenVector tokens;
@@ -64,6 +79,45 @@ TEST(lexer, primCommentMulti) {
   EXPECT_TRUE(success);
   EXPECT_EQ(klang::TokenVector(), tokens);
 }
+
+TEST_PRIM_SYMBOL(WaveDash, "~")
+TEST_PRIM_SYMBOL(Puls, "+")
+TEST_PRIM_SYMBOL(Minus, "-")
+TEST_PRIM_SYMBOL(Mul, "*")
+TEST_PRIM_SYMBOL(Div, "/")
+TEST_PRIM_SYMBOL(Persent, "%")
+TEST_PRIM_SYMBOL(colonEq, ":=")
+TEST_PRIM_SYMBOL(colonPlusEq, ":+=")
+TEST_PRIM_SYMBOL(colonMinusEq, ":-=")
+TEST_PRIM_SYMBOL(colonMulEq, ":*=")
+TEST_PRIM_SYMBOL(colonDivEq, ":/=")
+TEST_PRIM_SYMBOL(colonPersentEq, ":%=")
+TEST_PRIM_SYMBOL(Equal, "=")
+TEST_PRIM_SYMBOL(NotEqual, "=/")
+TEST_PRIM_SYMBOL(LessThan, "<")
+TEST_PRIM_SYMBOL(MoreThan, ">")
+TEST_PRIM_SYMBOL(LessThanOrEq, "<=")
+TEST_PRIM_SYMBOL(MoreThanOrEq, ">=")
+TEST_PRIM_SYMBOL(SemiColon, ";")
+TEST_PRIM_SYMBOL(LeftParen, "(")
+TEST_PRIM_SYMBOL(RightParen, ")")
+TEST_PRIM_SYMBOL(LeftBracket, "{")
+TEST_PRIM_SYMBOL(RightBracket, "}")
+TEST_PRIM_SYMBOL(Arrow, "->")
+TEST_PRIM_SYMBOL(CloseComment, "~}")
+TEST_PRIM_SYMBOL(And, "and")
+TEST_PRIM_SYMBOL(Or, "or")
+TEST_PRIM_SYMBOL(Not, "not")
+TEST_PRIM_SYMBOL(Int, "int")
+TEST_PRIM_SYMBOL(Def, "def")
+TEST_PRIM_SYMBOL(Var, "var")
+TEST_PRIM_SYMBOL(If, "if")
+TEST_PRIM_SYMBOL(Else, "else")
+TEST_PRIM_SYMBOL(While, "while")
+TEST_PRIM_SYMBOL(For, "for")
+TEST_PRIM_SYMBOL(Break, "break")
+TEST_PRIM_SYMBOL(Continue, "continue")
+TEST_PRIM_SYMBOL(Return, "return")
 
 TEST(lexer, hello) {
   std::stringstream is;
