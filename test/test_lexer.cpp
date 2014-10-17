@@ -8,7 +8,7 @@ namespace {
     using klang::TokenType;
 }
 
-#define TEST_PRIM_ORIG(type, prefix ,name, value) \
+#define TEST_PRIM_ORIG(type, prefix, name, value) \
 TEST(lexer, prefix ## name) { \
   std::stringstream is; \
   is << value; \
@@ -28,6 +28,22 @@ TEST(lexer, prefix ## name) { \
 #define TEST_PRIM_IDENTIFIER(name, identifier) TEST_PRIM_ORIG(TokenType::IDENTIFIER, primSymbol, name, identifier)
 
 #define TEST_PRIM_NUMBER(name, number) TEST_PRIM_ORIG(TokenType::NUMBER, primNumber, name, number)
+
+#define TEST_PRIM_STRING(name, str) \
+TEST(lexer, primString ## name) { \
+  std::stringstream is; \
+  is << #str; \
+  klang::TokenVector tokens; \
+  bool success; \
+  std::tie(success, tokens) = klang::tokenize(is); \
+  EXPECT_TRUE(success); \
+  klang::TokenVector const expect = { \
+      T{TokenType::STRING, str, 1}, \
+  }; \
+  EXPECT_EQ(expect, tokens); \
+}
+// end of TEST_PRIM_STRING
+// アンクォートされた文字列をtokinize して返すので、一段クォートしないといけない。
 
 TEST(lexer, emptySource) {
   std::stringstream is;
@@ -148,6 +164,20 @@ TEST_PRIM_NUMBER(Nine, "9")
 TEST_PRIM_NUMBER(Ten, "10")
 TEST_PRIM_NUMBER(TheAnswerToTheUltimateQuestionOfLifeTheUniverseAndEverything, "42")
 TEST_PRIM_NUMBER(Hundred, "100")
+
+TEST_PRIM_STRING(Normal, "string")
+TEST_PRIM_STRING(Quoted, "\"string\"")
+TEST_PRIM_STRING(EscapedQuote, "\\\"string")
+TEST_PRIM_STRING(EscapedQuote2, "\\\\\"string")
+TEST_PRIM_STRING(EscapedQuote3, "\\\\\\\"string")
+TEST_PRIM_STRING(Quote, "\"")
+TEST_PRIM_STRING(Quote2, "\\\"")
+TEST_PRIM_STRING(BachSlash, "\\")
+TEST_PRIM_STRING(BachSlash2, "\\\\")
+TEST_PRIM_STRING(NewLine, "\n")
+TEST_PRIM_STRING(NewLineQ, "\\n")
+TEST_PRIM_STRING(Tab, "\t")
+TEST_PRIM_STRING(TabQ, "\\t")
 
 TEST(lexer, hello) {
   std::stringstream is;
