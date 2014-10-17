@@ -27,6 +27,8 @@ TEST(lexer, prefix ## name) { \
 
 #define TEST_PRIM_IDENTIFIER(name, identifier) TEST_PRIM_ORIG(TokenType::IDENTIFIER, primSymbol, name, identifier)
 
+#define TEST_PRIM_NUMBER(name, number) TEST_PRIM_ORIG(TokenType::NUMBER, primNumber, name, number)
+
 TEST(lexer, emptySource) {
   std::stringstream is;
   klang::TokenVector tokens;
@@ -132,6 +134,20 @@ TEST_PRIM_IDENTIFIER(HeadBar, "_identifier")
 TEST_PRIM_IDENTIFIER(BarOrNum, "_4_2_")
 TEST_PRIM_IDENTIFIER(AllBar, "__________")
 TEST_PRIM_IDENTIFIER(BarNumAlpha, "_42identifier")
+
+TEST_PRIM_NUMBER(Zero, "0")
+TEST_PRIM_NUMBER(One, "1")
+TEST_PRIM_NUMBER(Two, "2")
+TEST_PRIM_NUMBER(Three, "3")
+TEST_PRIM_NUMBER(Four, "4")
+TEST_PRIM_NUMBER(Five, "5")
+TEST_PRIM_NUMBER(Six, "6")
+TEST_PRIM_NUMBER(Seven, "7")
+TEST_PRIM_NUMBER(Eight, "8")
+TEST_PRIM_NUMBER(Nine, "9")
+TEST_PRIM_NUMBER(Ten, "10")
+TEST_PRIM_NUMBER(TheAnswerToTheUltimateQuestionOfLifeTheUniverseAndEverything, "42")
+TEST_PRIM_NUMBER(Hundred, "100")
 
 TEST(lexer, hello) {
   std::stringstream is;
