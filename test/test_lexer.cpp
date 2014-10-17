@@ -8,36 +8,24 @@ namespace {
     using klang::TokenType;
 }
 
-#define TEST_PRIM_SYMBOL(name, sym) \
-TEST(lexer, primSymbol ## name) { \
+#define TEST_PRIM_ORIG(type, prefix ,name, value) \
+TEST(lexer, prefix ## name) { \
   std::stringstream is; \
-  is << sym; \
+  is << value; \
   klang::TokenVector tokens; \
   bool success; \
   std::tie(success, tokens) = klang::tokenize(is); \
   EXPECT_TRUE(success); \
   klang::TokenVector const expect = { \
-      T{TokenType::SYMBOL, sym, 1}, \
+      T{type, value, 1}, \
   }; \
   EXPECT_EQ(expect, tokens); \
 }
-// end of TEST_PRIM_SYMBOL
+// end of TEST_PRIM_ORIG
 
-#define TEST_PRIM_IDENTIFIER(name, identifier) \
-TEST(lexer, primIdentifier ## name) { \
-  std::stringstream is; \
-  is << identifier; \
-  klang::TokenVector tokens; \
-  bool success; \
-  std::tie(success, tokens) = klang::tokenize(is); \
-  EXPECT_TRUE(success); \
-  klang::TokenVector const expect = { \
-      T{TokenType::IDENTIFIER, identifier, 1}, \
-  }; \
-  EXPECT_EQ(expect, tokens); \
-}
-// end of TEST_PRIM_IDENTIFIER
+#define TEST_PRIM_SYMBOL(name, sym) TEST_PRIM_ORIG(TokenType::SYMBOL, primSymbol, name, sym)
 
+#define TEST_PRIM_IDENTIFIER(name, identifier) TEST_PRIM_ORIG(TokenType::IDENTIFIER, primSymbol, name, identifier)
 
 TEST(lexer, emptySource) {
   std::stringstream is;
