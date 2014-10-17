@@ -45,62 +45,17 @@ TEST(lexer, primString ## name) { \
 // end of TEST_PRIM_STRING
 // アンクォートされた文字列をtokinize して返すので、一段クォートしないといけない。
 
-TEST(lexer, emptySource) {
-  std::stringstream is;
-  klang::TokenVector tokens;
-  bool success;
-  std::tie(success, tokens) = klang::tokenize(is);
-  EXPECT_TRUE(success);
-  EXPECT_EQ(klang::TokenVector(), tokens);
+#define TEST_PRIM_IGNORE(name, ign) \
+TEST(lexer, primIgnore ## name) { \
+  std::stringstream is; \
+  is << ign; \
+  klang::TokenVector tokens; \
+  bool success; \
+  std::tie(success, tokens) = klang::tokenize(is); \
+  EXPECT_TRUE(success); \
+  EXPECT_EQ(klang::TokenVector(), tokens); \
 }
-
-TEST(lexer, return0) {
-  std::stringstream is;
-  is <<
-R"(def main() -> (int) {
-  return 0;
-})";
-  klang::TokenVector tokens;
-  bool success;
-  std::tie(success, tokens) = klang::tokenize(is);
-  EXPECT_TRUE(success);
-  klang::TokenVector const expect = {
-      T{TokenType::SYMBOL, "def", 1},
-      T{TokenType::IDENTIFIER, "main", 1},
-      T{TokenType::SYMBOL, "(", 1},
-      T{TokenType::SYMBOL, ")", 1},
-      T{TokenType::SYMBOL, "->", 1},
-      T{TokenType::SYMBOL, "(", 1},
-      T{TokenType::SYMBOL, "int", 1},
-      T{TokenType::SYMBOL, ")", 1},
-      T{TokenType::SYMBOL, "{", 1},
-      T{TokenType::SYMBOL, "return", 2},
-      T{TokenType::NUMBER, "0", 2},
-      T{TokenType::SYMBOL, ";", 2},
-      T{TokenType::SYMBOL, "}", 3},
-  };
-  ASSERT_EQ(expect, tokens);
-}
-
-TEST(lexer, primCommentSingle) {
-  std::stringstream is;
-  is << "~~ This is comment.";
-  klang::TokenVector tokens;
-  bool success;
-  std::tie(success, tokens) = klang::tokenize(is);
-  EXPECT_TRUE(success);
-  EXPECT_EQ(klang::TokenVector(), tokens);
-}
-
-TEST(lexer, primCommentMulti) {
-  std::stringstream is;
-  is << "{~ This is comment. ~}";
-  klang::TokenVector tokens;
-  bool success;
-  std::tie(success, tokens) = klang::tokenize(is);
-  EXPECT_TRUE(success);
-  EXPECT_EQ(klang::TokenVector(), tokens);
-}
+// end of TEST_PRIM_IGNORE_ORIG
 
 TEST_PRIM_SYMBOL(WaveDash, "~")
 TEST_PRIM_SYMBOL(Puls, "+")
@@ -178,6 +133,13 @@ TEST_PRIM_STRING(NewLine, "\n")
 TEST_PRIM_STRING(NewLineQ, "\\n")
 TEST_PRIM_STRING(Tab, "\t")
 TEST_PRIM_STRING(TabQ, "\\t")
+
+TEST_PRIM_IGNORE(EmptySource, "")
+TEST_PRIM_IGNORE(Space, " ")
+TEST_PRIM_IGNORE(NewLine, "\n")
+TEST_PRIM_IGNORE(Tab, "\t")
+TEST_PRIM_IGNORE(SingleComment, "~~ This is comment.")
+TEST_PRIM_IGNORE(MultiLineComment, "{~ This is comment. ~}")
 
 TEST(lexer, hello) {
   std::stringstream is;
