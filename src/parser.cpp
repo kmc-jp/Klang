@@ -243,20 +243,22 @@ WithError<ast::ElseStatementPtr> Parser::parse_else_statement() {
 }
 
 WithError<ast::WhileStatementPtr> Parser::parse_while_statement() {
-  const auto s = snapshot();
-  if (parse_symbol("while") && parse_symbol("(")) {
-    if (auto condition = parse_expression()) {
-      if (parse_symbol(")")) {
-        if (auto compound_statement = parse_compound_statement()) {
-          return make_ast<ast::WhileStatementData>(
-              std::move(condition),
-              std::move(compound_statement));
-        }
-      }
-    }
+  if (!parse_symbol("while") || !parse_symbol("(")) {
+    return make_error();
   }
-  rewind(s);
-  return make_error();
+  auto condition = parse_expression();
+  if (!condition) {
+    return std::move(condition).left();
+  }
+  if (!parse_symbol(")")) {
+    return make_error();
+  }
+  auto compound_statement = parse_compound_statement();
+  if (!compound_statement) {
+    return std::move(compound_statement).left();
+  }
+  return make_ast<ast::WhileStatementData>(std::move(*condition),
+                                           std::move(*compound_statement));
 }
 
 WithError<ast::ForStatementPtr> Parser::parse_for_statement() {
