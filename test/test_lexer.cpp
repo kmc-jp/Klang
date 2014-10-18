@@ -5,7 +5,10 @@
 
 TEST(lexer, emptySource) {
   std::stringstream is;
-  auto tokens = klang::tokenize(is);
+  klang::TokenVector tokens;
+  bool success;
+  std::tie(success, tokens) = klang::tokenize(is);
+  EXPECT_TRUE(success);
   EXPECT_EQ("", test::to_string(tokens));
 }
 
@@ -23,7 +26,10 @@ def main() -> (int) {
   return 0;
 }
 )";
-  auto tokens = klang::tokenize(is);
+  klang::TokenVector tokens;
+  bool success;
+  std::tie(success, tokens) = klang::tokenize(is);
+  EXPECT_TRUE(success);
   using T = klang::Token;
   using klang::TokenType;
   klang::TokenVector const expect = {
@@ -59,7 +65,10 @@ R"({~ comment
 ~}
 def placeholder
 )";
-  auto tokens = klang::tokenize(is);
+  klang::TokenVector tokens;
+  bool success;
+  std::tie(success, tokens) = klang::tokenize(is);
+  EXPECT_TRUE(success);
   using T = klang::Token;
   using klang::TokenType;
   klang::TokenVector const expect = {
