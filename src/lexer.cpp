@@ -106,7 +106,8 @@ bool multiline_comment(const_iterator head, const_iterator tail) {
         --nest;
       }
     }
-    bool closed = nest == 0 && std::equal(std::prev(tail, 2), std::prev(tail), "~}");
+    bool closed = (nest == 0 &&
+                   std::equal(std::prev(tail, 2), std::prev(tail), "~}"));
     return (nest > 0 || closed);
   }
   return false;
