@@ -66,8 +66,12 @@ WithError<ast::StringLiteralPtr> Parser::parse_string_literal() {
 
 WithError<ast::TranslationUnitPtr> Parser::parse_translation_unit() {
   std::vector<ast::FunctionDefinitionPtr> functions;
-  while (auto function = parse_function_definition()) {
-    functions.push_back(std::move(function));
+  while (!is_eof()) {
+    if (auto function = parse_function_definition()) {
+      functions.push_back(std::move(*function));
+    } else {
+      return std::move(function).left();
+    }
   }
   return make_ast<ast::TranslationUnitData>(std::move(functions));
 }
