@@ -205,21 +205,28 @@ WithError<ast::CompoundStatementPtr> Parser::parse_compound_statement() {
 }
 
 WithError<ast::IfStatementPtr> Parser::parse_if_statement() {
-  const auto s = snapshot();
-  if (parse_symbol("if") && parse_symbol("(")) {
-    if (auto condition = parse_expression()) {
-      if (parse_symbol(")")) {
-        if (auto compound_statement = parse_compound_statement()) {
-          return make_ast<ast::IfStatementData>(
-              std::move(condition),
-              std::move(compound_statement),
-              parse_else_statement());
-        }
-      }
-    }
+  if (!parse_symbol("if") || !parse_symbol("(")) {
+    return make_error();
   }
-  rewind(s);
-  return make_error();
+  auto condition = parse_expression();
+  if (!condition) {
+    return std::move(condition).left();
+  }
+  if (parse_symbol(")")) {
+    return make_error();
+  }
+  auto compound_statement = parse_compound_statement();
+  if (!compound_statement) {
+    return std::move(compound_statement).left();
+  }
+  auto else_statement = parse_else_statement();
+  if (!else_statement) {
+    return std::move(else_statement).left();
+  }
+  return make_ast<ast::IfStatementData>(
+      std::move(*condition),
+      std::move(*compound_statement),
+      std::move(*else_statement));
 }
 
 WithError<ast::ElseStatementPtr> Parser::parse_else_statement() {
