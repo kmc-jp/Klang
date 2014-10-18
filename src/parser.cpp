@@ -318,12 +318,10 @@ WithError<ast::ReturnStatementPtr> Parser::parse_return_statement() {
 }
 
 WithError<ast::BreakStatementPtr> Parser::parse_break_statement() {
-  const auto s = snapshot();
-  if (parse_symbol("break") && parse_symbol(";")) {
-    return make_ast<ast::BreakStatementData>();
+  if (!parse_symbol("break") || !parse_symbol(";")) {
+    return make_error();
   }
-  rewind(s);
-  return make_error();
+  return make_ast<ast::BreakStatementData>();
 }
 
 WithError<ast::ContinueStatementPtr> Parser::parse_continue_statement() {
