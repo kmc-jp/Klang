@@ -137,15 +137,16 @@ WithError<ast::ArgumentListPtr> Parser::parse_argument_list() {
 }
 
 WithError<ast::ArgumentPtr> Parser::parse_argument() {
-  const auto s = snapshot();
-  if (auto argument_type = parse_type()) {
-    if (auto argument_name = parse_identifier()) {
-      return make_ast<ast::ArgumentData>(std::move(argument_type),
-                                         std::move(argument_name));
-    }
+  auto argument_type = parse_type();
+  if (!argument_type) {
+    return std::move(argument_type).left();
   }
-  rewind(s);
-  return make_error();
+  auto argument_name = parse_identifier();
+  if (!argument_name) {
+    return std::move(argument_name).left();
+  }
+  return make_ast<ast::ArgumentData>(std::move(*argument_type),
+                                     std::move(*argument_name));
 }
 
 WithError<ast::StatementPtr> Parser::parse_statement() {
