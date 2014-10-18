@@ -150,24 +150,41 @@ WithError<ast::ArgumentPtr> Parser::parse_argument() {
 }
 
 WithError<ast::StatementPtr> Parser::parse_statement() {
+  const auto s = snapshot();
   if (auto statement = parse_compound_statement()) {
-    return std::move(statement);
-  } else if (auto statement = parse_if_statement()){
-    return std::move(statement);
-  } else if (auto statement = parse_while_statement()){
-    return std::move(statement);
-  } else if (auto statement = parse_for_statement()){
-    return std::move(statement);
-  } else if (auto statement = parse_return_statement()){
-    return std::move(statement);
-  } else if (auto statement = parse_break_statement()){
-    return std::move(statement);
-  } else if (auto statement = parse_continue_statement()){
-    return std::move(statement);
-  } else if (auto statement = parse_variable_definition_statement()){
-    return std::move(statement);
-  } else if (auto statement = parse_expression_statement()){
-    return std::move(statement);
+    return std::move(statement).right();
+  }
+  rewind(s);
+  if (auto statement = parse_if_statement()) {
+    return std::move(statement).right();
+  }
+  rewind(s);
+  if (auto statement = parse_while_statement()) {
+    return std::move(statement).right();
+  }
+  rewind(s);
+  if (auto statement = parse_for_statement()) {
+    return std::move(statement).right();
+  }
+  rewind(s);
+  if (auto statement = parse_return_statement()) {
+    return std::move(statement).right();
+  }
+  rewind(s);
+  if (auto statement = parse_break_statement()) {
+    return std::move(statement).right();
+  }
+  rewind(s);
+  if (auto statement = parse_continue_statement()) {
+    return std::move(statement).right();
+  }
+  rewind(s);
+  if (auto statement = parse_variable_definition_statement()) {
+    return std::move(statement).right();
+  }
+  rewind(s);
+  if (auto statement = parse_expression_statement()) {
+    return std::move(statement).right();
   }
   return make_error();
 }
