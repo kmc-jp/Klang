@@ -304,16 +304,17 @@ WithError<ast::ForStatementPtr> Parser::parse_for_statement() {
 }
 
 WithError<ast::ReturnStatementPtr> Parser::parse_return_statement() {
-  const auto s = snapshot();
-  if (parse_symbol("return")) {
-    if (auto return_value = parse_expression()) {
-      if (parse_symbol(";")) {
-        return make_ast<ast::ReturnStatementData>(std::move(return_value));
-      }
-    }
+  if (!parse_symbol("return")) {
+    return make_error();
   }
-  rewind(s);
-  return make_error();
+  auto return_value = parse_expression();
+  if (!return_value) {
+    return std::move(return_value).left();
+  }
+  if (!parse_symbol(";")) {
+    return make_error();
+  }
+  return make_ast<ast::ReturnStatementData>(std::move(*return_value));
 }
 
 WithError<ast::BreakStatementPtr> Parser::parse_break_statement() {
