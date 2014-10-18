@@ -2,9 +2,15 @@
 #define KMC_KLANG_PARSER_HPP
 
 #include "ast.hpp"
+#include "either.hpp"
 #include "lexer.hpp"
 
 namespace klang {
+
+using ErrorInfo = Token;
+
+template <class T>
+using WithError = Either<ErrorInfo, T>;
 
 class Parser {
  public:
