@@ -116,19 +116,22 @@ WithError<ast::FunctionDefinitionPtr> Parser::parse_function_definition() {
 
 WithError<ast::ArgumentListPtr> Parser::parse_argument_list() {
   std::vector<ast::ArgumentPtr> arguments;
+  const auto s1 = snapshot();
   if (auto first_argument = parse_argument()) {
-    arguments.push_back(std::move(first_argument));
+    arguments.push_back(std::move(*first_argument));
     while (true) {
-      const auto s = snapshot();
+      const auto s2 = snapshot();
       if (parse_symbol(",")) {
         if (auto argument = parse_argument()) {
-          arguments.push_back(std::move(argument));
+          arguments.push_back(std::move(*argument));
           continue;
         }
       }
-      rewind(s);
+      rewind(s2);
       break;
     }
+  } else {
+    rewind(s1);
   }
   return make_ast<ast::ArgumentListData>(std::move(arguments));
 }
