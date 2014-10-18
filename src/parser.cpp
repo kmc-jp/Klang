@@ -19,7 +19,7 @@ bool Parser::parse_symbol(const char* str) {
   }
 }
 
-ast::IdentifierPtr Parser::parse_identifier() {
+WithError<ast::IdentifierPtr> Parser::parse_identifier() {
   if (current_type() == TokenType::IDENTIFIER) {
     advance(1);
     return make_unique<ast::IdentifierData>(current_string());
@@ -28,7 +28,7 @@ ast::IdentifierPtr Parser::parse_identifier() {
   }
 }
 
-ast::TypePtr Parser::parse_type() {
+WithError<ast::TypePtr> Parser::parse_type() {
   if (current_type() == TokenType::SYMBOL) {
     advance(1);
     return make_unique<ast::TypeData>(current_string());
@@ -37,7 +37,7 @@ ast::TypePtr Parser::parse_type() {
   }
 }
 
-ast::IntegerLiteralPtr Parser::parse_integer_literal() {
+WithError<ast::IntegerLiteralPtr> Parser::parse_integer_literal() {
   if (current_type() == TokenType::NUMBER) {
     advance(1);
     return make_unique<ast::IntegerLiteralData>(current_string());
@@ -46,7 +46,7 @@ ast::IntegerLiteralPtr Parser::parse_integer_literal() {
   }
 }
 
-ast::CharacterLiteralPtr Parser::parse_character_literal() {
+WithError<ast::CharacterLiteralPtr> Parser::parse_character_literal() {
   if (current_type() == TokenType::CHARACTER) {
     advance(1);
     return make_unique<ast::CharacterLiteralData>(current_string());
@@ -55,7 +55,7 @@ ast::CharacterLiteralPtr Parser::parse_character_literal() {
   }
 }
 
-ast::StringLiteralPtr Parser::parse_string_literal() {
+WithError<ast::StringLiteralPtr> Parser::parse_string_literal() {
   if (current_type() == TokenType::STRING) {
     advance(1);
     return make_unique<ast::StringLiteralData>(current_string());
@@ -64,7 +64,7 @@ ast::StringLiteralPtr Parser::parse_string_literal() {
   }
 }
 
-ast::TranslationUnitPtr Parser::parse_translation_unit() {
+WithError<ast::TranslationUnitPtr> Parser::parse_translation_unit() {
   std::vector<ast::FunctionDefinitionPtr> functions;
   while (auto function = parse_function_definition()) {
     functions.push_back(std::move(function));
@@ -72,7 +72,7 @@ ast::TranslationUnitPtr Parser::parse_translation_unit() {
   return make_unique<ast::TranslationUnitData>(std::move(functions));
 }
 
-ast::FunctionDefinitionPtr Parser::parse_function_definition() {
+WithError<ast::FunctionDefinitionPtr> Parser::parse_function_definition() {
   const auto s = snapshot();
   if (parse_symbol("def")) {
     if (auto function_name = parse_identifier()) {
@@ -99,7 +99,7 @@ ast::FunctionDefinitionPtr Parser::parse_function_definition() {
   return nullptr;
 }
 
-ast::ArgumentListPtr Parser::parse_argument_list() {
+WithError<ast::ArgumentListPtr> Parser::parse_argument_list() {
   std::vector<ast::ArgumentPtr> arguments;
   if (auto first_argument = parse_argument()) {
     arguments.push_back(std::move(first_argument));
@@ -118,7 +118,7 @@ ast::ArgumentListPtr Parser::parse_argument_list() {
   return make_unique<ast::ArgumentListData>(std::move(arguments));
 }
 
-ast::ArgumentPtr Parser::parse_argument() {
+WithError<ast::ArgumentPtr> Parser::parse_argument() {
   const auto s = snapshot();
   if (auto argument_type = parse_type()) {
     if (auto argument_name = parse_identifier()) {
@@ -130,7 +130,7 @@ ast::ArgumentPtr Parser::parse_argument() {
   return nullptr;
 }
 
-ast::StatementPtr Parser::parse_statement() {
+WithError<ast::StatementPtr> Parser::parse_statement() {
   if (auto statement = parse_compound_statement()) {
     return std::move(statement);
   } else if (auto statement = parse_if_statement()){
@@ -153,7 +153,7 @@ ast::StatementPtr Parser::parse_statement() {
   return nullptr;
 }
 
-ast::CompoundStatementPtr Parser::parse_compound_statement() {
+WithError<ast::CompoundStatementPtr> Parser::parse_compound_statement() {
   std::vector<ast::StatementPtr> statements;
   const auto s = snapshot();
   if (parse_symbol("{")) {
@@ -168,7 +168,7 @@ ast::CompoundStatementPtr Parser::parse_compound_statement() {
   return nullptr;
 }
 
-ast::IfStatementPtr Parser::parse_if_statement() {
+WithError<ast::IfStatementPtr> Parser::parse_if_statement() {
   const auto s = snapshot();
   if (parse_symbol("if") && parse_symbol("(")) {
     if (auto condition = parse_expression()) {
@@ -186,7 +186,7 @@ ast::IfStatementPtr Parser::parse_if_statement() {
   return nullptr;
 }
 
-ast::ElseStatementPtr Parser::parse_else_statement() {
+WithError<ast::ElseStatementPtr> Parser::parse_else_statement() {
   const auto s = snapshot();
   if (parse_symbol("else")) {
     if (auto else_if_statement = parse_if_statement()) {
@@ -199,7 +199,7 @@ ast::ElseStatementPtr Parser::parse_else_statement() {
   return nullptr;
 }
 
-ast::WhileStatementPtr Parser::parse_while_statement() {
+WithError<ast::WhileStatementPtr> Parser::parse_while_statement() {
   const auto s = snapshot();
   if (parse_symbol("while") && parse_symbol("(")) {
     if (auto condition = parse_expression()) {
@@ -216,7 +216,7 @@ ast::WhileStatementPtr Parser::parse_while_statement() {
   return nullptr;
 }
 
-ast::ForStatementPtr Parser::parse_for_statement() {
+WithError<ast::ForStatementPtr> Parser::parse_for_statement() {
   const auto s = snapshot();
   if (parse_symbol("for") && parse_symbol("(")) {
     auto init_expression = parse_expression();
@@ -240,7 +240,7 @@ ast::ForStatementPtr Parser::parse_for_statement() {
   return nullptr;
 }
 
-ast::ReturnStatementPtr Parser::parse_return_statement() {
+WithError<ast::ReturnStatementPtr> Parser::parse_return_statement() {
   const auto s = snapshot();
   if (parse_symbol("return")) {
     if (auto return_value = parse_expression()) {
@@ -253,7 +253,7 @@ ast::ReturnStatementPtr Parser::parse_return_statement() {
   return nullptr;
 }
 
-ast::BreakStatementPtr Parser::parse_break_statement() {
+WithError<ast::BreakStatementPtr> Parser::parse_break_statement() {
   const auto s = snapshot();
   if (parse_symbol("break") && parse_symbol(";")) {
     return make_unique<ast::BreakStatementData>();
@@ -262,7 +262,7 @@ ast::BreakStatementPtr Parser::parse_break_statement() {
   return nullptr;
 }
 
-ast::ContinueStatementPtr Parser::parse_continue_statement() {
+WithError<ast::ContinueStatementPtr> Parser::parse_continue_statement() {
   const auto s = snapshot();
   if (parse_symbol("continue") && parse_symbol(";")) {
     return make_unique<ast::ContinueStatementData>();
@@ -271,7 +271,7 @@ ast::ContinueStatementPtr Parser::parse_continue_statement() {
   return nullptr;
 }
 
-ast::VariableDefinitionStatementPtr
+WithError<ast::VariableDefinitionStatementPtr>
 Parser::parse_variable_definition_statement() {
   const auto s = snapshot();
   if (auto variable_definition = parse_variable_definition()) {
@@ -284,7 +284,7 @@ Parser::parse_variable_definition_statement() {
   return nullptr;
 }
 
-ast::VariableDefinitionPtr Parser::parse_variable_definition() {
+WithError<ast::VariableDefinitionPtr> Parser::parse_variable_definition() {
   const auto s = snapshot();
   if (parse_symbol("def")) {
     if (auto type_name = parse_type()) {
@@ -306,7 +306,7 @@ ast::VariableDefinitionPtr Parser::parse_variable_definition() {
   return nullptr;
 }
 
-ast::ExpressionStatementPtr Parser::parse_expression_statement() {
+WithError<ast::ExpressionStatementPtr> Parser::parse_expression_statement() {
   const auto s = snapshot();
   auto expression = parse_expression();
   if (parse_symbol(";")) {
@@ -316,11 +316,11 @@ ast::ExpressionStatementPtr Parser::parse_expression_statement() {
   return nullptr;
 }
 
-ast::ExpressionPtr Parser::parse_expression() {
+WithError<ast::ExpressionPtr> Parser::parse_expression() {
   return parse_assign_expression();
 }
 
-ast::AssignExpressionPtr Parser::parse_assign_expression() {
+WithError<ast::AssignExpressionPtr> Parser::parse_assign_expression() {
   if (auto lhs_expression = parse_or_expression()) {
     const auto s = snapshot();
     if (parse_symbol(":=")) {
@@ -365,7 +365,7 @@ ast::AssignExpressionPtr Parser::parse_assign_expression() {
   return nullptr;
 }
 
-ast::OrExpressionPtr Parser::parse_or_expression() {
+WithError<ast::OrExpressionPtr> Parser::parse_or_expression() {
   if (auto lhs_expression = parse_and_expression()) {
     const auto s = snapshot();
     if (parse_symbol("or")) {
@@ -380,7 +380,7 @@ ast::OrExpressionPtr Parser::parse_or_expression() {
   return nullptr;
 }
 
-ast::AndExpressionPtr Parser::parse_and_expression() {
+WithError<ast::AndExpressionPtr> Parser::parse_and_expression() {
   if (auto lhs_expression = parse_comparative_expression()) {
     const auto s = snapshot();
     if (parse_symbol("and")) {
@@ -395,7 +395,8 @@ ast::AndExpressionPtr Parser::parse_and_expression() {
   return nullptr;
 }
 
-ast::ComparativeExpressionPtr Parser::parse_comparative_expression() {
+WithError<ast::ComparativeExpressionPtr>
+Parser::parse_comparative_expression() {
   if (auto lhs_expression = parse_additive_expression()) {
     const auto s = snapshot();
     if (parse_symbol("=")) {
@@ -440,7 +441,7 @@ ast::ComparativeExpressionPtr Parser::parse_comparative_expression() {
   return nullptr;
 }
 
-ast::AdditiveExpressionPtr Parser::parse_additive_expression() {
+WithError<ast::AdditiveExpressionPtr> Parser::parse_additive_expression() {
   if (auto lhs_expression = parse_multiplicative_expression()) {
     const auto s = snapshot();
     if (parse_symbol("+")) {
@@ -461,7 +462,8 @@ ast::AdditiveExpressionPtr Parser::parse_additive_expression() {
   return nullptr;
 }
 
-ast::MultiplicativeExpressionPtr Parser::parse_multiplicative_expression() {
+WithError<ast::MultiplicativeExpressionPtr>
+Parser::parse_multiplicative_expression() {
   if (auto lhs_expression = parse_unary_expression()) {
     const auto s = snapshot();
     if (parse_symbol("*")) {
@@ -488,7 +490,7 @@ ast::MultiplicativeExpressionPtr Parser::parse_multiplicative_expression() {
   return nullptr;
 }
 
-ast::UnaryExpressionPtr Parser::parse_unary_expression() {
+WithError<ast::UnaryExpressionPtr> Parser::parse_unary_expression() {
   const auto s = snapshot();
   if (parse_symbol("not")) {
     if (auto unary_expression = parse_unary_expression()) {
@@ -506,7 +508,7 @@ ast::UnaryExpressionPtr Parser::parse_unary_expression() {
   return nullptr;
 }
 
-ast::PostfixExpressionPtr Parser::parse_postfix_expression() {
+WithError<ast::PostfixExpressionPtr> Parser::parse_postfix_expression() {
   if (auto postfix_expression = parse_function_call_expression()) {
     return std::move(postfix_expression);
   } else if (auto primary_expression = parse_primary_expression()) {
@@ -515,7 +517,8 @@ ast::PostfixExpressionPtr Parser::parse_postfix_expression() {
   return nullptr;
 }
 
-ast::FunctionCallExpressionPtr Parser::parse_function_call_expression() {
+WithError<ast::FunctionCallExpressionPtr>
+Parser::parse_function_call_expression() {
   const auto s = snapshot();
   if (auto function_name = parse_identifier()) {
     if (parse_symbol("(")) {
@@ -531,7 +534,7 @@ ast::FunctionCallExpressionPtr Parser::parse_function_call_expression() {
   return nullptr;
 }
 
-ast::ParameterListPtr Parser::parse_parameter_list() {
+WithError<ast::ParameterListPtr> Parser::parse_parameter_list() {
   std::vector<ast::ParameterPtr> parameters;
   if (auto first_parameter = parse_parameter()) {
     parameters.push_back(std::move(first_parameter));
@@ -550,14 +553,14 @@ ast::ParameterListPtr Parser::parse_parameter_list() {
   return make_unique<ast::ParameterListData>(std::move(parameters));
 }
 
-ast::ParameterPtr Parser::parse_parameter() {
+WithError<ast::ParameterPtr> Parser::parse_parameter() {
   if (auto expression = parse_expression()) {
     return make_unique<ast::ParameterData>(std::move(expression));
   }
   return nullptr;
 }
 
-ast::PrimaryExpressionPtr Parser::parse_primary_expression() {
+WithError<ast::PrimaryExpressionPtr> Parser::parse_primary_expression() {
   const auto s = snapshot();
   if (parse_symbol("(")) {
     if (auto expression = parse_expression()) {
