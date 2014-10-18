@@ -64,6 +64,11 @@ class Parser {
   Pointer current_;
 };
 
+template <class T, typename... Args>
+Right<std::unique_ptr<T> > make_ast(Args&&... args) {
+  return make_right(make_unique<T>(std::forward<Args>(args)...));
+}
+
 }  // namespace klang
 
 #endif  // KMC_KLANG_PARSER_HPP
