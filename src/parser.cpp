@@ -24,7 +24,7 @@ WithError<ast::IdentifierPtr> Parser::parse_identifier() {
     advance(1);
     return make_unique<ast::IdentifierData>(current_string());
   } else {
-    return nullptr;
+    return make_error();
   }
 }
 
@@ -33,7 +33,7 @@ WithError<ast::TypePtr> Parser::parse_type() {
     advance(1);
     return make_unique<ast::TypeData>(current_string());
   } else {
-    return nullptr;
+    return make_error();
   }
 }
 
@@ -42,7 +42,7 @@ WithError<ast::IntegerLiteralPtr> Parser::parse_integer_literal() {
     advance(1);
     return make_unique<ast::IntegerLiteralData>(current_string());
   } else {
-    return nullptr;
+    return make_error();
   }
 }
 
@@ -51,7 +51,7 @@ WithError<ast::CharacterLiteralPtr> Parser::parse_character_literal() {
     advance(1);
     return make_unique<ast::CharacterLiteralData>(current_string());
   } else {
-    return nullptr;
+    return make_error();
   }
 }
 
@@ -60,7 +60,7 @@ WithError<ast::StringLiteralPtr> Parser::parse_string_literal() {
     advance(1);
     return make_unique<ast::StringLiteralData>(current_string());
   } else {
-    return nullptr;
+    return make_error();
   }
 }
 
@@ -96,7 +96,7 @@ WithError<ast::FunctionDefinitionPtr> Parser::parse_function_definition() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::ArgumentListPtr> Parser::parse_argument_list() {
@@ -127,7 +127,7 @@ WithError<ast::ArgumentPtr> Parser::parse_argument() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::StatementPtr> Parser::parse_statement() {
@@ -150,7 +150,7 @@ WithError<ast::StatementPtr> Parser::parse_statement() {
   } else if (auto statement = parse_expression_statement()){
     return std::move(statement);
   }
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::CompoundStatementPtr> Parser::parse_compound_statement() {
@@ -165,7 +165,7 @@ WithError<ast::CompoundStatementPtr> Parser::parse_compound_statement() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::IfStatementPtr> Parser::parse_if_statement() {
@@ -183,7 +183,7 @@ WithError<ast::IfStatementPtr> Parser::parse_if_statement() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::ElseStatementPtr> Parser::parse_else_statement() {
@@ -196,7 +196,7 @@ WithError<ast::ElseStatementPtr> Parser::parse_else_statement() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::WhileStatementPtr> Parser::parse_while_statement() {
@@ -213,7 +213,7 @@ WithError<ast::WhileStatementPtr> Parser::parse_while_statement() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::ForStatementPtr> Parser::parse_for_statement() {
@@ -237,7 +237,7 @@ WithError<ast::ForStatementPtr> Parser::parse_for_statement() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::ReturnStatementPtr> Parser::parse_return_statement() {
@@ -250,7 +250,7 @@ WithError<ast::ReturnStatementPtr> Parser::parse_return_statement() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::BreakStatementPtr> Parser::parse_break_statement() {
@@ -259,7 +259,7 @@ WithError<ast::BreakStatementPtr> Parser::parse_break_statement() {
     return make_unique<ast::BreakStatementData>();
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::ContinueStatementPtr> Parser::parse_continue_statement() {
@@ -268,7 +268,7 @@ WithError<ast::ContinueStatementPtr> Parser::parse_continue_statement() {
     return make_unique<ast::ContinueStatementData>();
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::VariableDefinitionStatementPtr>
@@ -281,7 +281,7 @@ Parser::parse_variable_definition_statement() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::VariableDefinitionPtr> Parser::parse_variable_definition() {
@@ -303,7 +303,7 @@ WithError<ast::VariableDefinitionPtr> Parser::parse_variable_definition() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::ExpressionStatementPtr> Parser::parse_expression_statement() {
@@ -313,7 +313,7 @@ WithError<ast::ExpressionStatementPtr> Parser::parse_expression_statement() {
     return make_unique<ast::ExpressionStatementData>(std::move(expression));
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::ExpressionPtr> Parser::parse_expression() {
@@ -362,7 +362,7 @@ WithError<ast::AssignExpressionPtr> Parser::parse_assign_expression() {
     }
     return std::move(lhs_expression);
   }
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::OrExpressionPtr> Parser::parse_or_expression() {
@@ -377,7 +377,7 @@ WithError<ast::OrExpressionPtr> Parser::parse_or_expression() {
     rewind(s);
     return std::move(lhs_expression);
   }
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::AndExpressionPtr> Parser::parse_and_expression() {
@@ -392,7 +392,7 @@ WithError<ast::AndExpressionPtr> Parser::parse_and_expression() {
     rewind(s);
     return std::move(lhs_expression);
   }
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::ComparativeExpressionPtr>
@@ -438,7 +438,7 @@ Parser::parse_comparative_expression() {
     }
     return std::move(lhs_expression);
   }
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::AdditiveExpressionPtr> Parser::parse_additive_expression() {
@@ -459,7 +459,7 @@ WithError<ast::AdditiveExpressionPtr> Parser::parse_additive_expression() {
     }
     return std::move(lhs_expression);
   }
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::MultiplicativeExpressionPtr>
@@ -487,7 +487,7 @@ Parser::parse_multiplicative_expression() {
     }
     return std::move(lhs_expression);
   }
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::UnaryExpressionPtr> Parser::parse_unary_expression() {
@@ -505,7 +505,7 @@ WithError<ast::UnaryExpressionPtr> Parser::parse_unary_expression() {
   } else if (auto postfix_expression = parse_postfix_expression()) {
     return std::move(postfix_expression);
   }
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::PostfixExpressionPtr> Parser::parse_postfix_expression() {
@@ -514,7 +514,7 @@ WithError<ast::PostfixExpressionPtr> Parser::parse_postfix_expression() {
   } else if (auto primary_expression = parse_primary_expression()) {
     return std::move(primary_expression);
   }
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::FunctionCallExpressionPtr>
@@ -531,7 +531,7 @@ Parser::parse_function_call_expression() {
     }
   }
   rewind(s);
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::ParameterListPtr> Parser::parse_parameter_list() {
@@ -557,7 +557,7 @@ WithError<ast::ParameterPtr> Parser::parse_parameter() {
   if (auto expression = parse_expression()) {
     return make_unique<ast::ParameterData>(std::move(expression));
   }
-  return nullptr;
+  return make_error();
 }
 
 WithError<ast::PrimaryExpressionPtr> Parser::parse_primary_expression() {
@@ -583,7 +583,7 @@ WithError<ast::PrimaryExpressionPtr> Parser::parse_primary_expression() {
     return make_unique<ast::StringLiteralExpressionData>(
         std::move(string_literal));
   }
-  return nullptr;
+  return make_error();
 }
 
 TokenType Parser::current_type() const {
