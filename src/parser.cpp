@@ -233,13 +233,13 @@ WithError<ast::ElseStatementPtr> Parser::parse_else_statement() {
   const auto s = snapshot();
   if (parse_symbol("else")) {
     if (auto else_if_statement = parse_if_statement()) {
-      return std::move(else_if_statement);
+      return std::move(else_if_statement).right();
     } else if (auto compound_statement = parse_compound_statement()) {
-      return make_ast<ast::ElseStatementData>(std::move(compound_statement));
+      return make_ast<ast::ElseStatementData>(std::move(*compound_statement));
     }
   }
   rewind(s);
-  return make_error();
+  return make_ast<ast::ElseStatementData>(nullptr);
 }
 
 WithError<ast::WhileStatementPtr> Parser::parse_while_statement() {
