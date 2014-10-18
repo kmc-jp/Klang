@@ -6,6 +6,9 @@
 #include <vector>
 
 namespace klang {
+namespace {
+  using const_iterator = std::string::const_iterator;
+}
 
 Token::Token()
   : type_(TokenType::UNKNOWN), str_(), line_(-1)
@@ -36,34 +39,33 @@ bool decimal_digit(char c) {
   return std::isdigit(c);
 }
 
-bool identifier(const std::string& str) {
-  if (str.empty() || !alphabet_or_bar(str.front())) {
+bool identifier(const_iterator head, const_iterator tail) {
+  if (head == tail || !alphabet_or_bar(*head)) {
     return false;
   }
-  for (char c : str) {
-    if (!alphabet_or_bar(c) && !decimal_digit(c)) {
+  for (auto it(head); it != tail; ++it) {
+    if (!alphabet_or_bar(*it) && !decimal_digit(*it)) {
       return false;
     }
   }
   return true;
 }
 
-bool decimal_integer(const std::string& str) {
-  if (str == "0") return true;
-  if (str.empty() || !nonzero_digit(str.front())) {
+bool decimal_integer(const_iterator head, const_iterator tail) {
+  if (*head == '0' && std::distance(head, tail) == 1) return true;
+  if (head == tail || !nonzero_digit(*head)) {
     return false;
   }
-  for (char c : str) {
-    if (!decimal_digit(c)) {
-      return false;
-    }
+  for (auto it(head); it != tail; ++it) {
+    if (!decimal_digit(*it)) return false;
   }
   return true;
 }
 
-bool symbol(const std::string& str) {
+bool symbol(const_iterator head, const_iterator tail) {
   using std::begin;
   using std::end;
+  std::string const str(head, tail);
   static std::vector<std::string> const symbol_list = {
     "~", "+", "-", "*", "/", "%",
     ":=", ":+=", ":-=", ":*=", ":/=", ":%=",
@@ -75,24 +77,28 @@ bool symbol(const std::string& str) {
   return (std::find(begin(symbol_list), end(symbol_list), str) != end(symbol_list));
 }
 
-bool ignore(const std::string& str) {
-  if(str.size() != 1) return false;
-  return std::isspace(str[0]);
+bool ignore(const_iterator head, const_iterator tail) {
+  if(std::distance(head, tail) != 1) return false;
+  // `std::distance(head, tail) != 1` は、`next(head) != tail` のほうが高速かもしれない。
+  // 意図が失われるので、ひとまず`distance` を使う。
+  return std::isspace(*head);
 }
 
-bool singleline_comment(const std::string& str) {
+bool singleline_comment(const_iterator head, const_iterator tail) {
   using std::begin;
   using std::end;
-  bool inside = (str.back() == '\n' || str.find("\n") == std::string::npos);
-  return std::equal(begin(str), std::next(begin(str), 2), "~~") && inside;
+  if(std::equal(head, std::next(head, 2), "~~")) {
+      return std::find(head, tail, '\n') == std::prev(tail);
+  }
+  return false;
 }
 
-bool multiline_comment(const std::string& str) {
+bool multiline_comment(const_iterator head, const_iterator tail) {
   using std::begin;
   using std::end;
-  if (std::equal(begin(str), std::next(begin(str), 2), "{~")) {
+  if (std::equal(head, std::next(head, 2), "{~")) {
     int nest = 0;
-    for(auto it = begin(str); std::next(it) != end(str); ++it) {
+    for(auto it = head; std::next(it) != tail; ++it) {
       std::string tk(it, std::next(it, 2));
       if (tk == "{~") {
         ++nest;
@@ -100,26 +106,27 @@ bool multiline_comment(const std::string& str) {
         --nest;
       }
     }
-    bool closed = (nest == 0 && std::equal(std::prev(end(str), 2), std::prev(end(str)), "~}"));
+    bool closed = (nest == 0 &&
+                   std::equal(std::prev(tail, 2), std::prev(tail), "~}"));
     return (nest > 0 || closed);
   }
   return false;
 }
 
-bool comment(const std::string& str) {
-  return (singleline_comment(str) || multiline_comment(str));
+bool comment(const_iterator head, const_iterator tail) {
+  return (singleline_comment(head, tail) || multiline_comment(head, tail));
 }
 
-bool string_token(const std::string& str) {
+bool string_token(const_iterator head, const_iterator tail) {
   using std::begin;
   using std::end;
-  if (str.front() == '"') {
+  if (*head == '"') {
     bool escaped = false;
-    for(auto it = std::next(begin(str)); it != end(str); ++it) {
+    for(auto it = std::next(head); it != tail; ++it) {
       if (*it == '\\') {
         escaped = true;
       } else if (*it == '"' && (!escaped)) {
-        return std::next(it) == end(str);
+        return std::next(it) == tail;
       } else {
         escaped = false;
       }
@@ -128,55 +135,58 @@ bool string_token(const std::string& str) {
   return false;
 }
 
-TokenType match_type(std::string const& str) {
-  if (comment(str)) return TokenType::IGNORE;
-  if (symbol(str)) return TokenType::SYMBOL;
-  if (identifier(str)) return TokenType::IDENTIFIER;
-  if (decimal_integer(str)) return TokenType::NUMBER;
-  if (string_token(str)) return TokenType::STRING;
-  if (ignore(str)) return TokenType::IGNORE;
+TokenType match_type(const_iterator head, const_iterator tail) {
+  if (comment(head, tail)) return TokenType::IGNORE;
+  if (symbol(head, tail)) return TokenType::SYMBOL;
+  if (identifier(head, tail)) return TokenType::IDENTIFIER;
+  if (decimal_integer(head, tail)) return TokenType::NUMBER;
+  if (string_token(head, tail)) return TokenType::STRING;
+  if (ignore(head, tail)) return TokenType::IGNORE;
   return TokenType::UNKNOWN;
 }
 
-std::string extract_string(const std::string& str) {
-  if (str.front() == '"') {
+std::string extract_string(const_iterator head, const_iterator tail) {
+  if (*head == '"') {
     bool escaped = false;
     std::string new_str;
-    for(auto c : str) {
+    for(auto it(head); it != tail; ++it) {
       if (escaped) {
-        if(c == '"') new_str.push_back('"');
-        if(c == 'n') new_str.push_back('\n');
+        if(*it == '"') new_str.push_back('"');
+        if(*it == 'n') new_str.push_back('\n');
         escaped = false;
-      } else if (c == '\\') {
+      } else if (*it == '\\') {
         escaped = true;
-      } else if (c != '"') {
-        new_str.push_back(c);
+      } else if (*it != '"') {
+        new_str.push_back(*it);
       }
     }
     return new_str;
   }
-  return str;
+  return std::string{head, tail};
 }
 
 TokenVector tokenize(std::istream& is) {
-  std::string const code{std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>()};
+  using std::begin;
+  using std::end;
+  using istrbuf_itr = std::istreambuf_iterator<char>;
+  std::string const code(std::string{istrbuf_itr(is), istrbuf_itr()} + '\n');
+  // ファイルの末尾が改行で終わっているほうが処理しやすい。
   TokenVector tokens;
-  std::string str;
   TokenType prev = TokenType::UNKNOWN;
+  const_iterator head(begin(code));
   int line = 1;
-  for (char c : code) {
-    TokenType next = match_type(str + c);
+  for (auto it(begin(code)); it != end(code); ++it) {
+    TokenType next = match_type(head, std::next(it));
     if (prev != TokenType::UNKNOWN && next == TokenType::UNKNOWN) {
       if (prev != TokenType::IGNORE) {
-        tokens.push_back(Token(prev, extract_string(str), line));
+        tokens.push_back(Token(prev, extract_string(head, it), line));
       }
-      str = c;
-      prev = match_type(str);
+      head = it;
+      prev = match_type(head, std::next(head));
     } else {
-      str += c;
       prev = next;
     }
-    if (c == '\n') ++line;
+    if (*it == '\n') ++line;
   }
   return tokens;
 }
