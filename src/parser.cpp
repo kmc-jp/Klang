@@ -77,30 +77,41 @@ WithError<ast::TranslationUnitPtr> Parser::parse_translation_unit() {
 }
 
 WithError<ast::FunctionDefinitionPtr> Parser::parse_function_definition() {
-  const auto s = snapshot();
-  if (parse_symbol("def")) {
-    if (auto function_name = parse_identifier()) {
-      if (parse_symbol("(")) {
-        if (auto arguments = parse_argument_list()) {
-          if (parse_symbol(")") && parse_symbol("->") && parse_symbol("(")) {
-            if (auto return_type = parse_type()) {
-              if (parse_symbol(")")) {
-                if (auto function_body = parse_compound_statement()) {
-                  return make_ast<ast::FunctionDefinitionData>(
-                      std::move(function_name),
-                      std::move(arguments),
-                      std::move(return_type),
-                      std::move(function_body));
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+  if (!parse_symbol("def")) {
+    return make_error();
   }
-  rewind(s);
-  return make_error();
+  auto function_name = parse_identifier();
+  if (!function_name) {
+    return std::move(function_name).left();
+  }
+  if (!parse_symbol("(")) {
+    return make_error();
+  }
+  auto arguments = parse_argument_list();
+  if (!arguments) {
+    return std::move(arguments).left();
+  }
+  if (!parse_symbol(")") ||
+      !parse_symbol("->") ||
+      !parse_symbol("(")) {
+    return make_error();
+  }
+  auto return_type = parse_type();
+  if (!return_type) {
+    return std::move(return_type).left();
+  }
+  if (!parse_symbol(")")) {
+    return make_error();
+  }
+  auto function_body = parse_compound_statement();
+  if (!function_body) {
+    return std::move(function_body).left();
+  }
+  return make_ast<ast::FunctionDefinitionData>(
+      std::move(*function_name),
+      std::move(*arguments),
+      std::move(*return_type),
+      std::move(*function_body));
 }
 
 WithError<ast::ArgumentListPtr> Parser::parse_argument_list() {
