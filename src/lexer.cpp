@@ -167,7 +167,8 @@ std::string extract_string(const_iterator head, const_iterator tail) {
 TokenVector tokenize(std::istream& is) {
   using std::begin;
   using std::end;
-  std::string const code(std::string{std::istreambuf_iterator<char>(is), std::istreambuf_iterator<char>()} + '\n');
+  using istrbuf_itr = std::istreambuf_iterator<char>;
+  std::string const code(std::string{istrbuf_itr(is), istrbuf_itr()} + '\n');
   // ファイルの末尾が改行で終わっているほうが処理しやすい。
   TokenVector tokens;
   TokenType prev = TokenType::UNKNOWN;
