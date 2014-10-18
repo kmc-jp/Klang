@@ -325,12 +325,10 @@ WithError<ast::BreakStatementPtr> Parser::parse_break_statement() {
 }
 
 WithError<ast::ContinueStatementPtr> Parser::parse_continue_statement() {
-  const auto s = snapshot();
-  if (parse_symbol("continue") && parse_symbol(";")) {
-    return make_ast<ast::ContinueStatementData>();
+  if (!parse_symbol("continue") || !parse_symbol(";")) {
+    return make_error();
   }
-  rewind(s);
-  return make_error();
+  return make_ast<ast::ContinueStatementData>();
 }
 
 WithError<ast::VariableDefinitionStatementPtr>
