@@ -22,7 +22,7 @@ bool Parser::parse_symbol(const char* str) {
 WithError<ast::IdentifierPtr> Parser::parse_identifier() {
   if (current_type() == TokenType::IDENTIFIER) {
     advance(1);
-    return make_unique<ast::IdentifierData>(current_string());
+    return make_ast<ast::IdentifierData>(current_string());
   } else {
     return make_error();
   }
@@ -31,7 +31,7 @@ WithError<ast::IdentifierPtr> Parser::parse_identifier() {
 WithError<ast::TypePtr> Parser::parse_type() {
   if (current_type() == TokenType::SYMBOL) {
     advance(1);
-    return make_unique<ast::TypeData>(current_string());
+    return make_ast<ast::TypeData>(current_string());
   } else {
     return make_error();
   }
@@ -40,7 +40,7 @@ WithError<ast::TypePtr> Parser::parse_type() {
 WithError<ast::IntegerLiteralPtr> Parser::parse_integer_literal() {
   if (current_type() == TokenType::NUMBER) {
     advance(1);
-    return make_unique<ast::IntegerLiteralData>(current_string());
+    return make_ast<ast::IntegerLiteralData>(current_string());
   } else {
     return make_error();
   }
@@ -49,7 +49,7 @@ WithError<ast::IntegerLiteralPtr> Parser::parse_integer_literal() {
 WithError<ast::CharacterLiteralPtr> Parser::parse_character_literal() {
   if (current_type() == TokenType::CHARACTER) {
     advance(1);
-    return make_unique<ast::CharacterLiteralData>(current_string());
+    return make_ast<ast::CharacterLiteralData>(current_string());
   } else {
     return make_error();
   }
@@ -58,7 +58,7 @@ WithError<ast::CharacterLiteralPtr> Parser::parse_character_literal() {
 WithError<ast::StringLiteralPtr> Parser::parse_string_literal() {
   if (current_type() == TokenType::STRING) {
     advance(1);
-    return make_unique<ast::StringLiteralData>(current_string());
+    return make_ast<ast::StringLiteralData>(current_string());
   } else {
     return make_error();
   }
@@ -69,7 +69,7 @@ WithError<ast::TranslationUnitPtr> Parser::parse_translation_unit() {
   while (auto function = parse_function_definition()) {
     functions.push_back(std::move(function));
   }
-  return make_unique<ast::TranslationUnitData>(std::move(functions));
+  return make_ast<ast::TranslationUnitData>(std::move(functions));
 }
 
 WithError<ast::FunctionDefinitionPtr> Parser::parse_function_definition() {
@@ -82,7 +82,7 @@ WithError<ast::FunctionDefinitionPtr> Parser::parse_function_definition() {
             if (auto return_type = parse_type()) {
               if (parse_symbol(")")) {
                 if (auto function_body = parse_compound_statement()) {
-                  return make_unique<ast::FunctionDefinitionData>(
+                  return make_ast<ast::FunctionDefinitionData>(
                       std::move(function_name),
                       std::move(arguments),
                       std::move(return_type),
@@ -115,15 +115,15 @@ WithError<ast::ArgumentListPtr> Parser::parse_argument_list() {
       break;
     }
   }
-  return make_unique<ast::ArgumentListData>(std::move(arguments));
+  return make_ast<ast::ArgumentListData>(std::move(arguments));
 }
 
 WithError<ast::ArgumentPtr> Parser::parse_argument() {
   const auto s = snapshot();
   if (auto argument_type = parse_type()) {
     if (auto argument_name = parse_identifier()) {
-      return make_unique<ast::ArgumentData>(std::move(argument_type),
-                                            std::move(argument_name));
+      return make_ast<ast::ArgumentData>(std::move(argument_type),
+                                         std::move(argument_name));
     }
   }
   rewind(s);
@@ -161,7 +161,7 @@ WithError<ast::CompoundStatementPtr> Parser::parse_compound_statement() {
       statements.push_back(std::move(statement));
     }
     if (parse_symbol("}")) {
-      return make_unique<ast::CompoundStatementData>(std::move(statements));
+      return make_ast<ast::CompoundStatementData>(std::move(statements));
     }
   }
   rewind(s);
@@ -174,7 +174,7 @@ WithError<ast::IfStatementPtr> Parser::parse_if_statement() {
     if (auto condition = parse_expression()) {
       if (parse_symbol(")")) {
         if (auto compound_statement = parse_compound_statement()) {
-          return make_unique<ast::IfStatementData>(
+          return make_ast<ast::IfStatementData>(
               std::move(condition),
               std::move(compound_statement),
               parse_else_statement());
@@ -192,7 +192,7 @@ WithError<ast::ElseStatementPtr> Parser::parse_else_statement() {
     if (auto else_if_statement = parse_if_statement()) {
       return std::move(else_if_statement);
     } else if (auto compound_statement = parse_compound_statement()) {
-      return make_unique<ast::ElseStatementData>(std::move(compound_statement));
+      return make_ast<ast::ElseStatementData>(std::move(compound_statement));
     }
   }
   rewind(s);
@@ -205,7 +205,7 @@ WithError<ast::WhileStatementPtr> Parser::parse_while_statement() {
     if (auto condition = parse_expression()) {
       if (parse_symbol(")")) {
         if (auto compound_statement = parse_compound_statement()) {
-          return make_unique<ast::WhileStatementData>(
+          return make_ast<ast::WhileStatementData>(
               std::move(condition),
               std::move(compound_statement));
         }
@@ -226,7 +226,7 @@ WithError<ast::ForStatementPtr> Parser::parse_for_statement() {
         auto reinit_expression = parse_expression();
         if (parse_symbol(")")) {
           if (auto compound_statement = parse_compound_statement()) {
-            return make_unique<ast::ForStatementData>(
+            return make_ast<ast::ForStatementData>(
                 std::move(init_expression),
                 std::move(cond_expression),
                 std::move(reinit_expression),
@@ -245,7 +245,7 @@ WithError<ast::ReturnStatementPtr> Parser::parse_return_statement() {
   if (parse_symbol("return")) {
     if (auto return_value = parse_expression()) {
       if (parse_symbol(";")) {
-        return make_unique<ast::ReturnStatementData>(std::move(return_value));
+        return make_ast<ast::ReturnStatementData>(std::move(return_value));
       }
     }
   }
@@ -256,7 +256,7 @@ WithError<ast::ReturnStatementPtr> Parser::parse_return_statement() {
 WithError<ast::BreakStatementPtr> Parser::parse_break_statement() {
   const auto s = snapshot();
   if (parse_symbol("break") && parse_symbol(";")) {
-    return make_unique<ast::BreakStatementData>();
+    return make_ast<ast::BreakStatementData>();
   }
   rewind(s);
   return make_error();
@@ -265,7 +265,7 @@ WithError<ast::BreakStatementPtr> Parser::parse_break_statement() {
 WithError<ast::ContinueStatementPtr> Parser::parse_continue_statement() {
   const auto s = snapshot();
   if (parse_symbol("continue") && parse_symbol(";")) {
-    return make_unique<ast::ContinueStatementData>();
+    return make_ast<ast::ContinueStatementData>();
   }
   rewind(s);
   return make_error();
@@ -276,7 +276,7 @@ Parser::parse_variable_definition_statement() {
   const auto s = snapshot();
   if (auto variable_definition = parse_variable_definition()) {
     if (parse_symbol(";")) {
-      return make_unique<ast::VariableDefinitionStatementData>(
+      return make_ast<ast::VariableDefinitionStatementData>(
           std::move(variable_definition));
     }
   }
@@ -292,7 +292,7 @@ WithError<ast::VariableDefinitionPtr> Parser::parse_variable_definition() {
       if (auto variable_name = parse_identifier()) {
         if (parse_symbol(":=")) {
           if (auto expression = parse_expression()) {
-            return make_unique<ast::VariableDefinitionData>(
+            return make_ast<ast::VariableDefinitionData>(
                 std::move(type_name),
                 is_mutable,
                 std::move(variable_name),
@@ -310,7 +310,7 @@ WithError<ast::ExpressionStatementPtr> Parser::parse_expression_statement() {
   const auto s = snapshot();
   auto expression = parse_expression();
   if (parse_symbol(";")) {
-    return make_unique<ast::ExpressionStatementData>(std::move(expression));
+    return make_ast<ast::ExpressionStatementData>(std::move(expression));
   }
   rewind(s);
   return make_error();
@@ -325,37 +325,37 @@ WithError<ast::AssignExpressionPtr> Parser::parse_assign_expression() {
     const auto s = snapshot();
     if (parse_symbol(":=")) {
       if (auto rhs_expression = parse_or_expression()) {
-        return make_unique<ast::AssignExpressionData>(
+        return make_ast<ast::AssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if(parse_symbol(":+=")) {
       if (auto rhs_expression = parse_or_expression()) {
-        return make_unique<ast::AddAssignExpressionData>(
+        return make_ast<ast::AddAssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if(parse_symbol(":-=")) {
       if (auto rhs_expression = parse_or_expression()) {
-        return make_unique<ast::SubtractAssignExpressionData>(
+        return make_ast<ast::SubtractAssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if(parse_symbol(":*=")) {
       if (auto rhs_expression = parse_or_expression()) {
-        return make_unique<ast::MultiplyAssignExpressionData>(
+        return make_ast<ast::MultiplyAssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if(parse_symbol(":/=")) {
       if (auto rhs_expression = parse_or_expression()) {
-        return make_unique<ast::DivideAssignExpressionData>(
+        return make_ast<ast::DivideAssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if(parse_symbol(":%=")) {
       if (auto rhs_expression = parse_or_expression()) {
-        return make_unique<ast::ModuloAssignExpressionData>(
+        return make_ast<ast::ModuloAssignExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
@@ -370,7 +370,7 @@ WithError<ast::OrExpressionPtr> Parser::parse_or_expression() {
     const auto s = snapshot();
     if (parse_symbol("or")) {
       if (auto rhs_expression = parse_or_expression()) {
-        return make_unique<ast::OrExpressionData>(
+        return make_ast<ast::OrExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
     }
@@ -385,7 +385,7 @@ WithError<ast::AndExpressionPtr> Parser::parse_and_expression() {
     const auto s = snapshot();
     if (parse_symbol("and")) {
       if (auto rhs_expression = parse_and_expression()) {
-        return make_unique<ast::AndExpressionData>(
+        return make_ast<ast::AndExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
     }
@@ -401,37 +401,37 @@ Parser::parse_comparative_expression() {
     const auto s = snapshot();
     if (parse_symbol("=")) {
       if (auto rhs_expression = parse_additive_expression()) {
-        return make_unique<ast::EqualExpressionData>(
+        return make_ast<ast::EqualExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if (parse_symbol("=/")) {
       if (auto rhs_expression = parse_additive_expression()) {
-        return make_unique<ast::NotEqualExpressionData>(
+        return make_ast<ast::NotEqualExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if (parse_symbol("<")) {
       if (auto rhs_expression = parse_additive_expression()) {
-        return make_unique<ast::LessExpressionData>(
+        return make_ast<ast::LessExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if (parse_symbol(">")) {
       if (auto rhs_expression = parse_additive_expression()) {
-        return make_unique<ast::GreaterExpressionData>(
+        return make_ast<ast::GreaterExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if (parse_symbol("<=")) {
       if (auto rhs_expression = parse_additive_expression()) {
-        return make_unique<ast::LessOrEqualExpressionData>(
+        return make_ast<ast::LessOrEqualExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if (parse_symbol(">=")) {
       if (auto rhs_expression = parse_additive_expression()) {
-        return make_unique<ast::GreaterOrEqualExpressionData>(
+        return make_ast<ast::GreaterOrEqualExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
@@ -446,13 +446,13 @@ WithError<ast::AdditiveExpressionPtr> Parser::parse_additive_expression() {
     const auto s = snapshot();
     if (parse_symbol("+")) {
       if (auto rhs_expression = parse_additive_expression()) {
-        return make_unique<ast::AddExpressionData>(
+        return make_ast<ast::AddExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if (parse_symbol("-")) {
       if (auto rhs_expression = parse_additive_expression()) {
-        return make_unique<ast::SubtractExpressionData>(
+        return make_ast<ast::SubtractExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
@@ -468,19 +468,19 @@ Parser::parse_multiplicative_expression() {
     const auto s = snapshot();
     if (parse_symbol("*")) {
       if (auto rhs_expression = parse_multiplicative_expression()) {
-        return make_unique<ast::MultiplyExpressionData>(
+        return make_ast<ast::MultiplyExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if (parse_symbol("/")) {
       if (auto rhs_expression = parse_multiplicative_expression()) {
-        return make_unique<ast::DivideExpressionData>(
+        return make_ast<ast::DivideExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
     } else if (parse_symbol("%")) {
       if (auto rhs_expression = parse_multiplicative_expression()) {
-        return make_unique<ast::ModuloExpressionData>(
+        return make_ast<ast::ModuloExpressionData>(
             std::move(lhs_expression), std::move(rhs_expression));
       }
       rewind(s);
@@ -494,12 +494,12 @@ WithError<ast::UnaryExpressionPtr> Parser::parse_unary_expression() {
   const auto s = snapshot();
   if (parse_symbol("not")) {
     if (auto unary_expression = parse_unary_expression()) {
-      return make_unique<ast::NotExpressionData>(std::move(unary_expression));
+      return make_ast<ast::NotExpressionData>(std::move(unary_expression));
     }
     rewind(s);
   } else if (parse_symbol("~")) {
     if (auto unary_expression = parse_unary_expression()) {
-      return make_unique<ast::MinusExpressionData>(std::move(unary_expression));
+      return make_ast<ast::MinusExpressionData>(std::move(unary_expression));
     }
     rewind(s);
   } else if (auto postfix_expression = parse_postfix_expression()) {
@@ -524,7 +524,7 @@ Parser::parse_function_call_expression() {
     if (parse_symbol("(")) {
       if (auto parameter_list = parse_parameter_list()) {
         if (parse_symbol(")")) {
-          return make_unique<ast::FunctionCallExpressionData>(
+          return make_ast<ast::FunctionCallExpressionData>(
               std::move(function_name), std::move(parameter_list));
         }
       }
@@ -550,12 +550,12 @@ WithError<ast::ParameterListPtr> Parser::parse_parameter_list() {
       break;
     }
   }
-  return make_unique<ast::ParameterListData>(std::move(parameters));
+  return make_ast<ast::ParameterListData>(std::move(parameters));
 }
 
 WithError<ast::ParameterPtr> Parser::parse_parameter() {
   if (auto expression = parse_expression()) {
-    return make_unique<ast::ParameterData>(std::move(expression));
+    return make_ast<ast::ParameterData>(std::move(expression));
   }
   return make_error();
 }
@@ -565,22 +565,22 @@ WithError<ast::PrimaryExpressionPtr> Parser::parse_primary_expression() {
   if (parse_symbol("(")) {
     if (auto expression = parse_expression()) {
       if (parse_symbol(")")) {
-        return make_unique<ast::ParenthesizedExpressionData>(
+        return make_ast<ast::ParenthesizedExpressionData>(
             std::move(expression));
       }
     }
     rewind(s);
   } else if (auto identifier = parse_identifier()) {
-    return make_unique<ast::IdentifierExpressionData>(
+    return make_ast<ast::IdentifierExpressionData>(
         std::move(identifier));
   } else if (auto integer_literal = parse_integer_literal()) {
-    return make_unique<ast::IntegerLiteralExpressionData>(
+    return make_ast<ast::IntegerLiteralExpressionData>(
         std::move(integer_literal));
   } else if (auto character_literal = parse_character_literal()) {
-    return make_unique<ast::CharacterLiteralExpressionData>(
+    return make_ast<ast::CharacterLiteralExpressionData>(
         std::move(character_literal));
   } else if (auto string_literal = parse_string_literal()) {
-    return make_unique<ast::StringLiteralExpressionData>(
+    return make_ast<ast::StringLiteralExpressionData>(
         std::move(string_literal));
   }
   return make_error();
