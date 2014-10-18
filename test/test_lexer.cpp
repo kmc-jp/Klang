@@ -3,6 +3,11 @@
 
 #include "gtest.h"
 
+namespace {
+    using T = klang::Token;
+    using klang::TokenType;
+}
+
 TEST(lexer, emptySource) {
   std::stringstream is;
   klang::TokenVector tokens;
@@ -22,8 +27,6 @@ R"(def main() -> (int) {
   bool success;
   std::tie(success, tokens) = klang::tokenize(is);
   EXPECT_TRUE(success);
-  using T = klang::Token;
-  using klang::TokenType;
   klang::TokenVector const expect = {
       T{TokenType::SYMBOL, "def", 1},
       T{TokenType::IDENTIFIER, "main", 1},
@@ -60,8 +63,6 @@ def main() -> (int) {
   bool success;
   std::tie(success, tokens) = klang::tokenize(is);
   EXPECT_TRUE(success);
-  using T = klang::Token;
-  using klang::TokenType;
   klang::TokenVector const expect = {
       T{TokenType::SYMBOL, "def", 7},
       T{TokenType::IDENTIFIER, "main", 7},
@@ -97,8 +98,6 @@ def placeholder
   bool success;
   std::tie(success, tokens) = klang::tokenize(is);
   EXPECT_TRUE(success);
-  using T = klang::Token;
-  using klang::TokenType;
   klang::TokenVector const expect = {
       T{TokenType::SYMBOL, "def", 4},
       T{TokenType::IDENTIFIER, "placeholder", 4},
