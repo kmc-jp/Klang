@@ -59,6 +59,7 @@ class Parser {
   bool advance(int count);
   Pointer snapshot() const;
   void rewind(Pointer p);
+  Left<ErrorInfo> make_error() const;
   const TokenVector tokens_;
   Pointer current_;
 };

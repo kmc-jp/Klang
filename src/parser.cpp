@@ -632,4 +632,8 @@ void Parser::rewind(Pointer p) {
   current_ = p;
 }
 
+Left<ErrorInfo> Parser::make_error() const {
+  return make_left<ErrorInfo>(*current_);
+}
+
 }  // namespace klang
