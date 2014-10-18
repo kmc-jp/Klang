@@ -3,7 +3,7 @@
 
 #include "gtest.h"
 
-TEST(lexer, comment1) {
+TEST(lexer, brokenComment1) {
   std::stringstream is;
   is <<
 R"(
