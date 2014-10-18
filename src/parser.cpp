@@ -191,17 +191,17 @@ WithError<ast::StatementPtr> Parser::parse_statement() {
 
 WithError<ast::CompoundStatementPtr> Parser::parse_compound_statement() {
   std::vector<ast::StatementPtr> statements;
-  const auto s = snapshot();
-  if (parse_symbol("{")) {
-    while (auto statement = parse_statement()) {
-      statements.push_back(std::move(statement));
-    }
-    if (parse_symbol("}")) {
-      return make_ast<ast::CompoundStatementData>(std::move(statements));
+  if (!parse_symbol("{")) {
+    return make_error();
+  }
+  while (!parse_symbol("}")) {
+    if (auto statement = parse_statement()) {
+      statements.push_back(std::move(*statement));
+    } else {
+      return std::move(statement).left();
     }
   }
-  rewind(s);
-  return make_error();
+  return make_ast<ast::CompoundStatementData>(std::move(statements));
 }
 
 WithError<ast::IfStatementPtr> Parser::parse_if_statement() {
