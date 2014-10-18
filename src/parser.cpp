@@ -262,27 +262,45 @@ WithError<ast::WhileStatementPtr> Parser::parse_while_statement() {
 }
 
 WithError<ast::ForStatementPtr> Parser::parse_for_statement() {
-  const auto s = snapshot();
-  if (parse_symbol("for") && parse_symbol("(")) {
-    auto init_expression = parse_expression();
-    if (parse_symbol(";")) {
-      auto cond_expression = parse_expression();
-      if (parse_symbol(";")) {
-        auto reinit_expression = parse_expression();
-        if (parse_symbol(")")) {
-          if (auto compound_statement = parse_compound_statement()) {
-            return make_ast<ast::ForStatementData>(
-                std::move(init_expression),
-                std::move(cond_expression),
-                std::move(reinit_expression),
-                std::move(compound_statement));
-          }
-        }
-      }
-    }
+  if (!parse_symbol("for") || !parse_symbol("(")) {
+    return make_error();
   }
-  rewind(s);
-  return make_error();
+  const auto s1 = snapshot();
+  auto init_expression = parse_expression();
+  if (!init_expression) {
+    init_expression = make_right<ast::ExpressionPtr>(nullptr);
+    rewind(s1);
+  }
+  if (!parse_symbol(";")) {
+    return make_error();
+  }
+  const auto s2 = snapshot();
+  auto cond_expression = parse_expression();
+  if (!cond_expression) {
+    cond_expression = make_right<ast::ExpressionPtr>(nullptr);
+    rewind(s2);
+  }
+  if (!parse_symbol(";")) {
+    return make_error();
+  }
+  const auto s3 = snapshot();
+  auto reinit_expression = parse_expression();
+  if (!reinit_expression) {
+    reinit_expression = make_right<ast::ExpressionPtr>(nullptr);
+    rewind(s3);
+  }
+  if (!parse_symbol(")")) {
+    make_error();
+  }
+  auto compound_statement = parse_compound_statement();
+  if (!compound_statement) {
+    return std::move(compound_statement).left();
+  }
+  return make_ast<ast::ForStatementData>(
+      std::move(*init_expression),
+      std::move(*cond_expression),
+      std::move(*reinit_expression),
+      std::move(*compound_statement));
 }
 
 WithError<ast::ReturnStatementPtr> Parser::parse_return_statement() {
