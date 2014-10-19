@@ -23,7 +23,7 @@ install:
   - echo "int main() { llvm::Module *M= new llvm::Module(\"test\", llvm::getGlobalContext()); return 0; }" >> payo.cpp
   - cat payo.cpp
   - echo $CXX
-  - $CXX -o conftest `llvm-config --cxxflags` `llvm-config --ldflags` payo.cpp `llvm-config --libs` -lncurses -lpthread -ldl
+  - $CXX -o conftest `llvm-config --cxxflags` `llvm-config --ldflags` payo.cpp `llvm-config --libs codegen` -lncurses -lpthread -ldl
   - ACLOCAL_ARGS="-Im4 -I/usr/share/gnulib/m4" ./autogen.sh
   - ./configure
   - make
