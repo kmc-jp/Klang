@@ -42,14 +42,18 @@ AC_ARG_WITH([llvm],
 	fi
     ],
     [want_llvm="yes"])
+    echo !!!!!!!!! HERE1 !!!!!!!!!!
 
 	succeeded=no
 	if test -z "$ac_llvm_config_path"; then
 		ac_llvm_config_path=`which llvm-config`
 	fi
+    echo !!!!!!!!! HERE2 !!!!!!!!!!
 
 	if test "x$want_llvm" = "xyes"; then
+        echo !!!!!!!!! HERE3 !!!!!!!!!!
 		if test -e "$ac_llvm_config_path"; then
+            echo !!!!!!!!! HERE4 !!!!!!!!!!
 			LLVM_CPPFLAGS=`$ac_llvm_config_path --cxxflags`
 			LLVM_LDFLAGS="$($ac_llvm_config_path --ldflags)"
             LLVM_LIBS="$($ac_llvm_config_path --libs codegen)"
@@ -77,6 +81,7 @@ AC_ARG_WITH([llvm],
 			   ax_cv_llvm=yes, ax_cv_llvm=no)
 		 AC_LANG_POP([C++])
 			])
+            echo !!!!!!!!! $ax_cv_llvm !!!!!!!!!!
 
 			if test "x$ax_cv_llvm" = "xyes"; then
 				succeeded=yes
