@@ -1,6 +1,6 @@
 AM_CXXFLAGS = -O2 -std=c++11 -Wall -Wextra @LLVM_CPPFLAGS@
 
-LIBS = -lc++ @LLVM_LIBS@ @CURSES_LIB@
+LIBS = @LLVM_LIBS@ @CURSES_LIB@
 
 bin_PROGRAMS = klang
 klang_SOURCES = main.cpp
