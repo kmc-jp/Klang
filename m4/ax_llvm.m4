@@ -84,7 +84,7 @@ AC_ARG_WITH([llvm],
 
 			CPPFLAGS="$CPPFLAGS_SAVED"
             LDFLAGS="$LDFLAGS_SAVED"
-            LIBS="$LIBS"
+            LIBS="$LIBS_SAVED"
 		else
 			succeeded=no
 		fi
