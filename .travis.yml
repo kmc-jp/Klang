@@ -30,7 +30,7 @@ install:
   - echo "int main() { llvm::Module *M= new llvm::Module(\"test\", llvm::getGlobalContext()); return 0; }" >> payo.cpp
   - cat payo.cpp
   - echo $CXX
-  - $CXX -o conftest `llvm-config --cxxflags` `llvm-config --ldflags` payo.cpp `llvm-config --libs` -lncurses
+  - $CXX -o conftest `llvm-config --cxxflags` `llvm-config --ldflags` payo.cpp `llvm-config --libs` -lncurses -lpthread -ldl
   - ./conftest
   - ./configure
   - make
