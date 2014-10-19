@@ -47,6 +47,7 @@ AC_ARG_WITH([llvm],
 	if test -z "$ac_llvm_config_path"; then
 		ac_llvm_config_path=`which llvm-config`
 	fi
+    echo !!!!!!!!! HERE !!!!!!!!!!
 
 	if test "x$want_llvm" = "xyes"; then
 		if test -e "$ac_llvm_config_path"; then
