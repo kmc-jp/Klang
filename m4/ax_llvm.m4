@@ -77,7 +77,7 @@ AC_ARG_WITH([llvm],
 			   ax_cv_llvm=yes, ax_cv_llvm=no)
 		 AC_LANG_POP([C++])
 			])
-
+            echo !!!!!!!!! $ax_cv_llvm !!!!!!!!!!
 			if test "x$ax_cv_llvm" = "xyes"; then
 				succeeded=yes
 			fi
