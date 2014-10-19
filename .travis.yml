@@ -13,7 +13,6 @@ before_install:
 install:
   - sudo apt-get install -qq gnulib #stdbool.m4 is required for AC_CHECK_HEADER_STDBOOL in configure.ac
   - sudo apt-get install -qq autoconf-archive #ax_with_curses.m4 is require for AC_WITH_CURSES
-  - sudo apt-get -qq update
   - sudo ln -s /usr/bin/llvm-config-3.5 /usr/bin/llvm-config
   - if [ "$CXX" = "g++" ]; then
        sudo apt-get -qq install g++-4.8;
