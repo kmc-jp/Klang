@@ -24,6 +24,8 @@ install:
   - cat payo.cpp
   - echo $CXX
   - $CXX -o conftest `llvm-config --cxxflags` `llvm-config --ldflags` payo.cpp `llvm-config --libs codegen` -lncurses -lpthread -ldl
+  - ls /usr/local/clang-3.4/lib
+  - ls /usr/local/clang-3.5/lib
   - ACLOCAL_ARGS="-Im4 -I/usr/share/gnulib/m4" ./autogen.sh
   - ./configure
   - make
