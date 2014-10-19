@@ -14,8 +14,9 @@ GTEST_FILES = helper_test_main.cpp $(GTEST_DIR)/gtest.h
 COMPILE_SRC_DIR = KlangSrc
 
 COMPILE_TESTS = return0.out
-TESTS = test_nothing test_sample1 test_lexer test_lexer_fail test_parser test_either $(COMPILE_TESTS)
-XFAIL_TESTS = test_lexer_fail $(COMPILE_TESTS) # main が完成するまでは全てのコンパイルテストは失敗時する。
+COMPILE_XFAIL_TESTS = divByZero.out
+TESTS = test_nothing test_sample1 test_lexer test_lexer_fail test_parser test_either $(COMPILE_TESTS) $(COMPILE_XFAIL_TESTS)
+XFAIL_TESTS = test_lexer_fail $(COMPILE_TESTS) $(COMPILE_XFAIL_TESTS) # main が完成するまでは全てのコンパイルテストは失敗時する。
 
 check_PROGRAMS = $(TESTS)
 test_nothing_SOURCES = test_nothing.cpp # not using gtest
@@ -35,4 +36,7 @@ test_either_SOURCES = test_either.cpp $(GTEST_FILES)
 test_either_LDADD = $(check_LIBRARIES)
 
 return0.out: $(COMPILE_SRC_DIR)/return0.klang
+	$(KLANG) $< -o $@
+
+divByZero.out: $(COMPILE_SRC_DIR)/divByZero.klang
 	$(KLANG) $< -o $@

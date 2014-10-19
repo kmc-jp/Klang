@@ -1,0 +1,4 @@
+def main() -> (int) {
+  def x := 1 / 0; ~~ Oops!
+  return 0;
+}
