@@ -30,6 +30,7 @@ install:
   - echo "#include <llvm/IR/Module.h>" > payo.cpp
   - echo "#include <llvm/IR/LLVMContext.h>" >> payo.cpp
   - echo "int main() { llvm::Module *M= new llvm::Module(\"test\", llvm::getGlobalContext()); return 0; }" >> payo.cpp
+  - cat payo.cpp
   - echo $CXX
   - $CXX -o conftest `llvm-config --cxxflags` `llvm-config --ldflags` payo.cpp `llvm-config --libs` -lncurses
   - ./conftest
