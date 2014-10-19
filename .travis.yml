@@ -3,24 +3,22 @@ compiler:
   - gcc-4.8
   - clang
 before_install:
-  - sudo sh -c "echo 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise-3.4 main' >> /etc/apt/sources.list"
+  - sudo sh -c "echo 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise-3.5 main' >> /etc/apt/sources.list"
   - sudo sh -c "echo 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise main' >> /etc/apt/sources.list"
   - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
   - sudo apt-get -qq update
 install:
   - sudo apt-get install -qq gnulib #stdbool.m4 is required for AC_CHECK_HEADER_STDBOOL in configure.ac
   - sudo apt-get install -qq autoconf-archive #ax_with_curses.m4 is require for AC_WITH_CURSES
-  - sudo apt-get install -qq libllvm3.4 llvm-3.4 llvm-3.4-dev llvm-3.4-runtime
-  - sudo apt-get install -qq libboost-dev
-  - sudo ln -s /usr/bin/llvm-config-3.4 /usr/bin/llvm-config
+  - sudo apt-get install -qq libllvm3.5 llvm-3.5 llvm-3.5-dev llvm-3.5-runtime
+  - sudo ln -s /usr/bin/llvm-config-3.5 /usr/bin/llvm-config
   - if [ "$CXX" = "g++" ]; then
-       sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
-       sudo apt-get -qq update;
        sudo apt-get -qq install g++-4.8;
        export CXX="g++-4.8";
     fi
   - $CXX --version
-  - ACLOCAL_ARGS="-I/usr/share/gnulib/m4" ./autogen.sh
+  - ACLOCAL_ARGS="-Im4 -I/usr/share/gnulib/m4" ./autogen.sh
   - ./configure
   - make
 script:

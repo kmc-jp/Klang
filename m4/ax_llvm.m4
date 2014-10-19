@@ -64,7 +64,7 @@ AC_ARG_WITH([llvm],
 			export LDFLAGS
 
             LIBS_SAVED="$LIBS"
-            LIBS="$LIBS -lc++ -lncurses $LLVM_LIBS"
+            LIBS="$LIBS -lpthread -ldl -lncurses $LLVM_LIBS"
             export LIBS
 
 			AC_CACHE_CHECK(can compile with and link with llvm([$1]),
