@@ -85,6 +85,7 @@ AC_ARG_WITH([llvm],
 			CPPFLAGS="$CPPFLAGS_SAVED"
             LDFLAGS="$LDFLAGS_SAVED"
             LIBS="$LIBS"
+            export LIBS
 		else
 			succeeded=no
 		fi
