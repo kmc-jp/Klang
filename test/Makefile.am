@@ -1,13 +1,14 @@
-GTEST_DIR = gtest
-GTEST_FLAGS = -I $(GTEST_DIR) -pthread -isystem
+AUTOMAKE_OPTIONS = subdir-objects
+
+GTEST_FLAGS = -I gtest -pthread -isystem
 AM_CXXFLAGS = -O2 -std=c++11 -Wall -Wextra -I../src $(GTEST_FLAGS)
 
 check_LIBRARIES = libhelperlexer.a libgtest-all.a
 libhelperlexer_a_SOURCES = helper_lexer.hpp helper_lexer.cpp
-libgtest_all_a_SOURCES = $(GTEST_DIR)/gtest-all.cc $(GTEST_DIR)/gtest.h
+libgtest_all_a_SOURCES = gtest/gtest-all.cc gtest/gtest.h
 libgtest_all_a_CXXFLAGS = -O2 -std=c++11 -I../src $(GTEST_FLAGS)
 
-GTEST_FILES = helper_test_main.cpp $(GTEST_DIR)/gtest.h
+GTEST_FILES = helper_test_main.cpp gtest/gtest.h
 
 TESTS = test_nothing test_sample1 test_lexer test_lexer_fail test_parser test_either
 XFAIL_TESTS = test_lexer_fail
