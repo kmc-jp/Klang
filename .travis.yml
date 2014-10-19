@@ -20,6 +20,7 @@ install:
     fi
   - $CXX --version
   - ACLOCAL_ARGS="-I/usr/share/gnulib/m4" ./autogen.sh
+  - ls /usr/share/gnulib/m4
   - which llvm-config-3.4 || which llvm-config
   - llvm-config --cxxflags
   - llvm-config --ldflags
