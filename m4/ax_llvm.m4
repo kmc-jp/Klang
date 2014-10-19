@@ -26,7 +26,7 @@
 
 #serial 12
 
-AC_DEFUN([AX_LLVMM],
+AC_DEFUN([AX_LLVM],
 [
 AC_ARG_WITH([llvm],
 	AS_HELP_STRING([--with-llvm@<:@=DIR@:>@], [use llvm (default is yes) - it is possible to specify the root directory for llvm (optional)]),

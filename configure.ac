@@ -15,7 +15,7 @@ AC_PROG_CC
 # Checks for libraries.
 AC_PROG_RANLIB
 AX_WITH_CURSES
-AX_LLVMM
+AX_LLVM
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h fcntl.h float.h limits.h netdb.h stddef.h stdlib.h string.h strings.h sys/time.h sys/timeb.h unistd.h wchar.h wctype.h])
