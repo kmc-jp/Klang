@@ -19,9 +19,7 @@ install:
        export CXX="g++-4.8";
     fi
   - $CXX --version
-  - ACLOCAL_ARGS="-I/usr/share/gnulib/m4" ./autogen.sh
-  - ls /usr/share/gnulib/m4
-  - cat m4/ax_llvm.m4
+  - ACLOCAL_ARGS="-Im4 -I/usr/share/gnulib/m4" ./autogen.sh
   - which llvm-config-3.4 || which llvm-config
   - llvm-config --cxxflags
   - llvm-config --ldflags
