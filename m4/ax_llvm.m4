@@ -47,7 +47,6 @@ AC_ARG_WITH([llvm],
 	if test -z "$ac_llvm_config_path"; then
 		ac_llvm_config_path=`which llvm-config`
 	fi
-    echo !!!!!!!!! HERE !!!!!!!!!!
 
 	if test "x$want_llvm" = "xyes"; then
 		if test -e "$ac_llvm_config_path"; then
@@ -78,7 +77,7 @@ AC_ARG_WITH([llvm],
 			   ax_cv_llvm=yes, ax_cv_llvm=no)
 		 AC_LANG_POP([C++])
 			])
-            echo !!!!!!!!! $ax_cv_llvm !!!!!!!!!!
+
 			if test "x$ax_cv_llvm" = "xyes"; then
 				succeeded=yes
 			fi
@@ -91,7 +90,7 @@ AC_ARG_WITH([llvm],
 		fi
 	fi
 
-		if test "$succeeded" != "yes" ; then
+		if test "$succeeded" != "yes" && false ; then
 			AC_MSG_ERROR([[We could not detect the llvm libraries make sure that llvm-config is on your path or specified by --with-llvm.]])
 		else
 			AC_SUBST(LLVM_CPPFLAGS)
