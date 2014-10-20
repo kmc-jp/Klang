@@ -66,3 +66,7 @@ src/klang
 /test/test_lexer_fail
 /test/test_parser
 /test/test_either
+/test/return0
+
+*.ll
+*.s
