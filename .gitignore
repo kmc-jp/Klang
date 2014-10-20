@@ -12,6 +12,7 @@ Makefile.in
 /install-sh
 /missing
 /stamp-h1
+/src/stamp-h1
 
 /configure.scan
 

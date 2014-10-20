@@ -5,7 +5,7 @@ AC_PREREQ([2.68])
 AC_INIT(Klang, 0.0.1, klang-project@kmc.gr.jp, Klang, https://github.com/kmc-jp/Klang)
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([config.h.in])
-AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_HEADERS([src/config.h])
 AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
