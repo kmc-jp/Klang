@@ -52,7 +52,7 @@ AC_ARG_WITH([llvm],
 		if test -e "$ac_llvm_config_path"; then
 			LLVM_CPPFLAGS=`$ac_llvm_config_path --cxxflags`
 			LLVM_LDFLAGS="$($ac_llvm_config_path --ldflags)"
-            LLVM_LIBS="$($ac_llvm_config_path --libs codegen)"
+            LLVM_LIBS="$($ac_llvm_config_path --libs codegen) -lpthread -ldl -lncurses"
 
 			AC_REQUIRE([AC_PROG_CXX])
 			CPPFLAGS_SAVED="$CPPFLAGS"
@@ -64,7 +64,7 @@ AC_ARG_WITH([llvm],
 			export LDFLAGS
 
             LIBS_SAVED="$LIBS"
-            LIBS="$LIBS -lpthread -ldl -lncurses $LLVM_LIBS"
+            LIBS="$LIBS $LLVM_LIBS"
             export LIBS
 
 			AC_CACHE_CHECK(can compile with and link with llvm([$1]),
