@@ -9,6 +9,8 @@
 #include "llvm/Support/Signals.h"
 #include "llvm/Support/TargetSelect.h"
 
+#include <iostream>
+
 int main(int argc, char** argv) {
   // llvm::InitializeNativeTarget();
   llvm::sys::PrintStackTraceOnErrorSignal();
@@ -34,21 +36,19 @@ int main(int argc, char** argv) {
       llvm::BasicBlock::Create(context, "entry", subFunc);
 
   {
-      builder.SetInsertPoint(mainBlock);
-      llvm::Value* zero = llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), 0);
-      llvm::Value* ret = builder.CreateRet(zero);
-  }
-  {
       builder.SetInsertPoint(subBlock);
       llvm::Value* val = llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), 42);
-      llvm::Value* ret2 = builder.CreateRet(val);
+      builder.CreateRet(val);
+  }
+  {
+      builder.SetInsertPoint(mainBlock);
+
+      llvm::Value* payo = builder.CreateCall(subFunc, std::vector<llvm::Value*>(), "payo");
+
+      builder.CreateRet(payo);
   }
   module->dump();
 
 // klang::codegen::test();
   return 0;
 }
-
-
-
-
