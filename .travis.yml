@@ -17,6 +17,7 @@ install:
   - ./configure
   - make
 script:
+  - ./src/klang || true
   - make check
 
 notifications:
