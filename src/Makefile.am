@@ -5,6 +5,7 @@ LIBS = @LLVM_LIBS@ @CURSES_LIB@
 bin_PROGRAMS = klang
 klang_SOURCES = main.cpp
 klang_LDFLAGS = @LLVM_LDFLAGS@
+klang_LDADD = liblexer.a libparser.a
 
 noinst_LIBRARIES = liblexer.a libastdata.a libparser.a
 liblexer_a_SOURCES = lexer.cpp lexer.hpp
