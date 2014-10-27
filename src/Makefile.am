@@ -1,7 +1,10 @@
-AM_CXXFLAGS = -O2 -std=c++11 -Wall -Wextra
+AM_CXXFLAGS = -O2 -std=c++11 -Wall -Wextra @LLVM_CPPFLAGS@
+
+LIBS = @LLVM_LIBS@ @CURSES_LIB@
 
 bin_PROGRAMS = klang
 klang_SOURCES = main.cpp
+klang_LDFLAGS = @LLVM_LDFLAGS@
 
 noinst_LIBRARIES = liblexer.a libastdata.a libparser.a
 liblexer_a_SOURCES = lexer.cpp lexer.hpp
