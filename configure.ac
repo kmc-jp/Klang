@@ -6,6 +6,7 @@ AC_INIT(Klang, 0.0.1, klang-project@kmc.gr.jp, Klang, https://github.com/kmc-jp/
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
 AC_PROG_CXX
@@ -13,6 +14,8 @@ AC_PROG_CC
 
 # Checks for libraries.
 AC_PROG_RANLIB
+AX_WITH_CURSES
+AX_LLVM
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h fcntl.h float.h limits.h netdb.h stddef.h stdlib.h string.h strings.h sys/time.h sys/timeb.h unistd.h wchar.h wctype.h])
