@@ -2,15 +2,17 @@ AM_CXXFLAGS = -O2 -std=c++11 -Wall -Wextra
 
 LIBS = @LLVM_LIBS@ @CURSES_LIB@
 
+LLVM_FLAGS = -I/usr/local/clang-3.4/include -DNDEBUG -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS
+
 bin_PROGRAMS = klang
 klang_SOURCES = main.cpp
 klang_LDFLAGS = @LLVM_LDFLAGS@
 klang_LDADD = liblexer.a libparser.a libcodegen.a
-klang_CXXFLAGS = $(AM_CXXFLAGS) -I/usr/local/clang-3.4/include # @LLVM_CPPFLAGS@
+klang_CXXFLAGS = $(AM_CXXFLAGS) $(LLVM_FLAGS) # @LLVM_CPPFLAGS@
 
 noinst_LIBRARIES = liblexer.a libastdata.a libparser.a libcodegen.a
 liblexer_a_SOURCES = lexer.cpp lexer.hpp
 libastdata_a_SOURCES = memory.hpp ast.hpp ast.cpp ast_data.hpp ast_data.cpp
 libparser_a_SOURCES = memory.hpp ast.hpp ast.cpp ast_data.hpp ast_data.cpp parser.hpp parser.cpp
 libcodegen_a_SOURCES = memory.hpp ast.hpp ast_data.hpp parser.hpp codegen.hpp codegen.cpp
-libcodegen_a_CXXFLAGS = $(AM_CXXFLAGS) -I/usr/local/clang-3.4/include # @LLVM_CPPFLAGS@
+libcodegen_a_CXXFLAGS = $(AM_CXXFLAGS) $(LLVM_FLAGS) # @LLVM_CPPFLAGS@
