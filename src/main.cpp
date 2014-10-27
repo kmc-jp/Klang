@@ -1,10 +1,16 @@
 #include <llvm/Support/CommandLine.h>
 
+#include <llvm/Support/Debug.h>
+#include <llvm/Support/PrettyStackTrace.h>
+#include <llvm/Support/Signals.h>
+
 #include <fstream>
 #include <iostream>
 #include <string>
 
 #include "config.h"
+
+#include "codegen.hpp"
 #include "lexer.hpp"
 #include "parser.hpp"
 
@@ -20,6 +26,10 @@ namespace /* unnamed namespace */ {
 } // unnamed namespace
 
 int main(int argc, char** argv) {
+  llvm::sys::PrintStackTraceOnErrorSignal();
+  llvm::PrettyStackTraceProgram X(argc, argv);
+  llvm::EnableDebugBuffering = true;
+
   llvm::cl::SetVersionPrinter([](){ std::cout << PACKAGE_STRING << std::endl; });
   llvm::cl::ParseCommandLineOptions(argc, argv, "Command Line");
 
@@ -51,5 +61,10 @@ int main(int argc, char** argv) {
     exit(2);
   }
 
+  klang::Codegen generator(std::move(parse_translation_unit));
+
+  auto const& module = generator.gen();
+
+  module->dump();
   return 0;
 }
