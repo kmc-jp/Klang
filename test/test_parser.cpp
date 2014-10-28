@@ -23,8 +23,8 @@ R"(def main() -> (int) {
 })";
   auto tokens = klang::tokenize(is);
   klang::Parser p(tokens);
-  ASSERT_TRUE(p.parse_translation_unit() != nullptr);
   auto tu = p.parse_translation_unit();
+  ASSERT_TRUE(tu != nullptr);
   auto tud = dynamic_cast<klang::ast::TranslationUnitData*>(tu.get());
   ASSERT_TRUE(tud != nullptr);
   auto const& funcs = tud->functions();
@@ -60,7 +60,7 @@ R"(def main() -> (int) {
     ASSERT_EQ(1u, statements.size()); // 一文である
 
     auto const& statementPtr = statements[0];
-    auto statementD = dynamic_cast<klang::ast::ReturnStatementData*>(csPtr.get());
+    auto statementD = dynamic_cast<klang::ast::ReturnStatementData*>(statementPtr.get());
     ASSERT_TRUE(statementD != nullptr); // それがreturn 文である
 
     auto const& expPtr = statementD->return_value();
