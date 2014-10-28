@@ -21,8 +21,9 @@ bool Parser::parse_symbol(const char* str) {
 
 ast::IdentifierPtr Parser::parse_identifier() {
   if (current_type() == TokenType::IDENTIFIER) {
+    auto ret = make_unique<ast::IdentifierData>(current_string());
     advance(1);
-    return make_unique<ast::IdentifierData>(current_string());
+    return std::move(ret);
   } else {
     return nullptr;
   }
@@ -30,8 +31,9 @@ ast::IdentifierPtr Parser::parse_identifier() {
 
 ast::TypePtr Parser::parse_type() {
   if (current_type() == TokenType::SYMBOL) {
+    auto ret = make_unique<ast::TypeData>(current_string());
     advance(1);
-    return make_unique<ast::TypeData>(current_string());
+    return std::move(ret);
   } else {
     return nullptr;
   }
@@ -39,8 +41,9 @@ ast::TypePtr Parser::parse_type() {
 
 ast::IntegerLiteralPtr Parser::parse_integer_literal() {
   if (current_type() == TokenType::NUMBER) {
+    auto ret = make_unique<ast::IntegerLiteralData>(current_string());
     advance(1);
-    return make_unique<ast::IntegerLiteralData>(current_string());
+    return std::move(ret);
   } else {
     return nullptr;
   }
