@@ -86,8 +86,9 @@ bool ignore(const_iterator head, const_iterator tail) {
 bool singleline_comment(const_iterator head, const_iterator tail) {
   using std::begin;
   using std::end;
+  if(std::distance(head, tail) < 2) return false; // コメントの長さは2 より長い(~~ を含む)
   if(std::equal(head, std::next(head, 2), "~~")) {
-      return std::find(head, tail, '\n') == std::prev(tail);
+      return std::find(head, tail, '\n') != std::prev(tail);
   }
   return false;
 }
