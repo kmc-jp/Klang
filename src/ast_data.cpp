@@ -66,9 +66,9 @@ ElseStatementData::ElseStatementData(CompoundStatementPtr body)
 {}
 
 WhileStatementData::WhileStatementData(ExpressionPtr condition,
-                                       CompoundStatementPtr compound_statement)
+                                       CompoundStatementPtr body)
     : condition_(std::move(condition)),
-      compound_statement_(std::move(compound_statement))
+      body_(std::move(body))
 {}
 
 ForStatementData::ForStatementData(ExpressionPtr expression1,

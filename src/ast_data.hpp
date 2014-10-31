@@ -126,12 +126,12 @@ class ElseStatementData : public ElseStatement {
 class WhileStatementData : public WhileStatement {
  public:
   WhileStatementData(ExpressionPtr condition,
-                     CompoundStatementPtr compound_statement);
+                     CompoundStatementPtr body);
   ExpressionPtr const& condition() const { return condition_; }
-  CompoundStatementPtr const& compound_statement() const { return compound_statement_; }
+  CompoundStatementPtr const& body() const { return body_; }
  private:
   ExpressionPtr condition_;
-  CompoundStatementPtr compound_statement_;
+  CompoundStatementPtr body_;
 };
 
 class ForStatementData : public ForStatement {
