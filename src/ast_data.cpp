@@ -29,14 +29,14 @@ TranslationUnitData::TranslationUnitData(
 }
 
 FunctionDefinitionData::FunctionDefinitionData(
-    IdentifierPtr function_name,
+    IdentifierPtr name,
     ArgumentListPtr arguments,
     TypePtr return_type,
-    CompoundStatementPtr function_body)
-    : function_name_(std::move(function_name)),
+    CompoundStatementPtr body)
+    : name_(std::move(name)),
       arguments_(std::move(arguments)),
       return_type_(std::move(return_type)),
-      function_body_(std::move(function_body))
+      body_(std::move(body))
 {}
 
 ArgumentListData::ArgumentListData(std::vector<ArgumentPtr> arguments)

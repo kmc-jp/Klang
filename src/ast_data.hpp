@@ -60,19 +60,19 @@ class TranslationUnitData : public TranslationUnit {
 
 class FunctionDefinitionData : public FunctionDefinition {
  public:
-  FunctionDefinitionData(IdentifierPtr function_name,
+  FunctionDefinitionData(IdentifierPtr name,
                          ArgumentListPtr arguments,
                          TypePtr return_type,
-                         CompoundStatementPtr function_body);
-  IdentifierPtr const& function_name() const { return function_name_; }
+                         CompoundStatementPtr body);
+  IdentifierPtr const& name() const { return name_; }
   ArgumentListPtr const& arguments() const { return arguments_; }
   TypePtr const& return_type() const { return return_type_; }
-  CompoundStatementPtr const& function_body() const { return function_body_; }
+  CompoundStatementPtr const& body() const { return body_; }
  private:
-  IdentifierPtr function_name_;
+  IdentifierPtr name_;
   ArgumentListPtr arguments_;
   TypePtr return_type_;
-  CompoundStatementPtr function_body_;
+  CompoundStatementPtr body_;
 };
 
 class ArgumentListData : public ArgumentList {
