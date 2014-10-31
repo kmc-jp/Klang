@@ -104,14 +104,14 @@ class CompoundStatementData : public CompoundStatement {
 class IfStatementData : public IfStatement {
  public:
   IfStatementData(ExpressionPtr condition,
-                  CompoundStatementPtr compound_statement,
-                  ElseStatementPtr else_statement);
+                  CompoundStatementPtr body,
+                  ElseStatementPtr else_block);
   ExpressionPtr const& condition() const { return condition_; }
-  CompoundStatementPtr const& then_block() const { return then_block_; }
+  CompoundStatementPtr const& body() const { return body_; }
   ElseStatementPtr const& else_block() const { return else_block_; }
  private:
   ExpressionPtr condition_;
-  CompoundStatementPtr then_block_;
+  CompoundStatementPtr body_;
   ElseStatementPtr else_block_;
 };
 

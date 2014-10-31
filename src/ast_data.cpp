@@ -54,11 +54,11 @@ CompoundStatementData::CompoundStatementData(
 {}
 
 IfStatementData::IfStatementData(ExpressionPtr condition,
-                                 CompoundStatementPtr compound_statement,
-                                 ElseStatementPtr else_statement)
+                                 CompoundStatementPtr body,
+                                 ElseStatementPtr else_block)
     : condition_(std::move(condition)),
-      then_block_(std::move(compound_statement)),
-      else_block_(std::move(else_statement))
+      body_(std::move(body)),
+      else_block_(std::move(else_block))
 {}
 
 ElseStatementData::ElseStatementData(CompoundStatementPtr compound_statement)
