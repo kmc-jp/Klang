@@ -61,8 +61,8 @@ IfStatementData::IfStatementData(ExpressionPtr condition,
       else_block_(std::move(else_block))
 {}
 
-ElseStatementData::ElseStatementData(CompoundStatementPtr compound_statement)
-    : else_block_(std::move(compound_statement))
+ElseStatementData::ElseStatementData(CompoundStatementPtr body)
+    : body_(std::move(body))
 {}
 
 WhileStatementData::WhileStatementData(ExpressionPtr condition,

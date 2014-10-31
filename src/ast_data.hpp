@@ -117,10 +117,10 @@ class IfStatementData : public IfStatement {
 
 class ElseStatementData : public ElseStatement {
  public:
-  ElseStatementData(CompoundStatementPtr compound_statement);
-  CompoundStatementPtr const& else_block() const { return else_block_; }
+  ElseStatementData(CompoundStatementPtr body);
+  CompoundStatementPtr const& body() const { return body_; }
  private:
-  CompoundStatementPtr else_block_;
+  CompoundStatementPtr body_;
 };
 
 class WhileStatementData : public WhileStatement {
