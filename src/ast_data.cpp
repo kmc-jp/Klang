@@ -92,8 +92,8 @@ ContinueStatementData::ContinueStatementData()
 {}
 
 VariableDefinitionStatementData::VariableDefinitionStatementData(
-    VariableDefinitionPtr variable_definition)
-    : variable_definition_(std::move(variable_definition))
+    VariableDefinitionPtr body)
+    : body_(std::move(body))
 {}
 
 VariableDefinitionData::VariableDefinitionData(

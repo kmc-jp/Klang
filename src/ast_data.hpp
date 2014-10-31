@@ -171,10 +171,10 @@ class ContinueStatementData : public ContinueStatement {
 
 class VariableDefinitionStatementData : public VariableDefinitionStatement {
  public:
-  VariableDefinitionStatementData(VariableDefinitionPtr variable_definition);
-  VariableDefinitionPtr const& variable_definition() const { return variable_definition_; }
+  VariableDefinitionStatementData(VariableDefinitionPtr body);
+  VariableDefinitionPtr const& variable_definition() const { return body_; }
  private:
-  VariableDefinitionPtr variable_definition_;
+  VariableDefinitionPtr body_;
 };
 
 class VariableDefinitionData : public VariableDefinition {
