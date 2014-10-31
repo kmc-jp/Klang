@@ -43,9 +43,9 @@ ArgumentListData::ArgumentListData(std::vector<ArgumentPtr> arguments)
     : arguments_(std::move(arguments))
 {}
 
-ArgumentData::ArgumentData(TypePtr argument_type, IdentifierPtr argument_name)
-    : argument_type_(std::move(argument_type)),
-      argument_name_(std::move(argument_name))
+ArgumentData::ArgumentData(TypePtr type, IdentifierPtr name)
+    : type_(std::move(type)),
+      name_(std::move(name))
 {}
 
 CompoundStatementData::CompoundStatementData(

@@ -85,12 +85,12 @@ class ArgumentListData : public ArgumentList {
 
 class ArgumentData : public Argument {
  public:
-  ArgumentData(TypePtr argument_type, IdentifierPtr argument_name);
-  TypePtr const& argument_type() const { return argument_type_; }
-  IdentifierPtr const& argument_name() const { return argument_name_; }
+  ArgumentData(TypePtr type, IdentifierPtr name);
+  TypePtr const& type() const { return type_; }
+  IdentifierPtr const& name() const { return name_; }
  private:
-  TypePtr argument_type_;
-  IdentifierPtr argument_name_;
+  TypePtr type_;
+  IdentifierPtr name_;
 };
 
 class CompoundStatementData : public CompoundStatement {
