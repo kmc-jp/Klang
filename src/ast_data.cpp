@@ -71,13 +71,13 @@ WhileStatementData::WhileStatementData(ExpressionPtr condition,
       compound_statement_(std::move(compound_statement))
 {}
 
-ForStatementData::ForStatementData(ExpressionPtr expression1,
-                                   ExpressionPtr expression2,
-                                   ExpressionPtr expression3,
+ForStatementData::ForStatementData(ExpressionPtr init_expression,
+                                   ExpressionPtr cond_expression,
+                                   ExpressionPtr reinit_expression,
                                    CompoundStatementPtr compound_statement)
-    : expression1_(std::move(expression1)),
-      expression2_(std::move(expression2)),
-      expression3_(std::move(expression3)),
+    : init_expression_(std::move(init_expression)),
+      cond_expression_(std::move(cond_expression)),
+      reinit_expression_(std::move(reinit_expression)),
       compound_statement_(std::move(compound_statement))
 {}
 
