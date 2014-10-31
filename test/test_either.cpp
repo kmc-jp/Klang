@@ -6,6 +6,30 @@
 
 using namespace klang;
 
+TEST(Left, left) {
+  const std::string value("left");
+  const Left<std::string> l(value);
+
+  ASSERT_EQ(value, l.value());
+
+  auto const e = make_left(value);
+
+  // implicit conversion Left<T> to Either<U, T>
+  ASSERT_EQ(e, l);
+}
+
+TEST(Right, right) {
+  const std::string value("right");
+  const Right<std::string> r(value);
+
+  ASSERT_EQ(value, r.value());
+
+  auto const e = make_right(value);
+
+  // implicit conversion Right<T> to Either<T, U>
+  ASSERT_EQ(e, r);
+}
+
 TEST(either, left) {
   const std::string value("left");
   const Either<std::string, int> e(left_tag, value);
