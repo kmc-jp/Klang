@@ -51,7 +51,9 @@ class StringLiteralData : public StringLiteral {
 class TranslationUnitData : public TranslationUnit {
  public:
   TranslationUnitData(std::vector<FunctionDefinitionPtr> functions);
-  std::vector<FunctionDefinitionPtr> const& functions() const { return functions_; }
+  std::vector<FunctionDefinitionPtr> const& functions() const {
+    return functions_;
+  }
  private:
   std::vector<FunctionDefinitionPtr> functions_;
 };
