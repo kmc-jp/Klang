@@ -107,8 +107,8 @@ VariableDefinitionData::VariableDefinitionData(
       expression_(std::move(expression))
 {}
 
-ExpressionStatementData::ExpressionStatementData(ExpressionPtr expression)
-    : expression_(std::move(expression))
+ExpressionStatementData::ExpressionStatementData(ExpressionPtr body)
+    : body_(std::move(body))
 {}
 
 AssignExpressionData::AssignExpressionData(

@@ -196,10 +196,10 @@ class VariableDefinitionData : public VariableDefinition {
 
 class ExpressionStatementData : public ExpressionStatement {
  public:
-  ExpressionStatementData(ExpressionPtr expression);
-  ExpressionPtr const& expression() const { return expression_; }
+  ExpressionStatementData(ExpressionPtr body);
+  ExpressionPtr const& body() const { return body_; }
  private:
-  ExpressionPtr expression_;
+  ExpressionPtr body_;
 };
 
 class AssignExpressionData : public AssignExpression {
