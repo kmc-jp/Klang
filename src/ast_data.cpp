@@ -3,24 +3,24 @@
 namespace klang {
 namespace ast {
 
-IdentifierData::IdentifierData(const std::string& identifier_name)
-    : identifier_name_(identifier_name)
+IdentifierData::IdentifierData(const std::string& value)
+    : value_(value)
 {}
 
-TypeData::TypeData(const std::string& type_name)
-    : type_name_(type_name)
+TypeData::TypeData(const std::string& value)
+    : value_(value)
 {}
 
-IntegerLiteralData::IntegerLiteralData(const std::string& integer_literal)
-    : integer_literal_(integer_literal)
+IntegerLiteralData::IntegerLiteralData(const std::string& value)
+    : value_(value)
 {}
 
-CharacterLiteralData::CharacterLiteralData(const std::string& character_literal)
-    : character_literal_(character_literal)
+CharacterLiteralData::CharacterLiteralData(const std::string& value)
+    : value_(value)
 {}
 
-StringLiteralData::StringLiteralData(const std::string& string_literal)
-    : string_literal_(string_literal)
+StringLiteralData::StringLiteralData(const std::string& value)
+    : value_(value)
 {}
 
 TranslationUnitData::TranslationUnitData(

@@ -10,42 +10,42 @@ namespace ast {
 
 class IdentifierData : public Identifier {
  public:
-  IdentifierData(const std::string& identifier_name);
-  std::string const& identifier_name() const { return identifier_name_; }
+  IdentifierData(const std::string& value);
+  std::string const& value() const { return value_; }
  private:
-  std::string identifier_name_;
+  std::string value_;
 };
 
 class TypeData : public Type {
  public:
-  TypeData(const std::string& type_name);
-  std::string const& type_name() const { return type_name_; }
+  TypeData(const std::string& value);
+  std::string const& value() const { return value_; }
  private:
-  std::string type_name_;
+  std::string value_;
 };
 
 class IntegerLiteralData : public IntegerLiteral {
  public:
-  IntegerLiteralData(const std::string& integer_literal);
-  std::string const& integer_literal() const { return integer_literal_; }
+  IntegerLiteralData(const std::string& value);
+  std::string const& value() const { return value_; }
  private:
-  std::string integer_literal_;
+  std::string value_;
 };
 
 class CharacterLiteralData : public CharacterLiteral {
  public:
-  CharacterLiteralData(const std::string& character_literal);
-  std::string const& character_literal() const { return character_literal_; }
+  CharacterLiteralData(const std::string& value);
+  std::string const& value() const { return value_; }
  private:
-  std::string character_literal_;
+  std::string value_;
 };
 
 class StringLiteralData : public StringLiteral {
  public:
-  StringLiteralData(const std::string& string_literal);
-  std::string const& string_literal() const { return string_literal_; }
+  StringLiteralData(const std::string& value);
+  std::string const& value() const { return value_; }
  private:
-  std::string string_literal_;
+  std::string value_;
 };
 
 class TranslationUnitData : public TranslationUnit {
