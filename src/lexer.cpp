@@ -152,9 +152,15 @@ std::string extract_string(const_iterator head, const_iterator tail) {
     for(auto it(head); it != tail; ++it) {
       if (escaped) {
         if(*it == '"')       { new_str.push_back('"');  }
+        else if(*it == 'a')  { new_str.push_back('\a'); }
+        else if(*it == 'b')  { new_str.push_back('\b'); }
         else if(*it == 'n')  { new_str.push_back('\n'); }
+        else if(*it == 'r')  { new_str.push_back('\r'); }
+        else if(*it == 'f')  { new_str.push_back('\f'); }
         else if(*it == 't')  { new_str.push_back('\t'); }
+        else if(*it == 'v')  { new_str.push_back('\v'); }
         else if(*it == '\\') { new_str.push_back('\\'); }
+        else if(*it == '0')  { new_str.push_back('\0'); }
         else                 { new_str.push_back(*it); } // this should warn "unknown escape sequence"
         escaped = false;
       } else if (*it == '\\') {
