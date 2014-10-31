@@ -204,211 +204,211 @@ class ExpressionStatementData : public ExpressionStatement {
 
 class AssignExpressionData : public AssignExpression {
  public:
-  AssignExpressionData(OrExpressionPtr lhs_expression,
-                       OrExpressionPtr rhs_expression);
-  OrExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  OrExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  AssignExpressionData(OrExpressionPtr lhs,
+                       OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class AddAssignExpressionData : public AssignExpression {
  public:
-  AddAssignExpressionData(OrExpressionPtr lhs_expression,
-                          OrExpressionPtr rhs_expression);
-  OrExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  OrExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  AddAssignExpressionData(OrExpressionPtr lhs,
+                          OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class SubtractAssignExpressionData : public AssignExpression {
  public:
-  SubtractAssignExpressionData(OrExpressionPtr lhs_expression,
-                               OrExpressionPtr rhs_expression);
-  OrExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  OrExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  SubtractAssignExpressionData(OrExpressionPtr lhs,
+                               OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class MultiplyAssignExpressionData : public AssignExpression {
  public:
-  MultiplyAssignExpressionData(OrExpressionPtr lhs_expression,
-                               OrExpressionPtr rhs_expression);
-  OrExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  OrExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  MultiplyAssignExpressionData(OrExpressionPtr lhs,
+                               OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class DivideAssignExpressionData : public AssignExpression {
  public:
-  DivideAssignExpressionData(OrExpressionPtr lhs_expression,
-                             OrExpressionPtr rhs_expression);
-  OrExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  OrExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  DivideAssignExpressionData(OrExpressionPtr lhs,
+                             OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class ModuloAssignExpressionData : public AssignExpression {
  public:
-  ModuloAssignExpressionData(OrExpressionPtr lhs_expression,
-                             OrExpressionPtr rhs_expression);
-  OrExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  OrExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  ModuloAssignExpressionData(OrExpressionPtr lhs,
+                             OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class OrExpressionData : public OrExpression {
  public:
-  OrExpressionData(AndExpressionPtr lhs_expression,
-                   OrExpressionPtr rhs_expression);
-  AndExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  OrExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  OrExpressionData(AndExpressionPtr lhs,
+                   OrExpressionPtr rhs);
+  AndExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AndExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  AndExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class AndExpressionData : public AndExpression {
  public:
-  AndExpressionData(ComparativeExpressionPtr lhs_expression,
-                    AndExpressionPtr rhs_expression);
-  ComparativeExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  AndExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  AndExpressionData(ComparativeExpressionPtr lhs,
+                    AndExpressionPtr rhs);
+  ComparativeExpressionPtr const& lhs() const { return lhs_; }
+  AndExpressionPtr const& rhs() const { return rhs_; }
  private:
-  ComparativeExpressionPtr lhs_expression_;
-  AndExpressionPtr rhs_expression_;
+  ComparativeExpressionPtr lhs_;
+  AndExpressionPtr rhs_;
 };
 
 class EqualExpressionData : public ComparativeExpression {
  public:
-  EqualExpressionData(AdditiveExpressionPtr lhs_expression,
-                      AdditiveExpressionPtr rhs_expression);
-  AdditiveExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  AdditiveExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  EqualExpressionData(AdditiveExpressionPtr lhs,
+                      AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class NotEqualExpressionData : public ComparativeExpression {
  public:
-  NotEqualExpressionData(AdditiveExpressionPtr lhs_expression,
-                         AdditiveExpressionPtr rhs_expression);
-  AdditiveExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  AdditiveExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  NotEqualExpressionData(AdditiveExpressionPtr lhs,
+                         AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class LessExpressionData : public ComparativeExpression {
  public:
-  LessExpressionData(AdditiveExpressionPtr lhs_expression,
-                     AdditiveExpressionPtr rhs_expression);
-  AdditiveExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  AdditiveExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  LessExpressionData(AdditiveExpressionPtr lhs,
+                     AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class GreaterExpressionData : public ComparativeExpression {
  public:
-  GreaterExpressionData(AdditiveExpressionPtr lhs_expression,
-                        AdditiveExpressionPtr rhs_expression);
-  AdditiveExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  AdditiveExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  GreaterExpressionData(AdditiveExpressionPtr lhs,
+                        AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class LessOrEqualExpressionData : public ComparativeExpression {
  public:
-  LessOrEqualExpressionData(AdditiveExpressionPtr lhs_expression,
-                            AdditiveExpressionPtr rhs_expression);
-  AdditiveExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  AdditiveExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  LessOrEqualExpressionData(AdditiveExpressionPtr lhs,
+                            AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class GreaterOrEqualExpressionData : public ComparativeExpression {
  public:
-  GreaterOrEqualExpressionData(AdditiveExpressionPtr lhs_expression,
-                               AdditiveExpressionPtr rhs_expression);
-  AdditiveExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  AdditiveExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  GreaterOrEqualExpressionData(AdditiveExpressionPtr lhs,
+                               AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class AddExpressionData : public AdditiveExpression {
  public:
-  AddExpressionData(MultiplicativeExpressionPtr lhs_expression,
-                    AdditiveExpressionPtr rhs_expression);
-  MultiplicativeExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  AdditiveExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  AddExpressionData(MultiplicativeExpressionPtr lhs,
+                    AdditiveExpressionPtr rhs);
+  MultiplicativeExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  MultiplicativeExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  MultiplicativeExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class SubtractExpressionData : public AdditiveExpression {
  public:
-  SubtractExpressionData(MultiplicativeExpressionPtr lhs_expression,
-                         AdditiveExpressionPtr rhs_expression);
-  MultiplicativeExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  AdditiveExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  SubtractExpressionData(MultiplicativeExpressionPtr lhs,
+                         AdditiveExpressionPtr rhs);
+  MultiplicativeExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  MultiplicativeExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  MultiplicativeExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class MultiplyExpressionData : public MultiplicativeExpression {
  public:
-  MultiplyExpressionData(UnaryExpressionPtr lhs_expression,
-                         MultiplicativeExpressionPtr rhs_expression);
-  UnaryExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  MultiplicativeExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  MultiplyExpressionData(UnaryExpressionPtr lhs,
+                         MultiplicativeExpressionPtr rhs);
+  UnaryExpressionPtr const& lhs() const { return lhs_; }
+  MultiplicativeExpressionPtr const& rhs() const { return rhs_; }
  private:
-  UnaryExpressionPtr lhs_expression_;
-  MultiplicativeExpressionPtr rhs_expression_;
+  UnaryExpressionPtr lhs_;
+  MultiplicativeExpressionPtr rhs_;
 };
 
 class DivideExpressionData : public MultiplicativeExpression {
  public:
-  DivideExpressionData(UnaryExpressionPtr lhs_expression,
-                       MultiplicativeExpressionPtr rhs_expression);
-  UnaryExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  MultiplicativeExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  DivideExpressionData(UnaryExpressionPtr lhs,
+                       MultiplicativeExpressionPtr rhs);
+  UnaryExpressionPtr const& lhs() const { return lhs_; }
+  MultiplicativeExpressionPtr const& rhs() const { return rhs_; }
  private:
-  UnaryExpressionPtr lhs_expression_;
-  MultiplicativeExpressionPtr rhs_expression_;
+  UnaryExpressionPtr lhs_;
+  MultiplicativeExpressionPtr rhs_;
 };
 
 class ModuloExpressionData : public MultiplicativeExpression {
  public:
-  ModuloExpressionData(UnaryExpressionPtr lhs_expression,
-                       MultiplicativeExpressionPtr rhs_expression);
-  UnaryExpressionPtr const& lhs_expression() const { return lhs_expression_; }
-  MultiplicativeExpressionPtr const& rhs_expression() const { return rhs_expression_; }
+  ModuloExpressionData(UnaryExpressionPtr lhs,
+                       MultiplicativeExpressionPtr rhs);
+  UnaryExpressionPtr const& lhs() const { return lhs_; }
+  MultiplicativeExpressionPtr const& rhs() const { return rhs_; }
  private:
-  UnaryExpressionPtr lhs_expression_;
-  MultiplicativeExpressionPtr rhs_expression_;
+  UnaryExpressionPtr lhs_;
+  MultiplicativeExpressionPtr rhs_;
 };
 
 class NotExpressionData : public UnaryExpression {

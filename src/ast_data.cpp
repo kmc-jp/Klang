@@ -112,122 +112,117 @@ ExpressionStatementData::ExpressionStatementData(ExpressionPtr body)
 {}
 
 AssignExpressionData::AssignExpressionData(
-    OrExpressionPtr lhs_expression, OrExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    OrExpressionPtr lhs, OrExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 AddAssignExpressionData::AddAssignExpressionData(
-    OrExpressionPtr lhs_expression, OrExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    OrExpressionPtr lhs, OrExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 SubtractAssignExpressionData::SubtractAssignExpressionData(
-    OrExpressionPtr lhs_expression, OrExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    OrExpressionPtr lhs, OrExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 MultiplyAssignExpressionData::MultiplyAssignExpressionData(
-    OrExpressionPtr lhs_expression, OrExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    OrExpressionPtr lhs, OrExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 DivideAssignExpressionData::DivideAssignExpressionData(
-    OrExpressionPtr lhs_expression, OrExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    OrExpressionPtr lhs, OrExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 ModuloAssignExpressionData::ModuloAssignExpressionData(
-    OrExpressionPtr lhs_expression, OrExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    OrExpressionPtr lhs, OrExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 OrExpressionData::OrExpressionData(
-    AndExpressionPtr lhs_expression, OrExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    AndExpressionPtr lhs, OrExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 AndExpressionData::AndExpressionData(
-    ComparativeExpressionPtr lhs_expression, AndExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    ComparativeExpressionPtr lhs, AndExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 EqualExpressionData::EqualExpressionData(
-    AdditiveExpressionPtr lhs_expression, AdditiveExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    AdditiveExpressionPtr lhs, AdditiveExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 NotEqualExpressionData::NotEqualExpressionData(
-    AdditiveExpressionPtr lhs_expression, AdditiveExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    AdditiveExpressionPtr lhs, AdditiveExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 LessExpressionData::LessExpressionData(
-    AdditiveExpressionPtr lhs_expression, AdditiveExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    AdditiveExpressionPtr lhs, AdditiveExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 GreaterExpressionData::GreaterExpressionData(
-    AdditiveExpressionPtr lhs_expression, AdditiveExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    AdditiveExpressionPtr lhs, AdditiveExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 LessOrEqualExpressionData::LessOrEqualExpressionData(
-    AdditiveExpressionPtr lhs_expression, AdditiveExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    AdditiveExpressionPtr lhs, AdditiveExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 GreaterOrEqualExpressionData::GreaterOrEqualExpressionData(
-    AdditiveExpressionPtr lhs_expression, AdditiveExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    AdditiveExpressionPtr lhs, AdditiveExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 AddExpressionData::AddExpressionData(
-    MultiplicativeExpressionPtr lhs_expression,
-    AdditiveExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    MultiplicativeExpressionPtr lhs, AdditiveExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 SubtractExpressionData::SubtractExpressionData(
-    MultiplicativeExpressionPtr lhs_expression,
-    AdditiveExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    MultiplicativeExpressionPtr lhs, AdditiveExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 MultiplyExpressionData::MultiplyExpressionData(
-    UnaryExpressionPtr lhs_expression,
-    MultiplicativeExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    UnaryExpressionPtr lhs, MultiplicativeExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 DivideExpressionData::DivideExpressionData(
-    UnaryExpressionPtr lhs_expression,
-    MultiplicativeExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    UnaryExpressionPtr lhs, MultiplicativeExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 ModuloExpressionData::ModuloExpressionData(
-    UnaryExpressionPtr lhs_expression,
-    MultiplicativeExpressionPtr rhs_expression)
-    : lhs_expression_(std::move(lhs_expression)),
-      rhs_expression_(std::move(rhs_expression))
+    UnaryExpressionPtr lhs, MultiplicativeExpressionPtr rhs)
+    : lhs_(std::move(lhs)),
+      rhs_(std::move(rhs))
 {}
 
 NotExpressionData::NotExpressionData(UnaryExpressionPtr unary_expression)
