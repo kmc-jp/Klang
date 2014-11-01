@@ -225,17 +225,16 @@ ModuloExpressionData::ModuloExpressionData(
       rhs_(std::move(rhs))
 {}
 
-NotExpressionData::NotExpressionData(UnaryExpressionPtr unary_expression)
-    : unary_expression_(std::move(unary_expression))
+NotExpressionData::NotExpressionData(UnaryExpressionPtr expression)
+    : expression_(std::move(expression))
 {}
 
-MinusExpressionData::MinusExpressionData(UnaryExpressionPtr unary_expression)
-    : unary_expression_(std::move(unary_expression))
+MinusExpressionData::MinusExpressionData(UnaryExpressionPtr expression)
+    : expression_(std::move(expression))
 {}
 
 FunctionCallExpressionData::FunctionCallExpressionData(
-    IdentifierPtr function_name,
-    ParameterListPtr parameter_list)
+    IdentifierPtr function_name, ParameterListPtr parameter_list)
     : function_name_(std::move(function_name)),
       parameter_list_(std::move(parameter_list))
 {}

@@ -413,18 +413,18 @@ class ModuloExpressionData : public MultiplicativeExpression {
 
 class NotExpressionData : public UnaryExpression {
  public:
-  NotExpressionData(UnaryExpressionPtr unary_expression);
-  UnaryExpressionPtr const& unary_expression() const { return unary_expression_; }
+  NotExpressionData(UnaryExpressionPtr expression);
+  UnaryExpressionPtr const& expression() const { return expression_; }
  private:
-  UnaryExpressionPtr unary_expression_;
+  UnaryExpressionPtr expression_;
 };
 
 class MinusExpressionData : public UnaryExpression {
  public:
-  MinusExpressionData(UnaryExpressionPtr unary_expression);
-  UnaryExpressionPtr const& unary_expression() const { return unary_expression_; }
+  MinusExpressionData(UnaryExpressionPtr expression);
+  UnaryExpressionPtr const& expression() const { return expression_; }
  private:
-  UnaryExpressionPtr unary_expression_;
+  UnaryExpressionPtr expression_;
 };
 
 class FunctionCallExpressionData : public FunctionCallExpression {
