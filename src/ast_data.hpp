@@ -464,34 +464,34 @@ class ParenthesizedExpressionData : public PrimaryExpression {
 
 class IdentifierExpressionData : public PrimaryExpression {
  public:
-  IdentifierExpressionData(IdentifierPtr identifier);
-  IdentifierPtr const& identifier() const { return identifier_; }
+  IdentifierExpressionData(IdentifierPtr expression);
+  IdentifierPtr const& expression() const { return expression_; }
  private:
-  IdentifierPtr identifier_;
+  IdentifierPtr expression_;
 };
 
 class IntegerLiteralExpressionData : public PrimaryExpression {
  public:
-  IntegerLiteralExpressionData(IntegerLiteralPtr integer_literal);
-  IntegerLiteralPtr const& integer_literal() const { return integer_literal_; }
+  IntegerLiteralExpressionData(IntegerLiteralPtr expression);
+  IntegerLiteralPtr const& expression() const { return expression_; }
  private:
-  IntegerLiteralPtr integer_literal_;
+  IntegerLiteralPtr expression_;
 };
 
 class CharacterLiteralExpressionData : public PrimaryExpression {
  public:
-  CharacterLiteralExpressionData(CharacterLiteralPtr character_literal);
-  CharacterLiteralPtr const& character_literal() const { return character_literal_; }
+  CharacterLiteralExpressionData(CharacterLiteralPtr expression);
+  CharacterLiteralPtr const& expression() const { return expression_; }
  private:
-  CharacterLiteralPtr character_literal_;
+  CharacterLiteralPtr expression_;
 };
 
 class StringLiteralExpressionData : public PrimaryExpression {
  public:
-  StringLiteralExpressionData(StringLiteralPtr string_literal);
-  StringLiteralPtr const& string_literal() const { return string_literal_; }
+  StringLiteralExpressionData(StringLiteralPtr expression);
+  StringLiteralPtr const& expression() const { return expression_; }
  private:
-  StringLiteralPtr string_literal_;
+  StringLiteralPtr expression_;
 };
 
 }  // namespace ast

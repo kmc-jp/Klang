@@ -252,23 +252,23 @@ ParenthesizedExpressionData::ParenthesizedExpressionData(
     : expression_(std::move(expression))
 {}
 
-IdentifierExpressionData::IdentifierExpressionData(IdentifierPtr identifier)
-    : identifier_(std::move(identifier))
+IdentifierExpressionData::IdentifierExpressionData(IdentifierPtr expression)
+    : expression_(std::move(expression))
 {}
 
 IntegerLiteralExpressionData::IntegerLiteralExpressionData(
-    IntegerLiteralPtr integer_literal)
-    : integer_literal_(std::move(integer_literal))
+    IntegerLiteralPtr expression)
+    : expression_(std::move(expression))
 {}
 
 CharacterLiteralExpressionData::CharacterLiteralExpressionData(
-    CharacterLiteralPtr character_literal)
-    : character_literal_(std::move(character_literal))
+    CharacterLiteralPtr expression)
+    : expression_(std::move(expression))
 {}
 
 StringLiteralExpressionData::StringLiteralExpressionData(
-    StringLiteralPtr string_literal)
-    : string_literal_(std::move(string_literal))
+    StringLiteralPtr expression)
+    : expression_(std::move(expression))
 {}
 
 }  // namespace ast
