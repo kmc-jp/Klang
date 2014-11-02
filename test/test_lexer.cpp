@@ -146,6 +146,8 @@ TEST_PRIM_STRING(VTabQ, "\\v")
 TEST_PRIM_STRING(Null, "\0")
 TEST_PRIM_STRING(NullQ, "\\0")
 
+TEST_PRIM_STRING(WithNull, "abc\0def")
+
 TEST_PRIM_IGNORE(EmptySource, "")
 TEST_PRIM_IGNORE(Space, " ")
 TEST_PRIM_IGNORE(NewLine, "\n")
