@@ -10,77 +10,93 @@ namespace ast {
 
 class IdentifierData : public Identifier {
  public:
-  IdentifierData(const std::string& identifier_name);
+  IdentifierData(const std::string& value);
+  std::string const& value() const { return value_; }
  private:
-  std::string identifier_name_;
+  std::string value_;
 };
 
 class TypeData : public Type {
  public:
-  TypeData(const std::string& type_name);
+  TypeData(const std::string& value);
+  std::string const& value() const { return value_; }
  private:
-  std::string type_name_;
+  std::string value_;
 };
 
 class IntegerLiteralData : public IntegerLiteral {
  public:
-  IntegerLiteralData(const std::string& integer_literal);
+  IntegerLiteralData(const std::string& value);
+  std::string const& value() const { return value_; }
  private:
-  std::string integer_literal_;
+  std::string value_;
 };
 
 class CharacterLiteralData : public CharacterLiteral {
  public:
-  CharacterLiteralData(const std::string& character_literal);
+  CharacterLiteralData(const std::string& value);
+  std::string const& value() const { return value_; }
  private:
-  std::string character_literal_;
+  std::string value_;
 };
 
 class StringLiteralData : public StringLiteral {
  public:
-  StringLiteralData(const std::string& string_literal);
+  StringLiteralData(const std::string& value);
+  std::string const& value() const { return value_; }
  private:
-  std::string string_literal_;
+  std::string value_;
 };
 
 class TranslationUnitData : public TranslationUnit {
  public:
   TranslationUnitData(std::vector<FunctionDefinitionPtr> functions);
+  std::vector<FunctionDefinitionPtr> const& functions() const {
+    return functions_;
+  }
  private:
   std::vector<FunctionDefinitionPtr> functions_;
 };
 
 class FunctionDefinitionData : public FunctionDefinition {
  public:
-  FunctionDefinitionData(IdentifierPtr function_name,
+  FunctionDefinitionData(IdentifierPtr name,
                          ArgumentListPtr arguments,
                          TypePtr return_type,
-                         CompoundStatementPtr function_body);
+                         CompoundStatementPtr body);
+  IdentifierPtr const& name() const { return name_; }
+  ArgumentListPtr const& arguments() const { return arguments_; }
+  TypePtr const& return_type() const { return return_type_; }
+  CompoundStatementPtr const& body() const { return body_; }
  private:
-  IdentifierPtr function_name_;
+  IdentifierPtr name_;
   ArgumentListPtr arguments_;
   TypePtr return_type_;
-  CompoundStatementPtr function_body_;
+  CompoundStatementPtr body_;
 };
 
 class ArgumentListData : public ArgumentList {
  public:
   ArgumentListData(std::vector<ArgumentPtr> arguments);
+  std::vector<ArgumentPtr> const& arguments() const { return arguments_; }
  private:
   std::vector<ArgumentPtr> arguments_;
 };
 
 class ArgumentData : public Argument {
  public:
-  ArgumentData(TypePtr argument_type, IdentifierPtr argument_name);
+  ArgumentData(TypePtr type, IdentifierPtr name);
+  TypePtr const& type() const { return type_; }
+  IdentifierPtr const& name() const { return name_; }
  private:
-  TypePtr argument_type_;
-  IdentifierPtr argument_name_;
+  TypePtr type_;
+  IdentifierPtr name_;
 };
 
 class CompoundStatementData : public CompoundStatement {
  public:
   CompoundStatementData(std::vector<StatementPtr> statements);
+  std::vector<StatementPtr> const& statements() const { return statements_; }
  private:
   std::vector<StatementPtr> statements_;
 };
@@ -88,44 +104,57 @@ class CompoundStatementData : public CompoundStatement {
 class IfStatementData : public IfStatement {
  public:
   IfStatementData(ExpressionPtr condition,
-                  CompoundStatementPtr compound_statement,
-                  ElseStatementPtr else_statement);
+                  CompoundStatementPtr body,
+                  ElseStatementPtr else_block);
+  ExpressionPtr const& condition() const { return condition_; }
+  CompoundStatementPtr const& body() const { return body_; }
+  ElseStatementPtr const& else_block() const { return else_block_; }
  private:
   ExpressionPtr condition_;
-  CompoundStatementPtr then_block_;
+  CompoundStatementPtr body_;
   ElseStatementPtr else_block_;
 };
 
 class ElseStatementData : public ElseStatement {
  public:
-  ElseStatementData(CompoundStatementPtr compound_statement);
+  ElseStatementData(CompoundStatementPtr body);
+  CompoundStatementPtr const& body() const { return body_; }
  private:
-  CompoundStatementPtr else_block_;
+  CompoundStatementPtr body_;
 };
 
 class WhileStatementData : public WhileStatement {
  public:
   WhileStatementData(ExpressionPtr condition,
-                     CompoundStatementPtr compound_statement);
+                     CompoundStatementPtr body);
+  ExpressionPtr const& condition() const { return condition_; }
+  CompoundStatementPtr const& body() const { return body_; }
  private:
   ExpressionPtr condition_;
-  CompoundStatementPtr compound_statement_;
+  CompoundStatementPtr body_;
 };
 
 class ForStatementData : public ForStatement {
  public:
-  ForStatementData(ExpressionPtr expression1,
-                   ExpressionPtr expression2,
-                   ExpressionPtr expression3,
-                   CompoundStatementPtr compound_statement);
+  ForStatementData(ExpressionPtr initialize,
+                   ExpressionPtr condition,
+                   ExpressionPtr reinitialize,
+                   CompoundStatementPtr body);
+  ExpressionPtr const& initialize() const { return initialize_; }
+  ExpressionPtr const& condition() const { return condition_; }
+  ExpressionPtr const& reinitialize() const { return reinitialize_; }
+  CompoundStatementPtr const& body() const { return body_; }
  private:
-  ExpressionPtr expression1_, expression2_, expression3_;
-  CompoundStatementPtr compound_statement_;
+  ExpressionPtr initialize_;
+  ExpressionPtr condition_;
+  ExpressionPtr reinitialize_;
+  CompoundStatementPtr body_;
 };
 
 class ReturnStatementData : public ReturnStatement {
  public:
   ReturnStatementData(ExpressionPtr return_value);
+  ExpressionPtr const& return_value() const { return return_value_; }
  private:
   ExpressionPtr return_value_;
 };
@@ -142,9 +171,10 @@ class ContinueStatementData : public ContinueStatement {
 
 class VariableDefinitionStatementData : public VariableDefinitionStatement {
  public:
-  VariableDefinitionStatementData(VariableDefinitionPtr variable_definition);
+  VariableDefinitionStatementData(VariableDefinitionPtr body);
+  VariableDefinitionPtr const& variable_definition() const { return body_; }
  private:
-  VariableDefinitionPtr variable_definition_;
+  VariableDefinitionPtr body_;
 };
 
 class VariableDefinitionData : public VariableDefinition {
@@ -153,6 +183,10 @@ class VariableDefinitionData : public VariableDefinition {
                          bool is_mutable,
                          IdentifierPtr variable_name,
                          ExpressionPtr expression);
+  TypePtr const& type_name() const { return type_name_; }
+  bool is_mutable() const { return is_mutable_; }
+  IdentifierPtr const& variable_name() const { return variable_name_; }
+  ExpressionPtr const& expression() const { return expression_; }
  private:
   TypePtr type_name_;
   bool is_mutable_;
@@ -162,200 +196,243 @@ class VariableDefinitionData : public VariableDefinition {
 
 class ExpressionStatementData : public ExpressionStatement {
  public:
-  ExpressionStatementData(ExpressionPtr expression);
+  ExpressionStatementData(ExpressionPtr body);
+  ExpressionPtr const& body() const { return body_; }
  private:
-  ExpressionPtr expression_;
+  ExpressionPtr body_;
 };
 
 class AssignExpressionData : public AssignExpression {
  public:
-  AssignExpressionData(OrExpressionPtr lhs_expression,
-                       OrExpressionPtr rhs_expression);
+  AssignExpressionData(OrExpressionPtr lhs,
+                       OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class AddAssignExpressionData : public AssignExpression {
  public:
-  AddAssignExpressionData(OrExpressionPtr lhs_expression,
-                          OrExpressionPtr rhs_expression);
+  AddAssignExpressionData(OrExpressionPtr lhs,
+                          OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class SubtractAssignExpressionData : public AssignExpression {
  public:
-  SubtractAssignExpressionData(OrExpressionPtr lhs_expression,
-                               OrExpressionPtr rhs_expression);
+  SubtractAssignExpressionData(OrExpressionPtr lhs,
+                               OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class MultiplyAssignExpressionData : public AssignExpression {
  public:
-  MultiplyAssignExpressionData(OrExpressionPtr lhs_expression,
-                               OrExpressionPtr rhs_expression);
+  MultiplyAssignExpressionData(OrExpressionPtr lhs,
+                               OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class DivideAssignExpressionData : public AssignExpression {
  public:
-  DivideAssignExpressionData(OrExpressionPtr lhs_expression,
-                             OrExpressionPtr rhs_expression);
+  DivideAssignExpressionData(OrExpressionPtr lhs,
+                             OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class ModuloAssignExpressionData : public AssignExpression {
  public:
-  ModuloAssignExpressionData(OrExpressionPtr lhs_expression,
-                             OrExpressionPtr rhs_expression);
+  ModuloAssignExpressionData(OrExpressionPtr lhs,
+                             OrExpressionPtr rhs);
+  OrExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  OrExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  OrExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class OrExpressionData : public OrExpression {
  public:
-  OrExpressionData(AndExpressionPtr lhs_expression,
-                   OrExpressionPtr rhs_expression);
+  OrExpressionData(AndExpressionPtr lhs,
+                   OrExpressionPtr rhs);
+  AndExpressionPtr const& lhs() const { return lhs_; }
+  OrExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AndExpressionPtr lhs_expression_;
-  OrExpressionPtr rhs_expression_;
+  AndExpressionPtr lhs_;
+  OrExpressionPtr rhs_;
 };
 
 class AndExpressionData : public AndExpression {
  public:
-  AndExpressionData(ComparativeExpressionPtr lhs_expression,
-                    AndExpressionPtr rhs_expression);
+  AndExpressionData(ComparativeExpressionPtr lhs,
+                    AndExpressionPtr rhs);
+  ComparativeExpressionPtr const& lhs() const { return lhs_; }
+  AndExpressionPtr const& rhs() const { return rhs_; }
  private:
-  ComparativeExpressionPtr lhs_expression_;
-  AndExpressionPtr rhs_expression_;
+  ComparativeExpressionPtr lhs_;
+  AndExpressionPtr rhs_;
 };
 
 class EqualExpressionData : public ComparativeExpression {
  public:
-  EqualExpressionData(AdditiveExpressionPtr lhs_expression,
-                      AdditiveExpressionPtr rhs_expression);
+  EqualExpressionData(AdditiveExpressionPtr lhs,
+                      AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class NotEqualExpressionData : public ComparativeExpression {
  public:
-  NotEqualExpressionData(AdditiveExpressionPtr lhs_expression,
-                         AdditiveExpressionPtr rhs_expression);
+  NotEqualExpressionData(AdditiveExpressionPtr lhs,
+                         AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class LessExpressionData : public ComparativeExpression {
  public:
-  LessExpressionData(AdditiveExpressionPtr lhs_expression,
-                     AdditiveExpressionPtr rhs_expression);
+  LessExpressionData(AdditiveExpressionPtr lhs,
+                     AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class GreaterExpressionData : public ComparativeExpression {
  public:
-  GreaterExpressionData(AdditiveExpressionPtr lhs_expression,
-                        AdditiveExpressionPtr rhs_expression);
+  GreaterExpressionData(AdditiveExpressionPtr lhs,
+                        AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class LessOrEqualExpressionData : public ComparativeExpression {
  public:
-  LessOrEqualExpressionData(AdditiveExpressionPtr lhs_expression,
-                            AdditiveExpressionPtr rhs_expression);
+  LessOrEqualExpressionData(AdditiveExpressionPtr lhs,
+                            AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class GreaterOrEqualExpressionData : public ComparativeExpression {
  public:
-  GreaterOrEqualExpressionData(AdditiveExpressionPtr lhs_expression,
-                               AdditiveExpressionPtr rhs_expression);
+  GreaterOrEqualExpressionData(AdditiveExpressionPtr lhs,
+                               AdditiveExpressionPtr rhs);
+  AdditiveExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  AdditiveExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  AdditiveExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class AddExpressionData : public AdditiveExpression {
  public:
-  AddExpressionData(MultiplicativeExpressionPtr lhs_expression,
-                    AdditiveExpressionPtr rhs_expression);
+  AddExpressionData(MultiplicativeExpressionPtr lhs,
+                    AdditiveExpressionPtr rhs);
+  MultiplicativeExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  MultiplicativeExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  MultiplicativeExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class SubtractExpressionData : public AdditiveExpression {
  public:
-  SubtractExpressionData(MultiplicativeExpressionPtr lhs_expression,
-                         AdditiveExpressionPtr rhs_expression);
+  SubtractExpressionData(MultiplicativeExpressionPtr lhs,
+                         AdditiveExpressionPtr rhs);
+  MultiplicativeExpressionPtr const& lhs() const { return lhs_; }
+  AdditiveExpressionPtr const& rhs() const { return rhs_; }
  private:
-  MultiplicativeExpressionPtr lhs_expression_;
-  AdditiveExpressionPtr rhs_expression_;
+  MultiplicativeExpressionPtr lhs_;
+  AdditiveExpressionPtr rhs_;
 };
 
 class MultiplyExpressionData : public MultiplicativeExpression {
  public:
-  MultiplyExpressionData(UnaryExpressionPtr lhs_expression,
-                         MultiplicativeExpressionPtr rhs_expression);
+  MultiplyExpressionData(UnaryExpressionPtr lhs,
+                         MultiplicativeExpressionPtr rhs);
+  UnaryExpressionPtr const& lhs() const { return lhs_; }
+  MultiplicativeExpressionPtr const& rhs() const { return rhs_; }
  private:
-  UnaryExpressionPtr lhs_expression_;
-  MultiplicativeExpressionPtr rhs_expression_;
+  UnaryExpressionPtr lhs_;
+  MultiplicativeExpressionPtr rhs_;
 };
 
 class DivideExpressionData : public MultiplicativeExpression {
  public:
-  DivideExpressionData(UnaryExpressionPtr lhs_expression,
-                       MultiplicativeExpressionPtr rhs_expression);
+  DivideExpressionData(UnaryExpressionPtr lhs,
+                       MultiplicativeExpressionPtr rhs);
+  UnaryExpressionPtr const& lhs() const { return lhs_; }
+  MultiplicativeExpressionPtr const& rhs() const { return rhs_; }
  private:
-  UnaryExpressionPtr lhs_expression_;
-  MultiplicativeExpressionPtr rhs_expression_;
+  UnaryExpressionPtr lhs_;
+  MultiplicativeExpressionPtr rhs_;
 };
 
 class ModuloExpressionData : public MultiplicativeExpression {
  public:
-  ModuloExpressionData(UnaryExpressionPtr lhs_expression,
-                       MultiplicativeExpressionPtr rhs_expression);
+  ModuloExpressionData(UnaryExpressionPtr lhs,
+                       MultiplicativeExpressionPtr rhs);
+  UnaryExpressionPtr const& lhs() const { return lhs_; }
+  MultiplicativeExpressionPtr const& rhs() const { return rhs_; }
  private:
-  UnaryExpressionPtr lhs_expression_;
-  MultiplicativeExpressionPtr rhs_expression_;
+  UnaryExpressionPtr lhs_;
+  MultiplicativeExpressionPtr rhs_;
 };
 
 class NotExpressionData : public UnaryExpression {
  public:
-  NotExpressionData(UnaryExpressionPtr unary_expression);
+  NotExpressionData(UnaryExpressionPtr expression);
+  UnaryExpressionPtr const& expression() const { return expression_; }
  private:
-  UnaryExpressionPtr unary_expression_;
+  UnaryExpressionPtr expression_;
 };
 
 class MinusExpressionData : public UnaryExpression {
  public:
-  MinusExpressionData(UnaryExpressionPtr unary_expression);
+  MinusExpressionData(UnaryExpressionPtr expression);
+  UnaryExpressionPtr const& expression() const { return expression_; }
  private:
-  UnaryExpressionPtr unary_expression_;
+  UnaryExpressionPtr expression_;
 };
 
 class FunctionCallExpressionData : public FunctionCallExpression {
  public:
   FunctionCallExpressionData(IdentifierPtr function_name,
                              ParameterListPtr parameter_list);
+  IdentifierPtr const& function_name() const { return function_name_; }
+  ParameterListPtr const& parameter_list() const { return parameter_list_; }
  private:
   IdentifierPtr function_name_;
   ParameterListPtr parameter_list_;
@@ -364,6 +441,7 @@ class FunctionCallExpressionData : public FunctionCallExpression {
 class ParameterListData : public ParameterList {
  public:
   ParameterListData(std::vector<ParameterPtr> parameters);
+  std::vector<ParameterPtr> const& parameters() const { return parameters_; }
  private:
   std::vector<ParameterPtr> parameters_;
 };
@@ -371,6 +449,7 @@ class ParameterListData : public ParameterList {
 class ParameterData : public Parameter {
  public:
   ParameterData(ExpressionPtr expression);
+  ExpressionPtr const& expression() const { return expression_; }
  private:
   ExpressionPtr expression_;
 };
@@ -378,36 +457,41 @@ class ParameterData : public Parameter {
 class ParenthesizedExpressionData : public PrimaryExpression {
  public:
   ParenthesizedExpressionData(ExpressionPtr expression);
+  ExpressionPtr const& expression() const { return expression_; }
  private:
   ExpressionPtr expression_;
 };
 
 class IdentifierExpressionData : public PrimaryExpression {
  public:
-  IdentifierExpressionData(IdentifierPtr identifier);
+  IdentifierExpressionData(IdentifierPtr expression);
+  IdentifierPtr const& expression() const { return expression_; }
  private:
-  IdentifierPtr identifier_;
+  IdentifierPtr expression_;
 };
 
 class IntegerLiteralExpressionData : public PrimaryExpression {
  public:
-  IntegerLiteralExpressionData(IntegerLiteralPtr integer_literal);
+  IntegerLiteralExpressionData(IntegerLiteralPtr expression);
+  IntegerLiteralPtr const& expression() const { return expression_; }
  private:
-  IntegerLiteralPtr integer_literal_;
+  IntegerLiteralPtr expression_;
 };
 
 class CharacterLiteralExpressionData : public PrimaryExpression {
  public:
-  CharacterLiteralExpressionData(CharacterLiteralPtr character_literal);
+  CharacterLiteralExpressionData(CharacterLiteralPtr expression);
+  CharacterLiteralPtr const& expression() const { return expression_; }
  private:
-  CharacterLiteralPtr character_literal_;
+  CharacterLiteralPtr expression_;
 };
 
 class StringLiteralExpressionData : public PrimaryExpression {
  public:
-  StringLiteralExpressionData(StringLiteralPtr string_literal);
+  StringLiteralExpressionData(StringLiteralPtr expression);
+  StringLiteralPtr const& expression() const { return expression_; }
  private:
-  StringLiteralPtr string_literal_;
+  StringLiteralPtr expression_;
 };
 
 }  // namespace ast
