@@ -123,7 +123,7 @@ bool string_token(const_iterator head, const_iterator tail) {
   if (*head == '"') {
     bool escaped = false;
     for(auto it = std::next(head); it != tail; ++it) {
-      if (*it == '\\') {
+      if (*it == '\\' && (!escaped)) {
         escaped = true;
       } else if (*it == '"' && (!escaped)) {
         return std::next(it) == tail;
@@ -151,8 +151,17 @@ std::string extract_string(const_iterator head, const_iterator tail) {
     std::string new_str;
     for(auto it(head); it != tail; ++it) {
       if (escaped) {
-        if(*it == '"') new_str.push_back('"');
-        if(*it == 'n') new_str.push_back('\n');
+        if(*it == '"')       { new_str.push_back('"');  }
+        else if(*it == 'a')  { new_str.push_back('\a'); }
+        else if(*it == 'b')  { new_str.push_back('\b'); }
+        else if(*it == 'n')  { new_str.push_back('\n'); }
+        else if(*it == 'r')  { new_str.push_back('\r'); }
+        else if(*it == 'f')  { new_str.push_back('\f'); }
+        else if(*it == 't')  { new_str.push_back('\t'); }
+        else if(*it == 'v')  { new_str.push_back('\v'); }
+        else if(*it == '\\') { new_str.push_back('\\'); }
+        else if(*it == '0')  { new_str.push_back('\0'); }
+        else                 { new_str.push_back(*it); } // this should warn "unknown escape sequence"
         escaped = false;
       } else if (*it == '\\') {
         escaped = true;
