@@ -119,3 +119,16 @@ TEST(either, equals) {
   ASSERT_FALSE(e2 == e3);
   ASSERT_TRUE(e2 == e4);
 }
+
+TEST(either, move) {
+  const Either<int, int> e1(right_tag, 0);
+  Either<int, int> e2(right_tag, 0);
+  Either<int, int> e3(left_tag, 1);
+
+  ASSERT_TRUE(e1 == e2);
+  ASSERT_FALSE(e1 == e3);
+
+  e3 = std::move(e2);
+
+  ASSERT_TRUE(e1 == e3);
+}
