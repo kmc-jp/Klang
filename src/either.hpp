@@ -1,6 +1,8 @@
 #ifndef KMC_KLANG_EITHER_HPP
 #define KMC_KLANG_EITHER_HPP
 
+#if defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 408)
+
 #include <cassert>
 #include <type_traits>
 #include <utility>
@@ -331,5 +333,9 @@ Right<T> make_right(Args&&... args) {
 }
 
 }  // namespace klang
+
+#else // for gcc 4.7
+
+#endif // for gcc 4.7
 
 #endif  // KMC_KLANG_EITHER_HPP
