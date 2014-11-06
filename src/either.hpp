@@ -1,6 +1,8 @@
 #ifndef KMC_KLANG_EITHER_HPP
 #define KMC_KLANG_EITHER_HPP
 
+#define KMC_KLANG_EITHER_IS_OLD_GCC !(defined(__clang__) || ((__GNUC__ * 100 + __GNUC_MINOR__) >= 408))
+
 #include <cassert>
 #include <type_traits>
 #include <utility>
@@ -46,12 +48,19 @@ class Left {
     using std::swap;
     swap(left_, that.left_);
   }
+#if !KMC_KLANG_EITHER_IS_OLD_GCC
   const L& value() const& {
     return left_;
   }
   L&& value() && {
     return std::move(left_);
   }
+#else
+  const L& value() const {
+    return left_;
+  }
+#endif
+#if !KMC_KLANG_EITHER_IS_OLD_GCC
   template <typename R>
   operator Either<L, R>() const& {
     return Either<L, R>{left_tag, left_};
@@ -60,6 +69,12 @@ class Left {
   operator Either<L, R>() && {
     return Either<L, R>{left_tag, std::move(left_)};
   }
+#else
+  template <typename R>
+  operator Either<L, R>() const {
+    return Either<L, R>{left_tag, left_};
+  }
+#endif
   template <typename L_>
   friend class Left;
   friend void swap(Left& lhs, Left& rhs) {
@@ -96,12 +111,19 @@ class Right {
     using std::swap;
     swap(right_, that.right_);
   }
+#if !KMC_KLANG_EITHER_IS_OLD_GCC
   const R& value() const& {
     return right_;
   }
   R&& value() && {
     return std::move(right_);
   }
+#else
+  const R& value() const {
+    return right_;
+  }
+#endif
+#if !KMC_KLANG_EITHER_IS_OLD_GCC
   template <typename L, typename R_,
             typename enable_if_convertible<R, R_>::type*& = enabler>
   operator Either<L, R_>() const& {
@@ -112,6 +134,13 @@ class Right {
   operator Either<L, R_>() && {
     return Either<L, R_>{right_tag, std::move(right_)};
   }
+#else
+  template <typename L, typename R_,
+            typename enable_if_convertible<R, R_>::type*& = enabler>
+  operator Either<L, R_>() const {
+    return Either<L, R_>{right_tag, right_};
+  }
+#endif
   template <typename R_>
   friend class Right;
   friend void swap(Right& lhs, Right& rhs) {
@@ -180,6 +209,7 @@ class Either {
   bool is_right() const {
     return is_right_;
   }
+#if !KMC_KLANG_EITHER_IS_OLD_GCC
   Left<L> left() const& {
     assert(!is_right_);
     return Left<L>{left_};
@@ -188,6 +218,13 @@ class Either {
     assert(!is_right_);
     return Left<L>{std::move(left_)};
   }
+#else
+  Left<L> left() const {
+    assert(!is_right_);
+    return Left<L>{left_};
+  }
+#endif
+#if !KMC_KLANG_EITHER_IS_OLD_GCC
   Right<R> right() const& {
     assert(is_right_);
     return Right<R>{right_};
@@ -196,6 +233,12 @@ class Either {
     assert(is_right_);
     return Right<R>{std::move(right_)};
   }
+#else
+  Right<R> right() const {
+    assert(is_right_);
+    return Right<R>{right_};
+  }
+#endif
   template <typename... Args>
   void emplace(LeftTag, Args&&... args) {
     destruct();
@@ -211,6 +254,7 @@ class Either {
   explicit operator bool() const {
     return is_right_;
   }
+#if !KMC_KLANG_EITHER_IS_OLD_GCC
   const R& operator*() const& {
     assert(is_right_);
     return right_;
@@ -223,6 +267,16 @@ class Either {
     assert(is_right_);
     return std::move(right_);
   }
+#else
+  const R& operator*() const {
+    assert(is_right_);
+    return right_;
+  }
+  R& operator*() {
+    assert(is_right_);
+    return right_;
+  }
+#endif
   const R* operator->() const {
     assert(is_right_);
     return &right_;
