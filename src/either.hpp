@@ -144,11 +144,11 @@ class Either {
   {}
   template <typename... Args>
   explicit Either(LeftTag, Args&&... args)
-      : is_right_{false}, left_{std::forward<Args>(args)...}
+      : is_right_{false}, left_(std::forward<Args>(args)...)
   {}
   template <typename... Args>
   explicit Either(RightTag, Args&&... args)
-      : is_right_{true}, right_{std::forward<Args>(args)...}
+      : is_right_{true}, right_(std::forward<Args>(args)...)
   {}
   Either(const Either& that)
       : is_right_{that.is_right_} {
