@@ -1,16 +1,29 @@
 language: cpp
 compiler:
-  - gcc-4.8
+  - gcc
   - clang
+env:
+  - VER=latest
+  - VER=gcc-4.7
+matrix:
+  exclude:
+    - compiler: clang
+      env: VER=gcc-4.7
 before_install:
   - sudo apt-get -qq update
 install:
   - sudo apt-get install -qq gnulib #stdbool.m4 is required for AC_CHECK_HEADER_STDBOOL in configure.ac
-  - if [ "$CXX" = "g++" ]; then
+  - if [ "$CXX" = "g++" -a "$VER" = "latest" ]; then
        sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
        sudo apt-get -qq update;
        sudo apt-get -qq install g++-4.8;
        export CXX="g++-4.8";
+    fi
+  - if [ "$CXX" = "g++" -a "$VER" = "gcc-4.7" ]; then
+       sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test;
+       sudo apt-get -qq update;
+       sudo apt-get -qq install g++-4.7;
+       export CXX="g++-4.7";
     fi
   - $CXX --version
   - ACLOCAL_ARGS="-I/usr/share/gnulib/m4" ./autogen.sh
