@@ -58,7 +58,7 @@ TEST(either, right) {
   ASSERT_DEATH(e.left(), "");
 }
 
-TEST(either, same_type) {
+TEST(either, sameType) {
   const std::string value("both");
   Either<std::string, std::string> l(left_tag, value);
   const Either<std::string, std::string> r(right_tag, value);
