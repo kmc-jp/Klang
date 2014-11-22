@@ -1,3 +1,6 @@
+KLANG = ../src/klang
+LLC = llc
+
 GTEST_DIR = gtest
 GTEST_FLAGS = -I $(GTEST_DIR) -pthread -isystem
 AM_CXXFLAGS = -O2 -std=c++11 -Wall -Wextra -I../src $(GTEST_FLAGS)
@@ -9,8 +12,11 @@ libgtest_all_a_CXXFLAGS = -O2 -std=c++11 -I../src $(GTEST_FLAGS)
 
 GTEST_FILES = helper_test_main.cpp $(GTEST_DIR)/gtest.h
 
-TESTS = test_nothing test_sample1 test_lexer test_lexer_fail test_parser test_either
-XFAIL_TESTS = test_lexer_fail
+COMPILE_SRC_DIR = KlangSrc
+
+COMPILE_TESTS = return0
+TESTS = test_nothing test_sample1 test_lexer test_lexer_fail test_parser test_either $(COMPILE_TESTS)
+XFAIL_TESTS = test_lexer_fail $(COMPILE_TESTS) # main が完成するまでは全てのコンパイルテストは失敗する。
 
 check_PROGRAMS = $(TESTS)
 test_nothing_SOURCES = test_nothing.cpp # not using gtest
@@ -28,3 +34,9 @@ test_parser_LDADD = $(check_LIBRARIES) ../src/libparser.a ../src/liblexer.a
 
 test_either_SOURCES = test_either.cpp $(GTEST_FILES)
 test_either_LDADD = $(check_LIBRARIES)
+
+return0_SOURCES = $(COMPILE_SRC_DIR)/return0.klang
+
+.klang.s:
+	$(KLANG) -S -emit-llvm $< -o $*.ll
+	$(LLC) $*.ll -o $@
